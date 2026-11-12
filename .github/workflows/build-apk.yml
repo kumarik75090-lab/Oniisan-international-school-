@@ -1,0 +1,105 @@
+name: Build & Release Android APK
+
+on:
+  push:
+    branches:
+      - '**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build and Publish APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Set up Gradle 9.3.1
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '9.3.1'
+
+      - name: Prepare build environment
+        run: |
+          if [ -f debug.keystore.base64 ] && [ ! -f debug.keystore ]; then
+            echo "Decoding debug.keystore from base64..."
+            base64 -d debug.keystore.base64 > debug.keystore
+          fi
+          if [ -f .env.example ] && [ ! -f .env ]; then
+            cp .env.example .env
+          fi
+
+      - name: Build Debug APK
+        id: build_apk
+        run: |
+          gradle assembleDebug
+
+      - name: Verify APK exists
+        id: verify_apk
+        run: |
+          APK_PATH="app/build/outputs/apk/debug/app-debug.apk"
+          if [ ! -f "$APK_PATH" ]; then
+            echo "::error::Required APK file not found at $APK_PATH"
+            exit 1
+          fi
+          echo "APK successfully generated at $APK_PATH"
+
+      - name: Prepare Release Asset
+        run: |
+          cp app/build/outputs/apk/debug/app-debug.apk "app-debug-${{ github.run_number }}.${{ github.run_attempt }}.apk"
+
+      - name: Upload Actions Artifact
+        id: upload_artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: "app-debug-artifact-run${{ github.run_number }}-attempt${{ github.run_attempt }}"
+          path: app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+
+      - name: Publish GitHub Release
+        id: create_release
+        continue-on-error: true
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "v${{ github.run_number }}.${{ github.run_attempt }}"
+          target_commitish: ${{ github.sha }}
+          name: "Release v${{ github.run_number }}.${{ github.run_attempt }}"
+          files: "app-debug-${{ github.run_number }}.${{ github.run_attempt }}.apk"
+          make_latest: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate Workflow Summary
+        if: always()
+        run: |
+          echo "### 📱 Android APK Build & Release Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Metric | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "| --- | --- |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Commit Target (SHA)** | \`${{ github.sha }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Run Number** | \`${{ github.run_number }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Run Attempt** | \`${{ github.run_attempt }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Build Outcome** | \`${{ steps.build_apk.outcome }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Actions Artifact** | \`${{ steps.upload_artifact.outcome }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Release Publishing** | \`${{ steps.create_release.outcome }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.create_release.outcome }}" = "success" ]; then
+            echo "✅ **Release Publishing:** Succeeded! Direct APK asset attached to release tag \`v${{ github.run_number }}.${{ github.run_attempt }}\`." >> $GITHUB_STEP_SUMMARY
+            echo "📦 **Direct Download Asset:** \`app-debug-${{ github.run_number }}.${{ github.run_attempt }}.apk\`" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ **Release Publishing:** Failed. Note: The Actions artifact remains available in this run." >> $GITHUB_STEP_SUMMARY
+          fi
+
+          if [ "${{ steps.create_release.outcome }}" != "success" ]; then
+            echo "::error::Release publishing failed"
+            exit 1
+          fi
