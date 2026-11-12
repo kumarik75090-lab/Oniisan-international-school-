@@ -1,0 +1,6 @@
+{
+  "name": "Oniisan International School",
+  "description": "A modern, professional, fully editable school management app featuring Student, Teacher, Parent, and Admin panels, AI chatbot assistant, real-time routines, grading, notice boards, and custom school branding.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
