@@ -1,541 +1,316 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#123b70">
-<title>ONIISAN INTERNATIONAL SCHOOL</title>
+<!-- ADMIN DASHBOARD -->
 <style>
-:root {
- --blue:#1769d2;
- --navy:#123b70;
- --bg:#f4f7fc;
- --white:#fff;
- --text:#17243a;
- --muted:#718096;
- --border:#e5eaf2;
+#adminDashboard{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:#f3f6fc;
+  overflow-y:auto;
+  font-family:Arial,sans-serif;
 }
-*{box-sizing:border-box}
-body{
- margin:0;
- font-family:Arial,sans-serif;
- background:var(--bg);
- color:var(--text);
+
+#adminLogin{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:10000;
+  background:#f3f6fc;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+  font-family:Arial,sans-serif;
 }
-button,input,select,textarea{font:inherit}
-button{
- border:0;
- padding:11px 16px;
- border-radius:10px;
- background:var(--blue);
- color:white;
- cursor:pointer;
- font-weight:bold;
+
+.login-box{
+  background:white;
+  padding:30px;
+  border-radius:15px;
+  width:100%;
+  max-width:380px;
+  box-shadow:0 5px 25px #0002;
+  text-align:center;
 }
-input,select,textarea{
- width:100%;
- padding:12px;
- border:1px solid var(--border);
- border-radius:9px;
- margin:6px 0 12px;
+
+.login-box h2{color:#123b70}
+
+.login-box input{
+  width:100%;
+  box-sizing:border-box;
+  padding:13px;
+  margin:15px 0;
+  border:1px solid #ccd4e0;
+  border-radius:8px;
 }
-.header{
- background:linear-gradient(120deg,#102f59,#1769d2);
- color:white;
- padding:22px;
- border-radius:0 0 25px 25px;
+
+.admin-top{
+  background:#123b70;
+  color:white;
+  padding:20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:12px;
 }
-.brand{display:flex;align-items:center;gap:14px}
-.logo{
- width:55px;height:55px;border-radius:15px;
- background:#ffffff30;display:grid;place-items:center;
- font-size:25px;font-weight:bold;overflow:hidden;
+
+.admin-top h2{margin:0}
+
+.admin-container{
+  padding:20px;
+  max-width:1100px;
+  margin:auto;
 }
-.logo img{width:100%;height:100%;object-fit:cover}
-.brand h2{font-size:18px;margin:0}
-.brand p{font-size:12px;color:#dceaff}
-.welcome{margin-top:25px}
-.container{max-width:1200px;margin:auto}
-nav{
- display:flex;gap:8px;padding:12px;
- background:white;overflow-x:auto;
- position:sticky;top:0;z-index:5;
+
+.admin-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:15px;
+  margin:20px 0;
 }
-nav button{white-space:nowrap;background:#edf3fb;color:#123b70}
-nav button.active{background:#123b70;color:white}
-main{padding:18px}
-.stats{
- display:grid;
- grid-template-columns:repeat(4,1fr);
- gap:12px;
+
+.admin-card{
+  background:white;
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 2px 10px #0001;
+  border:1px solid #e5eaf2;
 }
-.card,.stat,.tile{
- background:white;
- border:1px solid var(--border);
- border-radius:15px;
- padding:16px;
- box-shadow:0 5px 20px #123b7010;
+
+.admin-card h3{
+  color:#123b70;
+  margin:0 0 10px;
 }
-.stat small{color:var(--muted)}
-.stat strong{display:block;font-size:26px;margin-top:9px}
-.tiles{
- display:grid;
- grid-template-columns:repeat(4,1fr);
- gap:12px;
+
+.admin-card p{
+  font-size:14px;
+  color:#555;
 }
-.tile{
- text-align:left;
- color:var(--text);
- cursor:pointer;
- min-height:100px;
+
+.admin-btn{
+  border:0;
+  padding:11px 15px;
+  border-radius:8px;
+  background:#123b70;
+  color:white;
+  cursor:pointer;
+  margin:4px;
 }
-.tile span{font-size:25px}
-.tile b{display:block;margin-top:9px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.section-title{
- display:flex;justify-content:space-between;
- align-items:center;margin:23px 0 12px;
+
+.admin-btn.red{background:#c62828}
+
+.admin-section{
+  background:white;
+  padding:20px;
+  border-radius:12px;
+  margin:18px 0;
 }
-.section-title h2{font-size:19px;margin:0}
-.muted{color:var(--muted);font-size:13px}
-.item{
- background:white;padding:15px;
- border:1px solid var(--border);
- border-radius:13px;margin-bottom:10px;
-}
-.item h3{margin:0 0 6px}
-.item p{color:var(--muted);font-size:13px}
-.hidden{display:none!important}
-.footer{
- text-align:center;padding:25px;color:var(--muted);
- font-size:12px;
-}
-.footer button{
- background:transparent;color:#526b8d;
- text-decoration:underline;
-}
-.avatar{
- width:45px;height:45px;border-radius:50%;
- background:#eaf3ff;display:grid;place-items:center;
- overflow:hidden;font-weight:bold;
-}
-.avatar img{width:100%;height:100%;object-fit:cover}
-.row{display:flex;align-items:center;gap:12px;justify-content:space-between}
-.table-wrap{overflow:auto;background:white;border-radius:12px}
-table{width:100%;border-collapse:collapse;min-width:520px}
-td,th{padding:12px;border-bottom:1px solid var(--border);text-align:left}
-th{background:#edf3fb}
-.present{background:#e6f8ed;color:#087844}
-.absent{background:#fff0f0;color:#bd3030}
-.leave{background:#fff5dc;color:#856000}
-@media(max-width:700px){
- .stats{grid-template-columns:1fr 1fr}
- .tiles{grid-template-columns:1fr 1fr}
- .grid{grid-template-columns:1fr}
- main{padding:12px}
+
+.admin-section input,
+.admin-section textarea{
+  width:100%;
+  box-sizing:border-box;
+  padding:12px;
+  margin:7px 0 12px;
+  border:1px solid #ccd4e0;
+  border-radius:7px;
 }
 </style>
-</head>
-<body>
-<div class="container">
 
-<header class="header">
- <div class="brand">
-  <div class="logo" id="logo">O</div>
-  <div>
-   <h2 id="schoolName">ONIISAN INTERNATIONAL SCHOOL</h2>
-   <p id="schoolAddress">Sahebganj, Muzaffarpur, Bihar, India</p>
+<!-- ADMIN LOGIN -->
+<div id="adminLogin">
+  <div class="login-box">
+    <h2>🔐 Admin Login</h2>
+    <p>ONIISAN INTERNATIONAL SCHOOL</p>
+
+    <input
+      type="password"
+      id="adminPassword"
+      placeholder="Enter Admin Password"
+    >
+
+    <button class="admin-btn" onclick="checkAdminPassword()">
+      Login
+    </button>
+
+    <button class="admin-btn red" onclick="closeAdminLogin()">
+      Cancel
+    </button>
+
+    <p id="loginError" style="color:red"></p>
   </div>
- </div>
- <div class="welcome">
-  <h2>Welcome to Our School</h2>
-  <p id="today"></p>
- </div>
-</header>
-
-<nav id="navigation">
- <button class="active" onclick="openPage('home',this)">Home</button>
- <button onclick="openPage('students',this)">Students</button>
- <button onclick="openPage('teachers',this)">Teachers</button>
- <button onclick="openPage('attendance',this)">Attendance</button>
- <button onclick="openPage('homework',this)">Homework</button>
- <button onclick="openPage('notices',this)">Notices</button>
- <button onclick="openPage('toppers',this)">Toppers</button>
- <button onclick="openPage('holidays',this)">Holidays</button>
- <button onclick="openPage('timetable',this)">Timetable</button>
- <button onclick="openPage('about',this)">School Info</button>
-</nav>
-
-<main id="home">
- <div class="section-title"><h2>School Dashboard</h2></div>
- <div class="stats">
-  <div class="stat"><small>Total Students</small><strong id="totalStudents">0</strong></div>
-  <div class="stat"><small>Total Teachers</small><strong id="totalTeachers">0</strong></div>
-  <div class="stat"><small>Present Today</small><strong id="present">0</strong></div>
-  <div class="stat"><small>Absent Today</small><strong id="absent">0</strong></div>
- </div>
-
- <div class="section-title"><h2>School Services</h2></div>
- <div class="tiles">
-  <button class="tile" onclick="openPage('students')"><span>🎓</span><b>Students</b></button>
-  <button class="tile" onclick="openPage('teachers')"><span>👨‍🏫</span><b>Teachers</b></button>
-  <button class="tile" onclick="openPage('attendance')"><span>📅</span><b>Attendance</b></button>
-  <button class="tile" onclick="openPage('homework')"><span>📚</span><b>Homework</b></button>
-  <button class="tile" onclick="openPage('notices')"><span>📢</span><b>Notice Board</b></button>
-  <button class="tile" onclick="openPage('toppers')"><span>🏆</span><b>Topper Zone</b></button>
-  <button class="tile" onclick="openPage('holidays')"><span>🌴</span><b>Holiday List</b></button>
-  <button class="tile" onclick="openPage('timetable')"><span>⏰</span><b>Time Table</b></button>
- </div>
-
- <div class="section-title"><h2>All Classes</h2></div>
- <div class="tiles" id="classes"></div>
-
- <div class="section-title"><h2>Latest Notices</h2></div>
- <div id="latestNotices"></div>
-</main>
-
-<main id="otherPage" class="hidden"></main>
-
-<footer class="footer">
- ONIISAN INTERNATIONAL SCHOOL<br>
- © 2026 All Rights Reserved<br>
- <button onclick="adminLogin()">Admin Login</button>
- <button onclick="userLogin()">Student / Teacher Login</button>
-</footer>
 </div>
 
-<div id="modal" class="hidden" style="position:fixed;inset:0;background:#0009;z-index:10;padding:15px;overflow:auto">
- <div class="card" style="max-width:500px;margin:50px auto">
-  <div class="row">
-   <h2 id="modalTitle">Login</h2>
-   <button onclick="closeModal()">X</button>
+<!-- ADMIN DASHBOARD -->
+<div id="adminDashboard">
+
+  <div class="admin-top">
+    <h2>⚙️ School Admin Dashboard</h2>
+    <button class="admin-btn red" onclick="closeAdminDashboard()">
+      Logout
+    </button>
   </div>
-  <div id="modalBody"></div>
- </div>
+
+  <div class="admin-container">
+
+    <h2>Welcome, School Administrator!</h2>
+    <p>Manage your school website from one place.</p>
+
+    <div class="admin-grid">
+
+      <div class="admin-card">
+        <h3>👨‍🎓 Students</h3>
+        <p>Manage student records</p>
+        <button class="admin-btn" onclick="adminOpen('students')">Open Students</button>
+      </div>
+
+      <div class="admin-card">
+        <h3>👩‍🏫 Teachers</h3>
+        <p>Manage teacher profiles</p>
+        <button class="admin-btn" onclick="adminOpen('teachers')">Open Teachers</button>
+      </div>
+
+      <div class="admin-card">
+        <h3>📅 Attendance</h3>
+        <p>Manage daily attendance</p>
+        <button class="admin-btn" onclick="adminOpen('attendance')">Open Attendance</button>
+      </div>
+
+      <div class="admin-card">
+        <h3>📚 Homework</h3>
+        <p>Publish class homework</p>
+        <button class="admin-btn" onclick="adminOpen('homework')">Open Homework</button>
+      </div>
+
+      <div class="admin-card">
+        <h3>📢 Notices</h3>
+        <p>Publish school notices</p>
+        <button class="admin-btn" onclick="adminOpen('notices')">Open Notices</button>
+      </div>
+
+      <div class="admin-card">
+        <h3>🏆 Toppers</h3>
+        <p>Manage topper details</p>
+        <button class="admin-btn" onclick="adminOpen('toppers')">Open Toppers</button>
+      </div>
+
+      <div class="admin-card">
+        <h3>🏫 School Info</h3>
+        <p>Manage school information</p>
+        <button class="admin-btn" onclick="adminOpen('school')">Open School Info</button>
+      </div>
+
+      <div class="admin-card">
+        <h3>📆 Holidays</h3>
+        <p>Manage holidays</p>
+        <button class="admin-btn" onclick="adminOpen('holidays')">Open Holidays</button>
+      </div>
+
+      <div class="admin-card">
+        <h3>🕒 Timetable</h3>
+        <p>Manage class timetable</p>
+        <button class="admin-btn" onclick="adminOpen('timetable')">Open Timetable</button>
+      </div>
+
+    </div>
+
+    <div class="admin-section">
+      <h2>🏫 School Settings</h2>
+
+      <label>School Name</label>
+      <input id="adminSchoolName" value="ONIISAN INTERNATIONAL SCHOOL">
+
+      <label>School Address</label>
+      <textarea id="adminSchoolAddress">Near Mai Sthan, Sahebganj, Muzaffarpur, Bihar, India</textarea>
+
+      <label>School Contact Number</label>
+      <input id="adminSchoolPhone" placeholder="Enter school phone number">
+
+      <button class="admin-btn" onclick="saveSchoolSettings()">
+        Save School Details
+      </button>
+    </div>
+
+    <div class="admin-section">
+      <h2>🔐 Admin Information</h2>
+      <p>You are logged in as administrator.</p>
+      <p>Use the dashboard buttons to manage website sections.</p>
+    </div>
+
+  </div>
 </div>
 
 <script>
-const CLASSES=[
-"Nursery","LKG","UKG","Class 1","Class 2",
-"Class 3","Class 4","Class 5","Class 6",
-"Class 7","Class 8","Class 9","Class 10"
-];
 
-let data=JSON.parse(localStorage.getItem("oniisanData")||"null")||{
- students:[],teachers:[],homework:[],
- notices:[],toppers:[],holidays:[],
- timetable:[],attendance:[],
- settings:{
-  name:"ONIISAN INTERNATIONAL SCHOOL",
-  address:"Near Mai Sthan, Sahebganj, Muzaffarpur, Bihar, India",
-  logo:""
- }
-};
+// ADMIN PASSWORD
+const SCHOOL_ADMIN_PASSWORD = "Rishabh@234";
 
-let admin=false;
-let current="home";
-
-function save(){
- localStorage.setItem("oniisanData",JSON.stringify(data));
- renderHome();
+// OPEN LOGIN
+function openAdminDashboard(){
+  document.getElementById("adminLogin").style.display="flex";
+  document.getElementById("adminPassword").value="";
+  document.getElementById("loginError").innerText="";
 }
 
-function today(){
- return new Date().toISOString().slice(0,10);
-}
+// CHECK PASSWORD
+function checkAdminPassword(){
 
-document.getElementById("today").innerText=
-new Date().toDateString();
+  const password =
+  document.getElementById("adminPassword").value;
 
-function openPage(page,button){
- current=page;
- document.getElementById("home").classList.add("hidden");
- let area=document.getElementById("otherPage");
- area.classList.remove("hidden");
+  if(password === SCHOOL_ADMIN_PASSWORD){
 
- document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
- if(button)button.classList.add("active");
+    document.getElementById("adminLogin").style.display="none";
+    document.getElementById("adminDashboard").style.display="block";
 
- let titles={
- students:"Student Management",
- teachers:"Teacher Management",
- attendance:"Daily Attendance",
- homework:"Class Homework",
- notices:"Notice Board",
- toppers:"School Toppers",
- holidays:"Holiday Calendar",
- timetable:"Class Timetable",
- about:"School Information"
- };
-
- let html=`<div class="section-title">
- <h2>${titles[page]}</h2>
- ${admin && page!=="about"?`<button onclick="addRecord('${page}')">+ Add New</button>`:""}
- </div>`;
-
- if(page==="students"||page==="teachers"){
-  html+=`<label>Choose Class</label>
-  <select id="filter" onchange="filterRecords('${page}')">
-  <option value="">All Classes</option>
-  ${CLASSES.map(c=>`<option>${c}</option>`).join("")}
-  </select><div id="records">${list(page)}</div>`;
- }
- if(page==="attendance")html+=attendancePage();
- if(page==="homework")html+=list("homework");
- if(page==="notices")html+=list("notices");
- if(page==="toppers")html+=list("toppers");
- if(page==="holidays")html+=list("holidays");
- if(page==="timetable")html+=list("timetable");
- if(page==="about")html+=`<div class="card">
- <h3>${escapeHTML(data.settings.name)}</h3>
- <p>${escapeHTML(data.settings.address)}</p>
- </div>`;
-
- area.innerHTML=html;
-}
-
-function escapeHTML(s){
- return String(s||"").replace(/[&<>"']/g,c=>({
- "&":"&amp;","<":"&lt;",">":"&gt;",
- '"':"&quot;","'":"&#39;"
- }[c]));
-}
-
-function list(type){
- let arr=data[type]||[];
- if(!arr.length)return `<div class="card">No records available.</div>`;
- return arr.map(x=>`
- <div class="item">
-  <div class="row">
-   <div class="row">
-    <div class="avatar">${x.photo?`<img src="${escapeHTML(x.photo)}">`:"O"}</div>
-    <div><h3>${escapeHTML(x.name||x.title||"Record")}</h3>
-    <p>${escapeHTML(x.className||"")} ${escapeHTML(x.subject||"")}</p></div>
-   </div>
-   ${admin?`<button onclick="deleteRecord('${type}','${x.id}')">Delete</button>`:""}
-  </div>
-  <p>${escapeHTML(x.body||x.address||"")}</p>
-  <p>${escapeHTML(x.date||x.due||"")}</p>
- </div>`).join("");
-}
-
-function addRecord(type){
- if(!admin)return alert("Admin login required.");
-
- let fields={
- students:["name","className","roll","section","guardian","phone","photo"],
- teachers:["name","subject","classes","phone","address","photo"],
- homework:["title","className","subject","due","body"],
- notices:["title","date","body"],
- toppers:["name","className","marks","exam","photo"],
- holidays:["title","date","body"],
- timetable:["className","day","period","subject","teacher"]
- };
-
- let html=`<form id="recordForm">`;
- fields[type].forEach(k=>{
-  html+=`<label>${k}</label>`;
-  if(k==="className"){
-   html+=`<select name="${k}">${CLASSES.map(c=>`<option>${c}</option>`).join("")}</select>`;
   }else{
-   html+=`<input name="${k}" ${k==="date"||k==="due"?"type=date":"type=text"}>`;
+
+    document.getElementById("loginError").innerText =
+    "Incorrect password! Please try again.";
+
   }
- });
- html+=`<button type="submit">Save Record</button></form>`;
-
- showModal("Add New Record",html);
-
- document.getElementById("recordForm").onsubmit=e=>{
-  e.preventDefault();
-  let obj=Object.fromEntries(new FormData(e.target));
-  obj.id=Date.now().toString();
-  data[type].push(obj);
-  save();
-  closeModal();
-  openPage(current);
- };
 }
 
-function deleteRecord(type,id){
- if(!admin)return;
- if(confirm("Delete this record?")){
-  data[type]=data[type].filter(x=>x.id!==id);
-  save();
-  openPage(current);
- }
+// CLOSE LOGIN
+function closeAdminLogin(){
+  document.getElementById("adminLogin").style.display="none";
 }
 
-function filterRecords(type){
- let val=document.getElementById("filter").value;
- let arr=data[type].filter(x=>!val||x.className===val);
- document.getElementById("records").innerHTML=arr.length?
- arr.map(x=>`
- <div class="item"><h3>${escapeHTML(x.name)}</h3>
- <p>${escapeHTML(x.className||"")} · ${escapeHTML(x.roll||x.subject||"")}</p></div>
- `).join(""):"<div class='card'>No students found.</div>";
+// LOGOUT
+function closeAdminDashboard(){
+
+  document.getElementById("adminDashboard").style.display="none";
+
 }
 
-function attendancePage(){
- let cls="Class 9";
- return `<div class="card">
- <label>Select Class</label>
- <select id="attClass" onchange="showAttendance()">
- ${CLASSES.map(c=>`<option>${c}</option>`).join("")}
- </select>
- <label>Date</label><input type="date" id="attDate" value="${today()}" onchange="showAttendance()">
- <div id="attRecords"></div>
- </div>`;
+// OPEN WEBSITE SECTION
+function adminOpen(section){
+
+  closeAdminDashboard();
+
+  if(typeof openPage === "function"){
+    openPage(section);
+  }else{
+    alert("Website section not found: " + section);
+    openAdminDashboard();
+  }
+
 }
 
-function showAttendance(){
- let cls=document.getElementById("attClass").value;
- let date=document.getElementById("attDate").value;
- let students=data.students.filter(s=>s.className===cls);
- let html=`<h3>${cls} Attendance</h3><div class="table-wrap"><table>
- <tr><th>Name</th><th>Roll</th><th>Attendance</th></tr>`;
- students.forEach(s=>{
-  let a=data.attendance.find(x=>x.studentId===s.id&&x.date===date);
-  html+=`<tr><td>${escapeHTML(s.name)}</td>
-  <td>${escapeHTML(s.roll||"-")}</td>
-  <td>
-  ${admin?`
-  <button class="present" onclick="mark('${s.id}','${date}','Present','${cls}')">P</button>
-  <button class="absent" onclick="mark('${s.id}','${date}','Absent','${cls}')">A</button>
-  <button class="leave" onclick="mark('${s.id}','${date}','Leave','${cls}')">L</button>
-  `:escapeHTML(a?.status||"Not marked")}
-  </td></tr>`;
- });
- html+="</table></div>";
- document.getElementById("attRecords").innerHTML=html;
+// SAVE SCHOOL SETTINGS
+function saveSchoolSettings(){
+
+  const name=document.getElementById("adminSchoolName").value;
+  const address=document.getElementById("adminSchoolAddress").value;
+  const phone=document.getElementById("adminSchoolPhone").value;
+
+  localStorage.setItem("schoolName",name);
+  localStorage.setItem("schoolAddress",address);
+  localStorage.setItem("schoolPhone",phone);
+
+  alert("School details saved successfully!");
+
 }
 
-function mark(id,date,status,cls){
- if(!admin)return;
- let old=data.attendance.find(x=>x.studentId===id&&x.date===date);
- if(old)old.status=status;
- else data.attendance.push({studentId:id,date,status,className:cls});
- save();showAttendance();
-}
-
-function renderHome(){
- document.getElementById("schoolName").innerText=data.settings.name;
- document.getElementById("schoolAddress").innerText=data.settings.address;
- document.getElementById("logo").innerHTML=data.settings.logo?
- `<img src="${escapeHTML(data.settings.logo)}">`:"O";
-
- document.getElementById("totalStudents").innerText=data.students.length;
- document.getElementById("totalTeachers").innerText=data.teachers.length;
-
- let records=data.attendance.filter(x=>x.date===today());
- document.getElementById("present").innerText=
- records.filter(x=>x.status==="Present").length;
- document.getElementById("absent").innerText=
- records.filter(x=>x.status==="Absent").length;
-
- document.getElementById("classes").innerHTML=
- CLASSES.map(c=>`
- <button class="tile" onclick="openClass('${c}')">
- 🏫<b>${c}</b>
- <small>${data.students.filter(s=>s.className===c).length} Students</small>
- </button>`).join("");
-
- document.getElementById("latestNotices").innerHTML=
- data.notices.slice(-3).reverse().map(n=>
- `<div class="item"><h3>${escapeHTML(n.title)}</h3>
- <p>${escapeHTML(n.body)}</p></div>`).join("")||
- "<div class='card'>No new notices.</div>";
-}
-
-function openClass(c){
- openPage("students");
- setTimeout(()=>{
-  document.getElementById("filter").value=c;
-  filterRecords("students");
- },50);
-}
-
-function showModal(title,html){
- document.getElementById("modalTitle").innerText=title;
- document.getElementById("modalBody").innerHTML=html;
- document.getElementById("modal").classList.remove("hidden");
-}
-
-function closeModal(){
- document.getElementById("modal").classList.add("hidden");
-}
-
-function adminLogin(){
- showModal("Admin Login",`
- <label>Admin Username</label>
- <input id="adminUser" placeholder="Username">
- <label>Admin Password</label>
- <input id="adminPass" type="password" placeholder="Password">
- <button onclick="checkAdmin()">Login</button>
- `);
-}
-
-function checkAdmin(){
- /*
- DEMO LOGIN ONLY.
- Replace with Firebase Authentication before public launch.
- Do not publish a password in client-side HTML.
- */
- if(document.getElementById("adminUser").value==="admin"&&
- document.getElementById("adminPass").value==="CHANGE_THIS_PASSWORD"){
-  admin=true;
-  closeModal();
-  alert("Demo Admin Login successful.");
-  renderHome();
-  if(current!=="home")openPage(current);
-  document.getElementById("adminSettings").classList.remove("hidden");
- }else{
-  alert("Incorrect login details.");
- }
-}
-
-function userLogin(){
- showModal("Student / Teacher Login",`
- <label>Email / User ID</label><input placeholder="Enter User ID">
- <label>Password</label><input type="password" placeholder="Password">
- <p class="muted">Secure account login will be enabled after Firebase setup.</p>
- `);
-}
-
-function settings(){
- if(!admin)return alert("Admin login required.");
- showModal("Admin Settings",`
- <label>School Name</label>
- <input id="setName" value="${escapeHTML(data.settings.name)}">
- <label>School Address</label>
- <textarea id="setAddress">${escapeHTML(data.settings.address)}</textarea>
- <label>School Logo URL</label>
- <input id="setLogo" value="${escapeHTML(data.settings.logo)}">
- <button onclick="saveSettings()">Save Changes</button>
- <button onclick="logout()">Logout</button>
- `);
-}
-
-function saveSettings(){
- data.settings.name=document.getElementById("setName").value;
- data.settings.address=document.getElementById("setAddress").value;
- data.settings.logo=document.getElementById("setLogo").value;
- save();closeModal();
-}
-
-function logout(){
- admin=false;
- document.getElementById("adminSettings").classList.add("hidden");
- closeModal();
- alert("Logged out.");
-}
-
-renderHome();
 </script>
-
-<div id="adminSettings" class="hidden" style="text-align:center;padding:10px">
- <button onclick="settings()">⚙️ Admin Settings</button>
-</div>
-
-</body>
-</html>
