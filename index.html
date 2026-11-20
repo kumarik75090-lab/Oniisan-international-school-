@@ -1,174 +1,532 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Oniisan International School</title>
+<title>ONIISAN INTERNATIONAL SCHOOL</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-body{background:#eef1f8;color:#222}
-header{background:#1a237e;color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
-header .logo{display:flex;align-items:center;gap:10px}
-header img{width:48px;height:48px;border-radius:50%;background:#fff;object-fit:cover}
-nav{display:flex;gap:8px;flex-wrap:wrap}
-nav button{background:#3949ab;color:#fff;border:none;padding:8px 12px;border-radius:20px;cursor:pointer;font-weight:bold}
-nav button.active{background:#ffca28;color:#000}
-.hero{background:linear-gradient(135deg,#1a237e,#3949ab);color:#fff;text-align:center;padding:35px 16px}
-.hero h1{font-size:30px}.hero p{opacity:.9;margin-top:6px}
-.container{max-width:1100px;margin:auto;padding:16px}
-.card{background:#fff;padding:16px;border-radius:14px;box-shadow:0 4px 12px rgba(0,0,0,.08);margin-bottom:16px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
-.flex{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-input,select,textarea{width:100%;padding:10px;margin:6px 0;border:1px solid #ddd;border-radius:8px}
-button.btn{background:#1a237e;color:#fff;padding:10px 16px;border:none;border-radius:8px;font-weight:bold;cursor:pointer}
-button.yellow{background:#ffca28;color:#000}
-button.red{background:#e53935;color:#fff}
-button.green{background:#2e7d32;color:#fff}
-.badge{background:#e8eaf6;padding:5px 10px;border-radius:20px;font-size:13px;font-weight:bold}
-.teacher-img,.topper-img{width:80px;height:80px;border-radius:50%;object-fit:cover;background:#ddd}
-.notice-box{background:#fff3cd;border:1px solid #ffca28;padding:12px;border-radius:10px;margin-bottom:10px}
-.hidden{display:none}
-table{width:100%;border-collapse:collapse;font-size:14px} th,td{padding:8px;border-bottom:1px solid #eee;text-align:left}
-footer{background:#1a237e;color:#fff;text-align:center;padding:16px;margin-top:20px}
-.stat{background:#1a237e;color:#fff;padding:16px;border-radius:12px;text-align:center}
-.stat b{font-size:24px;display:block}
+:root{--blue:#123b70;--light:#edf4ff;--white:#fff;--text:#17243a;--muted:#64748b;--line:#dce5f1;--green:#16834b;--red:#c43c3c}
+*{box-sizing:border-box}
+body{margin:0;background:#f3f6fb;color:var(--text);font-family:Arial,sans-serif}
+button,input,select,textarea{font:inherit}
+button{border:0;border-radius:8px;padding:10px 14px;background:var(--blue);color:white;cursor:pointer}
+button.secondary{background:#e7effa;color:var(--blue)}
+button.danger{background:#ffeaea;color:#b52d2d}
+input,select,textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;margin-top:5px;background:white}
+label{font-size:13px;font-weight:bold}
+.field{margin-bottom:13px}
+.login{min-height:100vh;display:grid;place-items:center;padding:18px;background:linear-gradient(135deg,#102f59,#3476bd)}
+.loginbox{background:white;padding:30px;border-radius:20px;width:min(420px,100%);text-align:center}
+.logo{width:75px;height:75px;margin:0 auto 15px;background:var(--blue);color:white;border-radius:18px;display:grid;place-items:center;font-size:25px;font-weight:bold;overflow:hidden}
+.logo img{width:100%;height:100%;object-fit:cover}
+.schoolname{font-size:22px;font-weight:900;color:var(--blue)}
+.subtitle{font-size:11px;letter-spacing:3px;color:var(--muted);margin:10px}
+.login button{width:100%;margin-top:8px}
+.app{display:none}
+header{position:sticky;top:0;z-index:4;background:white;border-bottom:1px solid var(--line);padding:12px 18px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:bold;color:var(--blue)}
+.brandlogo{width:40px;height:40px;border-radius:10px;background:var(--blue);color:white;display:grid;place-items:center;overflow:hidden}
+.brandlogo img{width:100%;height:100%;object-fit:cover}
+.layout{display:grid;grid-template-columns:235px 1fr;min-height:90vh}
+aside{background:#102f59;padding:15px}
+aside button{width:100%;text-align:left;background:transparent;color:#e1edff;margin:3px 0}
+aside button.active,aside button:hover{background:#ffffff25}
+main{padding:22px;max-width:1500px;width:100%;margin:auto}
+h1,h2,h3{color:var(--blue)}
+.pagehead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin:18px 0}
+.card,.panel{background:white;border:1px solid var(--line);border-radius:13px;padding:16px;margin-bottom:15px}
+.stat{font-size:28px;font-weight:900;color:var(--blue);margin-top:7px}
+.muted{font-size:13px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+table{width:100%;border-collapse:collapse;min-width:580px}
+th,td{padding:10px;text-align:left;border-bottom:1px solid var(--line);font-size:13px}
+th{background:#f3f6fb;color:#475569}
+.tablewrap{overflow:auto}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.hidden{display:none!important}
+.notice{background:#f1f6ff;border-left:4px solid var(--blue);padding:12px;margin:9px 0;border-radius:6px}
+.photo{width:40px;height:40px;border-radius:50%;object-fit:cover}
+.empty{text-align:center;color:var(--muted);padding:20px}
+.mobile{display:none}
+@media(max-width:800px){
+ .layout{grid-template-columns:1fr}
+ aside{display:none}
+ .layout.open aside{display:block}
+ .cards{grid-template-columns:1fr 1fr}
+ .grid{grid-template-columns:1fr}
+ main{padding:12px}
+ .mobile{display:inline-block}
+}
+@media(max-width:450px){.formgrid{grid-template-columns:1fr}.schoolname{font-size:18px}}
 </style>
 </head>
 <body>
 
+<!-- LOGIN PAGE -->
+<section class="login" id="login">
+ <div class="loginbox">
+  <div class="logo" id="loginLogo">OIS</div>
+  <div class="schoolname" id="loginName">ONIISAN INTERNATIONAL SCHOOL</div>
+  <div class="subtitle">SCHOOL MANAGEMENT SYSTEM</div>
+  <div class="field">
+   <label>Login As</label>
+   <select id="role">
+    <option>Admin</option><option>Teacher</option>
+    <option>Student</option><option>Parent</option>
+   </select>
+  </div>
+  <div class="field">
+   <label>Username</label>
+   <input id="username" placeholder="Enter username">
+  </div>
+  <div class="field">
+   <label>Password</label>
+   <input id="password" type="password" placeholder="Enter password">
+  </div>
+  <button onclick="login()">Sign In</button>
+  <p class="muted">Welcome to Oniisan International School</p>
+ </div>
+</section>
+
+<!-- APPLICATION -->
+<section class="app" id="app">
 <header>
-<div class="logo">
-<img id="schoolLogo" src="https://via.placeholder.com/100?text=OIS">
-<div><b id="headName">ONIISAN INTERNATIONAL SCHOOL</b><div style="font-size:12px" id="headAddr">Sahebganj Block Campus, Muzaffarpur (Bihar)</div></div>
-</div>
-<nav>
-<button onclick="showPage('home')" id="btn-home" class="active">Home</button>
-<button onclick="showPage('students')" id="btn-students">Students</button>
-<button onclick="showPage('teachers')" id="btn-teachers">Teachers</button>
-<button onclick="showPage('homework')" id="btn-homework">Homework</button>
-<button onclick="showPage('notices')" id="btn-notices">Notices</button>
-<button onclick="showPage('toppers')" id="btn-toppers">Toppers</button>
-<button onclick="showPage('admin')" id="btn-admin">Admin Panel</button>
-</nav>
+ <div class="brand">
+  <button class="mobile" onclick="toggleMenu()">☰</button>
+  <div class="brandlogo" id="headerLogo">OIS</div>
+  <span id="headerName">ONIISAN INTERNATIONAL SCHOOL</span>
+ </div>
+ <div class="actions">
+  <span class="muted" id="userInfo"></span>
+  <button class="secondary" onclick="logout()">Logout</button>
+ </div>
 </header>
 
-<div class="hero">
-<h1 id="heroName">Welcome to Oniisan International School</h1>
-<p id="heroAddr">Sahebganj Block Campus, Muzaffarpur (Bihar) | Nursery to Class 10 | English Medium</p>
-<p id="heroPhone">📞 School Number: 98765 43210 | 📧 oniisan.school@gmail.com</p>
+<div class="layout" id="layout">
+ <aside>
+  <p style="color:#aac5e8" id="menuTitle">ADMIN PANEL</p>
+  <nav id="navigation"></nav>
+ </aside>
+ <main id="content"></main>
 </div>
-
-<div class="container">
-
-<div id="page-home">
-<div class="grid">
-<div class="stat"><b id="totalStudents">0</b>Total Students</div>
-<div class="stat"><b id="totalTeachers">0</b>Total Teachers</div>
-<div class="stat"><b>Nursery - 10</b>Classes</div>
-<div class="stat"><b id="totalNotices">0</b>Active Notices</div>
-</div>
-<div class="card"><h2>About Our School</h2><p style="line-height:1.7;margin-top:8px">Oniisan International School is the best English Medium School in Sahebganj, Muzaffarpur. We provide quality education from Nursery to Class 10 with Smart Classes, Computer Lab, Sports, Discipline and Moral Values. Our aim is to make every child confident and successful.</p>
-<p style="margin-top:10px"><b>Facilities:</b> <span class="badge">Smart Class</span> <span class="badge">Computer Lab</span> <span class="badge">Library</span> <span class="badge">Sports Ground</span> <span class="badge">Transport</span> <span class="badge">Clean Drinking Water</span></p></div>
-<div class="card"><h2>Classes & Fees</h2><div class="grid" style="margin-top:10px">
-<div class="card">📚 <b>Nursery - KG</b><p>Play Way Method</p><b>₹300 / Month</b></div>
-<div class="card">📖 <b>Class 1 - 5</b><p>English + Hindi</p><b>₹500 / Month</b></div>
-<div class="card">📘 <b>Class 6 - 8</b><p>Science + Computer</p><b>₹700 / Month</b></div>
-<div class="card">🎓 <b>Class 9 - 10</b><p>Board Exam Special</p><b>₹1000 / Month</b></div>
-</div></div>
-<div class="card"><h2>Latest Notices</h2><div id="homeNotices"></div></div>
-</div>
-
-<div id="page-students" class="hidden">
-<div class="card"><h2>Students Section</h2>
-<div class="flex"><select id="filterClass" onchange="renderStudents()"><option value="All">All Classes</option><option>Nursery</option><option>KG</option><option>Class 1</option><option>Class 2</option><option>Class 3</option><option>Class 4</option><option>Class 5</option><option>Class 6</option><option>Class 7</option><option>Class 8</option><option>Class 9</option><option>Class 10</option></select>
-<input id="searchStudent" placeholder="Search Student Name / Roll No" oninput="renderStudents()" style="flex:1"></div>
-<div id="studentStats" style="margin:12px 0"></div>
-<div id="studentList"></div></div>
-</div>
-
-<div id="page-teachers" class="hidden">
-<div class="card"><h2>Our Teachers</h2><div id="teacherList" class="grid"></div></div>
-</div>
-
-<div id="page-homework" class="hidden">
-<div class="card"><h2>Homework - All Classes</h2>
-<select id="filterHW" onchange="renderHomework()"><option value="All">All Classes</option><option>Nursery</option><option>KG</option><option>Class 1</option><option>Class 2</option><option>Class 3</option><option>Class 4</option><option>Class 5</option><option>Class 6</option><option>Class 7</option><option>Class 8</option><option>Class 9</option><option>Class 10</option></select>
-<div id="homeworkList" style="margin-top:12px"></div></div>
-</div>
-
-<div id="page-notices" class="hidden">
-<div class="card"><h2>School Notices & Holidays</h2><div id="noticeList"></div></div>
-</div>
-
-<div id="page-toppers" class="hidden">
-<div class="card"><h2>Our Toppers</h2><div id="topperList" class="grid"></div></div>
-</div>
-
-<div id="page-admin" class="hidden">
-<div class="card" id="loginBox"><h2>Admin Login</h2><input id="adminUser" placeholder="Username - admin"><input id="adminPass" type="password" placeholder="Password"><button class="btn" onclick="login()">LOGIN</button></div>
-
-<div id="adminPanel" class="hidden">
-<div class="flex"><b>Welcome Admin</b><button class="btn red" onclick="logout()">Logout</button></div><br>
-
-<div class="card"><h3>🏫 School Settings - Logo & Number Change</h3>
-<input id="setLogo" placeholder="Logo Image Link (Paste Image URL)"><input id="setPhone" placeholder="School Phone Number"><input id="setName" placeholder="School Name"><button class="btn" onclick="saveSettings()">Save Settings</button></div>
-
-<div class="card"><h3>➕ Add Student</h3>
-<input id="sName" placeholder="Student Name"><input id="sRoll" placeholder="Roll Number"><select id="sClass"><option>Nursery</option><option>KG</option><option>Class 1</option><option>Class 2</option><option>Class 3</option><option>Class 4</option><option>Class 5</option><option>Class 6</option><option>Class 7</option><option>Class 8</option><option>Class 9</option><option>Class 10</option></select>
-<select id="sPresent"><option value="Present">Present</option><option value="Absent">Absent</option></select>
-<input id="sParent" placeholder="Parent Name & Phone"><button class="btn green" onclick="addStudent()">Add Student</button></div>
-
-<div class="card"><h3>➕ Add Teacher</h3>
-<input id="tName" placeholder="Teacher Name"><input id="tPhoto" placeholder="Teacher Photo Link"><input id="tQual" placeholder="Qualification - e.g. B.A, M.A, B.Ed"><input id="tAddr" placeholder="Teacher Address"><input id="tClass" placeholder="Which Class Teaches - e.g. Class 9"><input id="tSub" placeholder="Subject - e.g. Maths, English"><button class="btn green" onclick="addTeacher()">Add Teacher</button></div>
-
-<div class="card"><h3>➕ Add Homework</h3>
-<select id="hClass"><option>Nursery</option><option>KG</option><option>Class 1</option><option>Class 2</option><option>Class 3</option><option>Class 4</option><option>Class 5</option><option>Class 6</option><option>Class 7</option><option>Class 8</option><option>Class 9</option><option>Class 10</option></select><input id="hSub" placeholder="Subject"><textarea id="hText" placeholder="Write Homework Here..."></textarea><button class="btn green" onclick="addHomework()">Add Homework</button></div>
-
-<div class="card"><h3>➕ Add Notice / Holiday</h3>
-<input id="nTitle" placeholder="Notice Title - e.g. Holiday on Sunday"><textarea id="nText" placeholder="Notice Details..."></textarea><button class="btn green" onclick="addNotice()">Add Notice</button></div>
-
-<div class="card"><h3>➕ Add Topper</h3>
-<input id="tpName" placeholder="Topper Name"><input id="tpPhoto" placeholder="Topper Photo Link"><input id="tpClass" placeholder="Class - e.g. Class 10"><input id="tpPercent" placeholder="Percentage - e.g. 92%"><button class="btn green" onclick="addTopper()">Add Topper</button></div>
-
-<div class="card"><h3>Manage All Data - Delete Any Student / Teacher</h3><p style="font-size:13px">Delete button har Student, Teacher, Homework, Notice me hai. Koi teacher chhoda to uske card me Delete dabao, hat jayega.</p></div>
-</div>
-</div>
-
-</div>
-
-<footer><b>Oniisan International School</b><p>Sahebganj Block Campus, Muzaffarpur (Bihar) | <span id="footPhone">Phone: 98765 43210</span></p><p>© 2026 All Rights Reserved</p></footer>
+</section>
 
 <script>
-let db = JSON.parse(localStorage.getItem('oniisanDB')||'null') || {
-students:[{name:"Rahul Kumar",roll:"1",cls:"Class 9",status:"Present",parent:"Ramesh - 9876543210"},{name:"Priya Singh",roll:"2",cls:"Class 9",status:"Present",parent:"Suresh - 9876543211"},{name:"Aman Yadav",roll:"3",cls:"Class 9",status:"Absent",parent:"Mukesh - 9876543212"}],
-teachers:[{name:"Vikash Sir",photo:"https://via.placeholder.com/150?text=Vikash",qual:"M.A, B.Ed",addr:"Sahebganj, Muzaffarpur",cls:"Class 9, 10",sub:"Maths"},{name:"Pooja Mam",photo:"https://via.placeholder.com/150?text=Pooja",qual:"B.A, B.Ed",addr:"Muzaffarpur",cls:"Class 1-5",sub:"English"}],
-homework:[{cls:"Class 9",sub:"Maths",text:"Chapter 5 - Exercise 5.2 Complete. Learn Table 1 to 20."},{cls:"Class 10",sub:"Science",text:"Chapter 3 - Write 10 Questions Answers."}],
-notices:[{title:"Holiday - Sunday",text:"School will remain closed on Sunday. Classes will resume on Monday."},{title:"Admission Open 2026-27",text:"Admission open for Nursery to Class 10. Limited seats."}],
-toppers:[{name:"Anjali Kumari",photo:"https://via.placeholder.com/150?text=Anjali",cls:"Class 10",per:"92%"},{name:"Rohit Kumar",photo:"https://via.placeholder.com/150?text=Rohit",cls:"Class 9",per:"89%"}],
-settings:{logo:"https://via.placeholder.com/100?text=OIS",phone:"98765 43210",name:"ONIISAN INTERNATIONAL SCHOOL"}
+const CLASSES=[
+"Nursery","LKG","UKG","Class 1","Class 2","Class 3",
+"Class 4","Class 5","Class 6","Class 7","Class 8","Class 9","Class 10"
+];
+const KEY="OIS_SCHOOL_DATA";
+let db;
+try{db=JSON.parse(localStorage.getItem(KEY))}catch(e){}
+if(!db)db={
+ school:"ONIISAN INTERNATIONAL SCHOOL",logo:"",
+ students:[],teachers:[],attendance:{},
+ homework:[],notices:[],holidays:[],
+ toppers:[],timetable:[],fees:[]
 };
-function save(){localStorage.setItem('oniisanDB',JSON.stringify(db)); renderAll();}
-function showPage(p){document.querySelectorAll('[id^="page-"]').forEach(e=>e.classList.add('hidden'));document.getElementById('page-'+p).classList.remove('hidden');document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));document.getElementById('btn-'+p).classList.add('active');window.scrollTo(0,0);}
-function renderAll(){document.getElementById('schoolLogo').src=db.settings.logo;document.getElementById('headName').innerText=db.settings.name;document.getElementById('heroName').innerText="Welcome to "+db.settings.name;document.getElementById('heroPhone').innerText="📞 School Number: "+db.settings.phone;document.getElementById('footPhone').innerText="Phone: "+db.settings.phone;document.getElementById('totalStudents').innerText=db.students.length;document.getElementById('totalTeachers').innerText=db.teachers.length;document.getElementById('totalNotices').innerText=db.notices.length;renderStudents();renderTeachers();renderHomework();renderNotices();renderToppers();}
-function renderStudents(){let cls=document.getElementById('filterClass').value;let q=(document.getElementById('searchStudent').value||"").toLowerCase();let list=db.students.filter(s=>(cls=="All"||s.cls==cls)&&(s.name.toLowerCase().includes(q)||s.roll.includes(q)));let present=list.filter(s=>s.status=="Present").length;document.getElementById('studentStats').innerHTML=`<span class="badge">Total in ${cls}: ${list.length}</span> <span class="badge" style="background:#c8e6c9">Present Today: ${present}</span> <span class="badge" style="background:#ffcdd2">Absent: ${list.length-present}</span>`;document.getElementById('studentList').innerHTML=list.length?`<table><tr><th>Roll</th><th>Name</th><th>Class</th><th>Status</th><th>Parent</th><th>Action</th></tr>${list.map((s,i)=>`<tr><td>${s.roll}</td><td>${s.name}</td><td>${s.cls}</td><td>${s.status}</td><td>${s.parent}</td><td><button class="red" style="border:none;padding:5px 8px;border-radius:6px;color:#fff" onclick="delStudent(${db.students.indexOf(s)})">Delete</button></td></tr>`).join('')}</table>`:"<p>No Students Found</p>";}
-function renderTeachers(){document.getElementById('teacherList').innerHTML=db.teachers.map((t,i)=>`<div class="card" style="text-align:center"><img class="teacher-img" src="${t.photo}"><h3 style="margin-top:8px">${t.name}</h3><p><b>Subject:</b> ${t.sub}</p><p><b>Class:</b> ${t.cls}</p><p><b>Education:</b> ${t.qual}</p><p><b>Address:</b> ${t.addr}</p><button class="red" style="border:none;padding:7px 12px;border-radius:6px;color:#fff;margin-top:8px" onclick="delTeacher(${i})">Remove Teacher</button></div>`).join('')||"<p>No Teachers</p>";}
-function renderHomework(){let cls=document.getElementById('filterHW').value;let list=db.homework.filter(h=>cls=="All"||h.cls==cls);document.getElementById('homeworkList').innerHTML=list.map((h,i)=>`<div class="notice-box"><b>${h.cls} - ${h.sub}</b><p>${h.text}</p><button class="red" style="border:none;padding:5px 8px;border-radius:6px;color:#fff" onclick="delHomework(${db.homework.indexOf(h)})">Delete</button></div>`).join('')||"<p>No Homework</p>";}
-function renderNotices(){document.getElementById('noticeList').innerHTML=db.notices.map((n,i)=>`<div class="notice-box"><b>📢 ${n.title}</b><p>${n.text}</p><button class="red" style="border:none;padding:5px 8px;border-radius:6px;color:#fff" onclick="delNotice(${i})">Delete</button></div>`).join('');document.getElementById('homeNotices').innerHTML=db.notices.slice(0,3).map(n=>`<div class="notice-box"><b>${n.title}</b><p>${n.text}</p></div>`).join('');}
-function renderToppers(){document.getElementById('topperList').innerHTML=db.toppers.map((t,i)=>`<div class="card" style="text-align:center"><img class="topper-img" src="${t.photo}"><h3>${t.name}</h3><p>Class: ${t.cls}</p><b style="color:#1a237e;font-size:22px">${t.per}</b><br><button class="red" style="border:none;padding:5px 8px;border-radius:6px;color:#fff;margin-top:8px" onclick="delTopper(${i})">Delete</button></div>`).join('');}
-function login(){if(document.getElementById('adminUser').value=="admin"&&document.getElementById('adminPass').value=="Rishabh@234"){document.getElementById('loginBox').classList.add('hidden');document.getElementById('adminPanel').classList.remove('hidden');}else alert("Wrong Username / Password");}
-function logout(){document.getElementById('loginBox').classList.remove('hidden');document.getElementById('adminPanel').classList.add('hidden');}
-function saveSettings(){if(document.getElementById('setLogo').value)db.settings.logo=document.getElementById('setLogo').value;if(document.getElementById('setPhone').value)db.settings.phone=document.getElementById('setPhone').value;if(document.getElementById('setName').value)db.settings.name=document.getElementById('setName').value;save();alert("Settings Saved!");}
-function addStudent(){db.students.push({name:document.getElementById('sName').value,roll:document.getElementById('sRoll').value,cls:document.getElementById('sClass').value,status:document.getElementById('sPresent').value,parent:document.getElementById('sParent').value});save();alert("Student Added!");}
-function addTeacher(){db.teachers.push({name:document.getElementById('tName').value,photo:document.getElementById('tPhoto').value||"https://via.placeholder.com/150",qual:document.getElementById('tQual').value,addr:document.getElementById('tAddr').value,cls:document.getElementById('tClass').value,sub:document.getElementById('tSub').value});save();alert("Teacher Added!");}
-function addHomework(){db.homework.push({cls:document.getElementById('hClass').value,sub:document.getElementById('hSub').value,text:document.getElementById('hText').value});save();alert("Homework Added!");}
-function addNotice(){db.notices.push({title:document.getElementById('nTitle').value,text:document.getElementById('nText').value});save();alert("Notice Added!");}
-function addTopper(){db.toppers.push({name:document.getElementById('tpName').value,photo:document.getElementById('tpPhoto').value||"https://via.placeholder.com/150",cls:document.getElementById('tpClass').value,per:document.getElementById('tpPercent').value});save();alert("Topper Added!");}
-function delStudent(i){db.students.splice(i,1);save();}
-function delTeacher(i){db.teachers.splice(i,1);save();}
-function delHomework(i){db.homework.splice(i,1);save();}
-function delNotice(i){db.notices.splice(i,1);save();}
-function delTopper(i){db.toppers.splice(i,1);save();}
-renderAll();
+let role="",user="",page="Dashboard";
+
+function save(){
+ localStorage.setItem(KEY,JSON.stringify(db));
+ render();
+}
+function esc(v){
+ return String(v??"").replace(/[&<>"']/g,c=>({
+ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[c]));
+}
+function val(id){return document.getElementById(id)?.value?.trim()||""}
+function showForm(id){document.getElementById(id).classList.toggle("hidden")}
+function toggleMenu(){document.getElementById("layout").classList.toggle("open")}
+
+function login(){
+ role=val("role");
+ user=val("username");
+ let pass=val("password");
+ if(!user||!pass)return alert("Enter username and password.");
+ if(role==="Admin"&&(user!=="admin"||pass!=="Rishabh@234"))
+  return alert("Incorrect Admin username or password.");
+ document.getElementById("login").style.display="none";
+ document.getElementById("app").style.display="block";
+ document.getElementById("userInfo").textContent=role+" : "+user;
+ document.getElementById("menuTitle").textContent=role.toUpperCase()+" PANEL";
+ render();
+}
+function logout(){
+ document.getElementById("app").style.display="none";
+ document.getElementById("login").style.display="grid";
+}
+function menus(){
+ if(role==="Admin")return ["Dashboard","Students","Teachers","Attendance","Homework","Notices","Holidays","Toppers","Timetable","Fees","School Settings"];
+ if(role==="Teacher")return ["Dashboard","Students","Attendance","Homework","Notices","Timetable"];
+ if(role==="Student")return ["Dashboard","My Attendance","Homework","Notices","Holidays","Toppers","Timetable"];
+ return ["Dashboard","Attendance","Homework","Notices","Holidays","Timetable"];
+}
+function go(p){page=p;render();document.getElementById("layout").classList.remove("open")}
+function classSelect(id){
+ return `<select id="${id}">${CLASSES.map(c=>`<option>${c}</option>`).join("")}</select>`;
+}
+function head(title,desc,action=""){
+ return `<div class="pagehead"><div><h1>${title}</h1><p class="muted">${desc}</p></div>${action}</div>`;
+}
+function stat(name,num){
+ return `<div class="card"><b class="muted">${name}</b><div class="stat">${num}</div></div>`;
+}
+function render(){
+ document.getElementById("headerName").textContent=db.school;
+ document.getElementById("loginName").textContent=db.school;
+ let logo=db.logo?`<img src="${db.logo}">`:"OIS";
+ document.getElementById("loginLogo").innerHTML=logo;
+ document.getElementById("headerLogo").innerHTML=logo;
+ document.getElementById("navigation").innerHTML=menus().map(x=>
+ `<button class="${page===x?"active":""}" onclick="go('${x}')">${x}</button>`
+ ).join("");
+ document.getElementById("content").innerHTML=pages();
+}
+function pages(){
+ switch(page){
+ case "Dashboard":return dashboard();
+ case "Students":return students();
+ case "Teachers":return teachers();
+ case "Attendance":return attendance();
+ case "My Attendance":return myAttendance();
+ case "Homework":return homework();
+ case "Notices":return notices();
+ case "Holidays":return holidays();
+ case "Toppers":return toppers();
+ case "Timetable":return timetable();
+ case "Fees":return fees();
+ case "School Settings":return settings();
+ default:return dashboard();
+ }
+}
+
+// DASHBOARD
+function dashboard(){
+ let today=new Date().toISOString().slice(0,10);
+ let att=db.attendance[today]||{};
+ let p=Object.values(att).filter(x=>x==="Present").length;
+ let a=Object.values(att).filter(x=>x==="Absent").length;
+ return head("Dashboard","Welcome to "+esc(db.school))+
+ `<div class="cards">
+ ${stat("Total Students",db.students.length)}
+ ${stat("Total Teachers",db.teachers.length)}
+ ${stat("Present Today",p)}
+ ${stat("Absent Today",a)}
+ </div>
+ <div class="grid">
+ <section class="panel"><h3>Class-wise Student Strength</h3>
+ <div class="tablewrap"><table><tr><th>Class</th><th>Students</th></tr>
+ ${CLASSES.map(c=>`<tr><td>${c}</td><td>${db.students.filter(s=>s.cls===c).length}</td></tr>`).join("")}
+ </table></div></section>
+ <section class="panel"><h3>Latest Notices</h3>
+ ${db.notices.slice(-5).reverse().map(n=>`<div class="notice"><b>${esc(n.title)}</b><p>${esc(n.body)}</p><small>${esc(n.date)}</small></div>`).join("")||'<div class="empty">No notices available.</div>'}
+ </section></div>
+ <section class="panel"><h3>Quick Actions</h3>
+ <div class="actions">
+ <button onclick="go('Students')">Students</button>
+ <button onclick="go('Attendance')">Attendance</button>
+ <button onclick="go('Homework')">Homework</button>
+ <button onclick="go('Notices')">Notices</button>
+ </div></section>`;
+}
+
+// STUDENTS
+function students(){
+ return head("Student Management","Manage students from Nursery to Class 10",
+ '<button onclick="showForm(\'studentForm\')">+ Add Student</button>')+
+ `<section class="panel hidden" id="studentForm">
+ <h3>Student Information</h3>
+ <div class="formgrid">
+ <div class="field"><label>Full Name</label><input id="sName"></div>
+ <div class="field"><label>Class</label>${classSelect("sClass")}</div>
+ <div class="field"><label>Section</label><input id="sSection"></div>
+ <div class="field"><label>Roll Number</label><input id="sRoll"></div>
+ <div class="field"><label>Parent Name</label><input id="sParent"></div>
+ <div class="field"><label>Parent Contact</label><input id="sPhone"></div>
+ <div class="field"><label>Date of Birth</label><input type="date" id="sDob"></div>
+ <div class="field"><label>Student Photo</label><input type="file" id="sPhoto" accept="image/*"></div>
+ </div><button onclick="addStudent()">Save Student</button>
+ </section>
+ <section class="panel"><h3>Student Directory (${db.students.length})</h3>
+ <div class="tablewrap"><table>
+ <tr><th>Photo</th><th>Name</th><th>Class</th><th>Section</th><th>Roll</th><th>Parent</th><th>Action</th></tr>
+ ${db.students.map((s,i)=>`<tr>
+ <td>${s.photo?`<img class="photo" src="${s.photo}">`:"-"}</td>
+ <td>${esc(s.name)}</td><td>${esc(s.cls)}</td>
+ <td>${esc(s.section)}</td><td>${esc(s.roll)}</td>
+ <td>${esc(s.parent)}</td>
+ <td><button class="danger" onclick="del('students',${i})">Delete</button></td>
+ </tr>`).join("")||'<tr><td colspan="7">No students added yet.</td></tr>'}
+ </table></div></section>`;
+}
+function addStudent(){
+ if(!val("sName"))return alert("Enter student name.");
+ let s={id:Date.now().toString(),name:val("sName"),cls:val("sClass"),
+ section:val("sSection"),roll:val("sRoll"),parent:val("sParent"),
+ phone:val("sPhone"),dob:val("sDob"),photo:""};
+ let f=document.getElementById("sPhoto").files[0];
+ if(f){let r=new FileReader();r.onload=()=>{s.photo=r.result;db.students.push(s);save()};r.readAsDataURL(f)}
+ else{db.students.push(s);save()}
+}
+
+// TEACHERS
+function teachers(){
+ return head("Teacher Management","Teacher profiles and class allocation",
+ '<button onclick="showForm(\'teacherForm\')">+ Add Teacher</button>')+
+ `<section class="panel hidden" id="teacherForm">
+ <h3>Teacher Information</h3>
+ <div class="formgrid">
+ <div class="field"><label>Full Name</label><input id="tName"></div>
+ <div class="field"><label>Subjects</label><input id="tSubject"></div>
+ <div class="field"><label>Classes Taught</label><input id="tClasses"></div>
+ <div class="field"><label>Class Teacher Of</label>${classSelect("tClass")}</div>
+ <div class="field"><label>Phone</label><input id="tPhone"></div>
+ <div class="field"><label>Address</label><input id="tAddress"></div>
+ <div class="field"><label>Teacher Photo</label><input type="file" id="tPhoto" accept="image/*"></div>
+ </div><button onclick="addTeacher()">Save Teacher</button></section>
+ <section class="panel"><h3>Teacher Directory (${db.teachers.length})</h3>
+ <div class="tablewrap"><table>
+ <tr><th>Photo</th><th>Name</th><th>Subjects</th><th>Classes</th><th>Class Teacher</th><th>Phone</th><th>Address</th><th>Action</th></tr>
+ ${db.teachers.map((t,i)=>`<tr>
+ <td>${t.photo?`<img class="photo" src="${t.photo}">`:"-"}</td>
+ <td>${esc(t.name)}</td><td>${esc(t.subject)}</td><td>${esc(t.classes)}</td>
+ <td>${esc(t.classTeacher)}</td><td>${esc(t.phone)}</td><td>${esc(t.address)}</td>
+ <td><button class="danger" onclick="del('teachers',${i})">Delete</button></td>
+ </tr>`).join("")||'<tr><td colspan="8">No teachers added.</td></tr>'}
+ </table></div></section>`;
+}
+function addTeacher(){
+ if(!val("tName"))return alert("Enter teacher name.");
+ let t={name:val("tName"),subject:val("tSubject"),classes:val("tClasses"),
+ classTeacher:val("tClass"),phone:val("tPhone"),address:val("tAddress"),photo:""};
+ let f=document.getElementById("tPhoto").files[0];
+ if(f){let r=new FileReader();r.onload=()=>{t.photo=r.result;db.teachers.push(t);save()};r.readAsDataURL(f)}
+ else{db.teachers.push(t);save()}
+}
+
+// ATTENDANCE
+function attendance(){
+ let cls=val("aClass")||"Class 9";
+ let date=val("aDate")||new Date().toISOString().slice(0,10);
+ let list=db.students.filter(s=>s.cls===cls);
+ let saved=db.attendance[date]||{};
+ return head("Daily Attendance","Mark class-wise daily attendance")+
+ `<section class="panel">
+ <div class="formgrid">
+ <div class="field"><label>Select Class</label>
+ <select id="aClass" onchange="render()">
+ ${CLASSES.map(c=>`<option ${c===cls?"selected":""}>${c}</option>`).join("")}
+ </select></div>
+ <div class="field"><label>Date</label><input type="date" id="aDate" value="${date}" onchange="render()"></div>
+ </div>
+ <div class="actions">
+ <button class="secondary" onclick="allStatus('Present')">All Present</button>
+ <button class="secondary" onclick="allStatus('Absent')">All Absent</button>
+ <button onclick="saveAttendance()">Save Attendance</button>
+ </div></section>
+ <section class="panel"><h3>${cls} — ${list.length} Students</h3>
+ <div class="tablewrap"><table><tr><th>Roll</th><th>Student Name</th><th>Status</th></tr>
+ ${list.map(s=>`<tr><td>${esc(s.roll)}</td><td>${esc(s.name)}</td>
+ <td><select class="att" data-id="${s.id}">
+ ${["Present","Absent","Late"].map(x=>`<option ${((saved[s.id]||"Present")===x)?"selected":""}>${x}</option>`).join("")}
+ </select></td></tr>`).join("")||'<tr><td colspan="3">No students in this class.</td></tr>'}
+ </table></div></section>`;
+}
+function allStatus(x){document.querySelectorAll(".att").forEach(e=>e.value=x)}
+function saveAttendance(){
+ let d=val("aDate");db.attendance[d]=db.attendance[d]||{};
+ document.querySelectorAll(".att").forEach(e=>db.attendance[d][e.dataset.id]=e.value);
+ save();alert("Attendance saved successfully.");
+}
+function myAttendance(){
+ return head("My Attendance","Student attendance information")+
+ '<section class="panel">Your individual attendance record must be linked to your verified student account.</section>';
+}
+
+// HOMEWORK
+function homework(){
+ return head("Homework","Class-wise and subject-wise assignments",
+ '<button onclick="showForm(\'hwForm\')">+ Add Homework</button>')+
+ `<section class="panel hidden" id="hwForm"><h3>New Homework</h3>
+ <div class="formgrid">
+ <div class="field"><label>Title</label><input id="hTitle"></div>
+ <div class="field"><label>Class</label>${classSelect("hClass")}</div>
+ <div class="field"><label>Subject</label><input id="hSubject"></div>
+ <div class="field"><label>Due Date</label><input type="date" id="hDue"></div>
+ </div><div class="field"><label>Homework Details</label><textarea id="hBody"></textarea></div>
+ <button onclick="addHomework()">Publish Homework</button></section>
+ <section class="panel"><h3>Published Homework</h3>
+ ${db.homework.slice().reverse().map(h=>`<div class="notice">
+ <b>${esc(h.title)}</b><p>${esc(h.cls)} · ${esc(h.subject)} · Due: ${esc(h.due)}</p>${esc(h.body)}
+ </div>`).join("")||'<div class="empty">No homework published.</div>'}
+ </section>`;
+}
+function addHomework(){
+ if(!val("hTitle"))return alert("Enter homework title.");
+ db.homework.push({title:val("hTitle"),cls:val("hClass"),
+ subject:val("hSubject"),due:val("hDue"),body:val("hBody")});save();
+}
+
+// NOTICES
+function notices(){
+ return head("Notice Board","School announcements and updates",
+ '<button onclick="showForm(\'noticeForm\')">+ Create Notice</button>')+
+ `<section class="panel hidden" id="noticeForm"><h3>New Notice</h3>
+ <div class="field"><label>Title</label><input id="nTitle"></div>
+ <div class="field"><label>Audience</label>
+ <select id="nAudience"><option>Everyone</option><option>Students</option><option>Teachers</option><option>Parents</option></select></div>
+ <div class="field"><label>Details</label><textarea id="nBody"></textarea></div>
+ <button onclick="addNotice()">Publish Notice</button></section>
+ <section class="panel"><h3>All Notices</h3>
+ ${db.notices.slice().reverse().map(n=>`<div class="notice"><b>${esc(n.title)}</b><p>${esc(n.body)}</p><small>${esc(n.date)} · ${esc(n.audience)}</small></div>`).join("")||'<div class="empty">No notices yet.</div>'}
+ </section>`;
+}
+function addNotice(){
+ if(!val("nTitle")||!val("nBody"))return alert("Complete the notice details.");
+ db.notices.push({title:val("nTitle"),body:val("nBody"),audience:val("nAudience"),date:new Date().toLocaleDateString()});save();
+}
+
+// HOLIDAYS
+function holidays(){
+ return head("Holidays & Calendar","School holidays and vacation information",
+ '<button onclick="showForm(\'holidayForm\')">+ Add Holiday</button>')+
+ `<section class="panel hidden" id="holidayForm"><h3>Add Holiday</h3>
+ <div class="formgrid">
+ <div class="field"><label>Holiday Name</label><input id="holName"></div>
+ <div class="field"><label>Start Date</label><input type="date" id="holStart"></div>
+ <div class="field"><label>End Date</label><input type="date" id="holEnd"></div>
+ <div class="field"><label>Details</label><input id="holDetails"></div>
+ </div><button onclick="addHoliday()">Save Holiday</button></section>
+ <section class="panel"><h3>Holiday List</h3><div class="tablewrap"><table>
+ <tr><th>Name</th><th>Start Date</th><th>End Date</th><th>Details</th></tr>
+ ${db.holidays.map(h=>`<tr><td>${esc(h.name)}</td><td>${esc(h.start)}</td><td>${esc(h.end)}</td><td>${esc(h.details)}</td></tr>`).join("")||'<tr><td colspan="4">No holidays added.</td></tr>'}
+ </table></div></section>`;
+}
+function addHoliday(){
+ if(!val("holName"))return alert("Enter holiday name.");
+ db.holidays.push({name:val("holName"),start:val("holStart"),end:val("holEnd"),details:val("holDetails")});save();
+}
+
+// TOPPERS
+function toppers(){
+ return head("Topper Hall of Fame","Celebrate student achievements",
+ '<button onclick="showForm(\'topForm\')">+ Add Topper</button>')+
+ `<section class="panel hidden" id="topForm"><h3>Topper Information</h3>
+ <div class="formgrid">
+ <div class="field"><label>Student Name</label><input id="topName"></div>
+ <div class="field"><label>Class</label>${classSelect("topClass")}</div>
+ <div class="field"><label>Exam</label><input id="topExam"></div>
+ <div class="field"><label>Marks / Percentage</label><input id="topMarks"></div>
+ <div class="field"><label>Student Photo</label><input type="file" id="topPhoto" accept="image/*"></div>
+ </div><button onclick="addTopper()">Save Topper</button></section>
+ <section class="panel"><h3>Our Achievers</h3>
+ <div class="grid">${db.toppers.map(t=>`<div class="card">
+ ${t.photo?`<img class="photo" src="${t.photo}">`:""}
+ <h3>${esc(t.name)}</h3><b>${esc(t.cls)}</b>
+ <p>${esc(t.exam)} · ${esc(t.marks)}</p></div>`).join("")||'<div class="empty">No toppers added yet.</div>'}
+ </div></section>`;
+}
+function addTopper(){
+ if(!val("topName"))return alert("Enter student name.");
+ let t={name:val("topName"),cls:val("topClass"),exam:val("topExam"),marks:val("topMarks"),photo:""};
+ let f=document.getElementById("topPhoto").files[0];
+ if(f){let r=new FileReader();r.onload=()=>{t.photo=r.result;db.toppers.push(t);save()};r.readAsDataURL(f)}
+ else{db.toppers.push(t);save()}
+}
+
+// TIMETABLE
+function timetable(){
+ return head("School Timetable","Class-wise daily schedule",
+ '<button onclick="showForm(\'timeForm\')">+ Add Period</button>')+
+ `<section class="panel hidden" id="timeForm"><h3>Add Timetable Period</h3>
+ <div class="formgrid">
+ <div class="field"><label>Class</label>${classSelect("timeClass")}</div>
+ <div class="field"><label>Day</label><select id="timeDay"><option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option><option>Saturday</option></select></div>
+ <div class="field"><label>Time</label><input id="timeSlot" placeholder="09:00 - 09:45"></div>
+ <div class="field"><label>Subject</label><input id="timeSubject"></div>
+ <div class="field"><label>Teacher</label><input id="timeTeacher"></div>
+ </div><button onclick="addPeriod()">Save Period</button></section>
+ <section class="panel"><h3>Timetable</h3><div class="tablewrap"><table>
+ <tr><th>Class</th><th>Day</th><th>Time</th><th>Subject</th><th>Teacher</th></tr>
+ ${db.timetable.map(t=>`<tr><td>${esc(t.cls)}</td><td>${esc(t.day)}</td><td>${esc(t.time)}</td><td>${esc(t.subject)}</td><td>${esc(t.teacher)}</td></tr>`).join("")||'<tr><td colspan="5">No periods added.</td></tr>'}
+ </table></div></section>`;
+}
+function addPeriod(){
+ db.timetable.push({cls:val("timeClass"),day:val("timeDay"),time:val("timeSlot"),subject:val("timeSubject"),teacher:val("timeTeacher")});save();
+}
+
+// FEES
+function fees(){
+ return head("Fee Management","Student fee records and payment status",
+ '<button onclick="showForm(\'feeForm\')">+ Add Fee Record</button>')+
+ `<section class="panel hidden" id="feeForm"><h3>Fee Record</h3>
+ <div class="formgrid">
+ <div class="field"><label>Student Name</label><input id="feeName"></div>
+ <div class="field"><label>Class</label>${classSelect("feeClass")}</div>
+ <div class="field"><label>Amount</label><input type="number" id="feeAmount"></div>
+ <div class="field"><label>Payment Status</label><select id="feeStatus"><option>Paid</option><option>Pending</option></select></div>
+ </div><button onclick="addFee()">Save Fee Record</button></section>
+ <section class="panel"><h3>Fee Records</h3><div class="tablewrap"><table>
+ <tr><th>Student</th><th>Class</th><th>Amount</th><th>Status</th></tr>
+ ${db.fees.map(f=>`<tr><td>${esc(f.name)}</td><td>${esc(f.cls)}</td><td>${esc(f.amount)}</td><td>${esc(f.status)}</td></tr>`).join("")||'<tr><td colspan="4">No fee records added.</td></tr>'}
+ </table></div></section>`;
+}
+function addFee(){
+ db.fees.push({name:val("feeName"),cls:val("feeClass"),amount:val("feeAmount"),status:val("feeStatus")});save();
+}
+
+// SCHOOL SETTINGS
+function settings(){
+ return head("School Settings","Manage school identity and backup")+
+ `<section class="panel"><h3>School Information</h3>
+ <div class="field"><label>School Name</label><input id="schoolInput" value="${esc(db.school)}"></div>
+ <div class="field"><label>Upload School Logo</label><input type="file" id="schoolLogo" accept="image/*"></div>
+ <button onclick="saveSettings()">Save Settings</button>
+ <div class="actions">
+ <button class="secondary" onclick="backup()">Download Data Backup</button>
+ <button class="secondary" onclick="restore()">Restore Backup</button>
+ <input type="file" id="backupFile" accept=".json" class="hidden">
+ </div></section>
+ <section class="panel"><h3>School App Information</h3>
+ <p>School: ${esc(db.school)}</p>
+ <p>Classes: Nursery to Class 10</p>
+ <p>Language: English</p>
+ <p class="muted">This version stores information in this browser only. It does not yet synchronize data between devices.</p>
+ </section>`;
+}
+function saveSettings(){
+ db.school=val("schoolInput")||"ONIISAN INTERNATIONAL SCHOOL";
+ let f=document.getElementById("schoolLogo").files[0];
+ if(f){let r=new FileReader();r.onload=()=>{db.logo=r.result;save()};r.readAsDataURL(f)}
+ else save();
+}
+function backup(){
+ let blob=new Blob([JSON.stringify(db,null,2)],{type:"application/json"});
+ let a=document.createElement("a");a.href=URL.createObjectURL(blob);
+ a.download="oniisan-school-backup.json";a.click();
+ URL.revokeObjectURL(a.href);
+}
+function restore(){
+ document.getElementById("backupFile").click();
+ document.getElementById("backupFile").onchange=e=>{
+ let f=e.target.files[0];if(!f)return;
+ let r=new FileReader();
+ r.onload=()=>{try{db=JSON.parse(r.result);save();alert("Backup restored.")}catch(x){alert("Invalid backup file.")}};
+ r.readAsText(f);
+ };
+}
+function del(type,i){
+ if(confirm("Are you sure you want to delete this record?")){
+  db[type].splice(i,1);save();
+ }
+}
+
+render();
 </script>
 </body>
 </html>
