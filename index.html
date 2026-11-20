@@ -6,96 +6,169 @@
 <title>Oniisan International School</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-header{background:#0b3d91;color:#fff;padding:15px 20px;display:flex;justify-content:space-between;align-items:center}
-.logo-area{display:flex;align-items:center;gap:12px}
-#schoolLogo{width:55px;height:55px;border-radius:50%;object-fit:cover;background:#fff;border:2px solid #fff}
-header h1{font-size:22px}
-header p{font-size:13px;opacity:.9}
-.admin-btn{background:#ffcc00;border:none;padding:8px 14px;border-radius:20px;font-weight:bold;cursor:pointer}
-.hero{background:linear-gradient(135deg,#0b3d91,#00a8ff);color:#fff;text-align:center;padding:60px 20px}
-.hero h2{font-size:32px;margin-bottom:10px}
-.hero p{font-size:16px;max-width:600px;margin:auto}
-.cards{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;padding:30px 15px}
-.card{background:#f5f5f5;border-radius:12px;padding:20px;width:280px;text-align:center;box-shadow:0 4px 10px rgba(0,0,0,.1)}
-.card h3{color:#0b3d91;margin-bottom:8px}
-footer{background:#222;color:#fff;text-align:center;padding:20px;font-size:14px}
-#adminPanel{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;padding:20px;border-radius:12px;box-shadow:0 0 20px rgba(0,0,0,.3);z-index:99;width:90%;max-width:350px;text-align:center}
-#adminPanel input{margin:10px 0;width:100%;padding:10px}
-#adminPanel button{padding:10px 15px;background:#0b3d91;color:#fff;border:none;border-radius:8px;cursor:pointer;margin:5px}
+body{background:#eef1f8;color:#222}
+header{background:#1a237e;color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
+header .logo{display:flex;align-items:center;gap:10px}
+header img{width:48px;height:48px;border-radius:50%;background:#fff;object-fit:cover}
+nav{display:flex;gap:8px;flex-wrap:wrap}
+nav button{background:#3949ab;color:#fff;border:none;padding:8px 12px;border-radius:20px;cursor:pointer;font-weight:bold}
+nav button.active{background:#ffca28;color:#000}
+.hero{background:linear-gradient(135deg,#1a237e,#3949ab);color:#fff;text-align:center;padding:35px 16px}
+.hero h1{font-size:30px}.hero p{opacity:.9;margin-top:6px}
+.container{max-width:1100px;margin:auto;padding:16px}
+.card{background:#fff;padding:16px;border-radius:14px;box-shadow:0 4px 12px rgba(0,0,0,.08);margin-bottom:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.flex{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+input,select,textarea{width:100%;padding:10px;margin:6px 0;border:1px solid #ddd;border-radius:8px}
+button.btn{background:#1a237e;color:#fff;padding:10px 16px;border:none;border-radius:8px;font-weight:bold;cursor:pointer}
+button.yellow{background:#ffca28;color:#000}
+button.red{background:#e53935;color:#fff}
+button.green{background:#2e7d32;color:#fff}
+.badge{background:#e8eaf6;padding:5px 10px;border-radius:20px;font-size:13px;font-weight:bold}
+.teacher-img,.topper-img{width:80px;height:80px;border-radius:50%;object-fit:cover;background:#ddd}
+.notice-box{background:#fff3cd;border:1px solid #ffca28;padding:12px;border-radius:10px;margin-bottom:10px}
+.hidden{display:none}
+table{width:100%;border-collapse:collapse;font-size:14px} th,td{padding:8px;border-bottom:1px solid #eee;text-align:left}
+footer{background:#1a237e;color:#fff;text-align:center;padding:16px;margin-top:20px}
+.stat{background:#1a237e;color:#fff;padding:16px;border-radius:12px;text-align:center}
+.stat b{font-size:24px;display:block}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo-area">
-    <img id="schoolLogo" src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png" alt="Logo">
-    <div><h1>Oniisan International School</h1><p>Learn • Grow • Shine</p></div>
-  </div>
-  <button class="admin-btn" onclick="openAdmin()">Admin</button>
+<div class="logo">
+<img id="schoolLogo" src="https://via.placeholder.com/100?text=OIS">
+<div><b id="headName">ONIISAN INTERNATIONAL SCHOOL</b><div style="font-size:12px" id="headAddr">Sahebganj Block Campus, Muzaffarpur (Bihar)</div></div>
+</div>
+<nav>
+<button onclick="showPage('home')" id="btn-home" class="active">Home</button>
+<button onclick="showPage('students')" id="btn-students">Students</button>
+<button onclick="showPage('teachers')" id="btn-teachers">Teachers</button>
+<button onclick="showPage('homework')" id="btn-homework">Homework</button>
+<button onclick="showPage('notices')" id="btn-notices">Notices</button>
+<button onclick="showPage('toppers')" id="btn-toppers">Toppers</button>
+<button onclick="showPage('admin')" id="btn-admin">Admin Panel</button>
+</nav>
 </header>
 
 <div class="hero">
-  <h2>Welcome to Oniisan International School</h2>
-  <p>Best education, smart classes, experienced teachers aur bachcho ke bright future ke liye best school.</p><br>
-  <button onclick="alert('Admission ke liye school me contact karein!')" style="padding:12px 25px;border:none;border-radius:25px;background:#ffcc00;font-weight:bold;cursor:pointer">Admission Open</button>
+<h1 id="heroName">Welcome to Oniisan International School</h1>
+<p id="heroAddr">Sahebganj Block Campus, Muzaffarpur (Bihar) | Nursery to Class 10 | English Medium</p>
+<p id="heroPhone">📞 School Number: 98765 43210 | 📧 oniisan.school@gmail.com</p>
 </div>
 
-<div class="cards">
-  <div class="card"><h3>📚 Quality Education</h3><p>Nursery se Class 12 tak English & Hindi medium.</p></div>
-  <div class="card"><h3>👩‍🏫 Expert Teachers</h3><p>Experienced aur caring teachers.</p></div>
-  <div class="card"><h3>💻 Smart Classes</h3><p>Digital learning aur computer lab.</p></div>
+<div class="container">
+
+<div id="page-home">
+<div class="grid">
+<div class="stat"><b id="totalStudents">0</b>Total Students</div>
+<div class="stat"><b id="totalTeachers">0</b>Total Teachers</div>
+<div class="stat"><b>Nursery - 10</b>Classes</div>
+<div class="stat"><b id="totalNotices">0</b>Active Notices</div>
+</div>
+<div class="card"><h2>About Our School</h2><p style="line-height:1.7;margin-top:8px">Oniisan International School is the best English Medium School in Sahebganj, Muzaffarpur. We provide quality education from Nursery to Class 10 with Smart Classes, Computer Lab, Sports, Discipline and Moral Values. Our aim is to make every child confident and successful.</p>
+<p style="margin-top:10px"><b>Facilities:</b> <span class="badge">Smart Class</span> <span class="badge">Computer Lab</span> <span class="badge">Library</span> <span class="badge">Sports Ground</span> <span class="badge">Transport</span> <span class="badge">Clean Drinking Water</span></p></div>
+<div class="card"><h2>Classes & Fees</h2><div class="grid" style="margin-top:10px">
+<div class="card">📚 <b>Nursery - KG</b><p>Play Way Method</p><b>₹300 / Month</b></div>
+<div class="card">📖 <b>Class 1 - 5</b><p>English + Hindi</p><b>₹500 / Month</b></div>
+<div class="card">📘 <b>Class 6 - 8</b><p>Science + Computer</p><b>₹700 / Month</b></div>
+<div class="card">🎓 <b>Class 9 - 10</b><p>Board Exam Special</p><b>₹1000 / Month</b></div>
+</div></div>
+<div class="card"><h2>Latest Notices</h2><div id="homeNotices"></div></div>
 </div>
 
-<footer>
-  <p>© 2026 Oniisan International School | Patna, Bihar</p>
-  <p>Contact: 70000 00000 | Email: oniisan@gmail.com</p>
-</footer>
-
-<div id="adminPanel">
-  <h3>Admin Login</h3>
-  <div id="loginBox">
-    <input type="password" id="adminPass" placeholder="Password daalein">
-    <button onclick="checkPass()">Login</button>
-    <button onclick="closeAdmin()">Close</button>
-    <p style="font-size:12px;color:#888">Default Password: admin123</p>
-  </div>
-  <div id="logoBox" style="display:none">
-    <h4>Logo Change Karein</h4>
-    <input type="file" id="logoInput" accept="image/*" onchange="changeLogo(event)">
-    <br><button onclick="resetLogo()">Default Logo</button>
-    <button onclick="closeAdmin()">Close</button>
-    <p style="font-size:12px;color:green">Logo change ho gaya! Ab sabko naya logo dikhega.</p>
-  </div>
+<div id="page-students" class="hidden">
+<div class="card"><h2>Students Section</h2>
+<div class="flex"><select id="filterClass" onchange="renderStudents()"><option value="All">All Classes</option><option>Nursery</option><option>KG</option><option>Class 1</option><option>Class 2</option><option>Class 3</option><option>Class 4</option><option>Class 5</option><option>Class 6</option><option>Class 7</option><option>Class 8</option><option>Class 9</option><option>Class 10</option></select>
+<input id="searchStudent" placeholder="Search Student Name / Roll No" oninput="renderStudents()" style="flex:1"></div>
+<div id="studentStats" style="margin:12px 0"></div>
+<div id="studentList"></div></div>
 </div>
+
+<div id="page-teachers" class="hidden">
+<div class="card"><h2>Our Teachers</h2><div id="teacherList" class="grid"></div></div>
+</div>
+
+<div id="page-homework" class="hidden">
+<div class="card"><h2>Homework - All Classes</h2>
+<select id="filterHW" onchange="renderHomework()"><option value="All">All Classes</option><option>Nursery</option><option>KG</option><option>Class 1</option><option>Class 2</option><option>Class 3</option><option>Class 4</option><option>Class 5</option><option>Class 6</option><option>Class 7</option><option>Class 8</option><option>Class 9</option><option>Class 10</option></select>
+<div id="homeworkList" style="margin-top:12px"></div></div>
+</div>
+
+<div id="page-notices" class="hidden">
+<div class="card"><h2>School Notices & Holidays</h2><div id="noticeList"></div></div>
+</div>
+
+<div id="page-toppers" class="hidden">
+<div class="card"><h2>Our Toppers</h2><div id="topperList" class="grid"></div></div>
+</div>
+
+<div id="page-admin" class="hidden">
+<div class="card" id="loginBox"><h2>Admin Login</h2><input id="adminUser" placeholder="Username - admin"><input id="adminPass" type="password" placeholder="Password"><button class="btn" onclick="login()">LOGIN</button></div>
+
+<div id="adminPanel" class="hidden">
+<div class="flex"><b>Welcome Admin</b><button class="btn red" onclick="logout()">Logout</button></div><br>
+
+<div class="card"><h3>🏫 School Settings - Logo & Number Change</h3>
+<input id="setLogo" placeholder="Logo Image Link (Paste Image URL)"><input id="setPhone" placeholder="School Phone Number"><input id="setName" placeholder="School Name"><button class="btn" onclick="saveSettings()">Save Settings</button></div>
+
+<div class="card"><h3>➕ Add Student</h3>
+<input id="sName" placeholder="Student Name"><input id="sRoll" placeholder="Roll Number"><select id="sClass"><option>Nursery</option><option>KG</option><option>Class 1</option><option>Class 2</option><option>Class 3</option><option>Class 4</option><option>Class 5</option><option>Class 6</option><option>Class 7</option><option>Class 8</option><option>Class 9</option><option>Class 10</option></select>
+<select id="sPresent"><option value="Present">Present</option><option value="Absent">Absent</option></select>
+<input id="sParent" placeholder="Parent Name & Phone"><button class="btn green" onclick="addStudent()">Add Student</button></div>
+
+<div class="card"><h3>➕ Add Teacher</h3>
+<input id="tName" placeholder="Teacher Name"><input id="tPhoto" placeholder="Teacher Photo Link"><input id="tQual" placeholder="Qualification - e.g. B.A, M.A, B.Ed"><input id="tAddr" placeholder="Teacher Address"><input id="tClass" placeholder="Which Class Teaches - e.g. Class 9"><input id="tSub" placeholder="Subject - e.g. Maths, English"><button class="btn green" onclick="addTeacher()">Add Teacher</button></div>
+
+<div class="card"><h3>➕ Add Homework</h3>
+<select id="hClass"><option>Nursery</option><option>KG</option><option>Class 1</option><option>Class 2</option><option>Class 3</option><option>Class 4</option><option>Class 5</option><option>Class 6</option><option>Class 7</option><option>Class 8</option><option>Class 9</option><option>Class 10</option></select><input id="hSub" placeholder="Subject"><textarea id="hText" placeholder="Write Homework Here..."></textarea><button class="btn green" onclick="addHomework()">Add Homework</button></div>
+
+<div class="card"><h3>➕ Add Notice / Holiday</h3>
+<input id="nTitle" placeholder="Notice Title - e.g. Holiday on Sunday"><textarea id="nText" placeholder="Notice Details..."></textarea><button class="btn green" onclick="addNotice()">Add Notice</button></div>
+
+<div class="card"><h3>➕ Add Topper</h3>
+<input id="tpName" placeholder="Topper Name"><input id="tpPhoto" placeholder="Topper Photo Link"><input id="tpClass" placeholder="Class - e.g. Class 10"><input id="tpPercent" placeholder="Percentage - e.g. 92%"><button class="btn green" onclick="addTopper()">Add Topper</button></div>
+
+<div class="card"><h3>Manage All Data - Delete Any Student / Teacher</h3><p style="font-size:13px">Delete button har Student, Teacher, Homework, Notice me hai. Koi teacher chhoda to uske card me Delete dabao, hat jayega.</p></div>
+</div>
+</div>
+
+</div>
+
+<footer><b>Oniisan International School</b><p>Sahebganj Block Campus, Muzaffarpur (Bihar) | <span id="footPhone">Phone: 98765 43210</span></p><p>© 2026 All Rights Reserved</p></footer>
 
 <script>
-// Pehle se saved logo dikhao
-let savedLogo = localStorage.getItem('schoolLogo');
-if(savedLogo){ document.getElementById('schoolLogo').src = savedLogo; }
-
-function openAdmin(){ document.getElementById('adminPanel').style.display='block'; }
-function closeAdmin(){ document.getElementById('adminPanel').style.display='none'; }
-function checkPass(){
-  if(document.getElementById('adminPass').value === 'admin123'){
-    document.getElementById('loginBox').style.display='none';
-    document.getElementById('logoBox').style.display='block';
-  } else { alert('Galat Password!'); }
-}
-function changeLogo(e){
-  let file = e.target.files[0];
-  let reader = new FileReader();
-  reader.onload = function(){
-    localStorage.setItem('schoolLogo', reader.result);
-    document.getElementById('schoolLogo').src = reader.result;
-    alert('Logo Change Ho Gaya!');
-  }
-  reader.readAsDataURL(file);
-}
-function resetLogo(){
-  localStorage.removeItem('schoolLogo');
-  document.getElementById('schoolLogo').src='https://cdn-icons-png.flaticon.com/512/3135/3135755.png';
-  alert('Default Logo Lag Gaya!');
-}
+let db = JSON.parse(localStorage.getItem('oniisanDB')||'null') || {
+students:[{name:"Rahul Kumar",roll:"1",cls:"Class 9",status:"Present",parent:"Ramesh - 9876543210"},{name:"Priya Singh",roll:"2",cls:"Class 9",status:"Present",parent:"Suresh - 9876543211"},{name:"Aman Yadav",roll:"3",cls:"Class 9",status:"Absent",parent:"Mukesh - 9876543212"}],
+teachers:[{name:"Vikash Sir",photo:"https://via.placeholder.com/150?text=Vikash",qual:"M.A, B.Ed",addr:"Sahebganj, Muzaffarpur",cls:"Class 9, 10",sub:"Maths"},{name:"Pooja Mam",photo:"https://via.placeholder.com/150?text=Pooja",qual:"B.A, B.Ed",addr:"Muzaffarpur",cls:"Class 1-5",sub:"English"}],
+homework:[{cls:"Class 9",sub:"Maths",text:"Chapter 5 - Exercise 5.2 Complete. Learn Table 1 to 20."},{cls:"Class 10",sub:"Science",text:"Chapter 3 - Write 10 Questions Answers."}],
+notices:[{title:"Holiday - Sunday",text:"School will remain closed on Sunday. Classes will resume on Monday."},{title:"Admission Open 2026-27",text:"Admission open for Nursery to Class 10. Limited seats."}],
+toppers:[{name:"Anjali Kumari",photo:"https://via.placeholder.com/150?text=Anjali",cls:"Class 10",per:"92%"},{name:"Rohit Kumar",photo:"https://via.placeholder.com/150?text=Rohit",cls:"Class 9",per:"89%"}],
+settings:{logo:"https://via.placeholder.com/100?text=OIS",phone:"98765 43210",name:"ONIISAN INTERNATIONAL SCHOOL"}
+};
+function save(){localStorage.setItem('oniisanDB',JSON.stringify(db)); renderAll();}
+function showPage(p){document.querySelectorAll('[id^="page-"]').forEach(e=>e.classList.add('hidden'));document.getElementById('page-'+p).classList.remove('hidden');document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));document.getElementById('btn-'+p).classList.add('active');window.scrollTo(0,0);}
+function renderAll(){document.getElementById('schoolLogo').src=db.settings.logo;document.getElementById('headName').innerText=db.settings.name;document.getElementById('heroName').innerText="Welcome to "+db.settings.name;document.getElementById('heroPhone').innerText="📞 School Number: "+db.settings.phone;document.getElementById('footPhone').innerText="Phone: "+db.settings.phone;document.getElementById('totalStudents').innerText=db.students.length;document.getElementById('totalTeachers').innerText=db.teachers.length;document.getElementById('totalNotices').innerText=db.notices.length;renderStudents();renderTeachers();renderHomework();renderNotices();renderToppers();}
+function renderStudents(){let cls=document.getElementById('filterClass').value;let q=(document.getElementById('searchStudent').value||"").toLowerCase();let list=db.students.filter(s=>(cls=="All"||s.cls==cls)&&(s.name.toLowerCase().includes(q)||s.roll.includes(q)));let present=list.filter(s=>s.status=="Present").length;document.getElementById('studentStats').innerHTML=`<span class="badge">Total in ${cls}: ${list.length}</span> <span class="badge" style="background:#c8e6c9">Present Today: ${present}</span> <span class="badge" style="background:#ffcdd2">Absent: ${list.length-present}</span>`;document.getElementById('studentList').innerHTML=list.length?`<table><tr><th>Roll</th><th>Name</th><th>Class</th><th>Status</th><th>Parent</th><th>Action</th></tr>${list.map((s,i)=>`<tr><td>${s.roll}</td><td>${s.name}</td><td>${s.cls}</td><td>${s.status}</td><td>${s.parent}</td><td><button class="red" style="border:none;padding:5px 8px;border-radius:6px;color:#fff" onclick="delStudent(${db.students.indexOf(s)})">Delete</button></td></tr>`).join('')}</table>`:"<p>No Students Found</p>";}
+function renderTeachers(){document.getElementById('teacherList').innerHTML=db.teachers.map((t,i)=>`<div class="card" style="text-align:center"><img class="teacher-img" src="${t.photo}"><h3 style="margin-top:8px">${t.name}</h3><p><b>Subject:</b> ${t.sub}</p><p><b>Class:</b> ${t.cls}</p><p><b>Education:</b> ${t.qual}</p><p><b>Address:</b> ${t.addr}</p><button class="red" style="border:none;padding:7px 12px;border-radius:6px;color:#fff;margin-top:8px" onclick="delTeacher(${i})">Remove Teacher</button></div>`).join('')||"<p>No Teachers</p>";}
+function renderHomework(){let cls=document.getElementById('filterHW').value;let list=db.homework.filter(h=>cls=="All"||h.cls==cls);document.getElementById('homeworkList').innerHTML=list.map((h,i)=>`<div class="notice-box"><b>${h.cls} - ${h.sub}</b><p>${h.text}</p><button class="red" style="border:none;padding:5px 8px;border-radius:6px;color:#fff" onclick="delHomework(${db.homework.indexOf(h)})">Delete</button></div>`).join('')||"<p>No Homework</p>";}
+function renderNotices(){document.getElementById('noticeList').innerHTML=db.notices.map((n,i)=>`<div class="notice-box"><b>📢 ${n.title}</b><p>${n.text}</p><button class="red" style="border:none;padding:5px 8px;border-radius:6px;color:#fff" onclick="delNotice(${i})">Delete</button></div>`).join('');document.getElementById('homeNotices').innerHTML=db.notices.slice(0,3).map(n=>`<div class="notice-box"><b>${n.title}</b><p>${n.text}</p></div>`).join('');}
+function renderToppers(){document.getElementById('topperList').innerHTML=db.toppers.map((t,i)=>`<div class="card" style="text-align:center"><img class="topper-img" src="${t.photo}"><h3>${t.name}</h3><p>Class: ${t.cls}</p><b style="color:#1a237e;font-size:22px">${t.per}</b><br><button class="red" style="border:none;padding:5px 8px;border-radius:6px;color:#fff;margin-top:8px" onclick="delTopper(${i})">Delete</button></div>`).join('');}
+function login(){if(document.getElementById('adminUser').value=="admin"&&document.getElementById('adminPass').value=="Rishabh@234"){document.getElementById('loginBox').classList.add('hidden');document.getElementById('adminPanel').classList.remove('hidden');}else alert("Wrong Username / Password");}
+function logout(){document.getElementById('loginBox').classList.remove('hidden');document.getElementById('adminPanel').classList.add('hidden');}
+function saveSettings(){if(document.getElementById('setLogo').value)db.settings.logo=document.getElementById('setLogo').value;if(document.getElementById('setPhone').value)db.settings.phone=document.getElementById('setPhone').value;if(document.getElementById('setName').value)db.settings.name=document.getElementById('setName').value;save();alert("Settings Saved!");}
+function addStudent(){db.students.push({name:document.getElementById('sName').value,roll:document.getElementById('sRoll').value,cls:document.getElementById('sClass').value,status:document.getElementById('sPresent').value,parent:document.getElementById('sParent').value});save();alert("Student Added!");}
+function addTeacher(){db.teachers.push({name:document.getElementById('tName').value,photo:document.getElementById('tPhoto').value||"https://via.placeholder.com/150",qual:document.getElementById('tQual').value,addr:document.getElementById('tAddr').value,cls:document.getElementById('tClass').value,sub:document.getElementById('tSub').value});save();alert("Teacher Added!");}
+function addHomework(){db.homework.push({cls:document.getElementById('hClass').value,sub:document.getElementById('hSub').value,text:document.getElementById('hText').value});save();alert("Homework Added!");}
+function addNotice(){db.notices.push({title:document.getElementById('nTitle').value,text:document.getElementById('nText').value});save();alert("Notice Added!");}
+function addTopper(){db.toppers.push({name:document.getElementById('tpName').value,photo:document.getElementById('tpPhoto').value||"https://via.placeholder.com/150",cls:document.getElementById('tpClass').value,per:document.getElementById('tpPercent').value});save();alert("Topper Added!");}
+function delStudent(i){db.students.splice(i,1);save();}
+function delTeacher(i){db.teachers.splice(i,1);save();}
+function delHomework(i){db.homework.splice(i,1);save();}
+function delNotice(i){db.notices.splice(i,1);save();}
+function delTopper(i){db.toppers.splice(i,1);save();}
+renderAll();
 </script>
 </body>
 </html>
