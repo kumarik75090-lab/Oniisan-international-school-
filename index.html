@@ -1,316 +1,670 @@
 
-<!-- ADMIN DASHBOARD -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ONIISAN INTERNATIONAL SCHOOL</title>
+
 <style>
-#adminDashboard{
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:9999;
-  background:#f3f6fc;
-  overflow-y:auto;
-  font-family:Arial,sans-serif;
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f3f6fc;color:#182b45}
+header{background:#123b70;color:white;padding:18px;text-align:center}
+header h2{margin:5px 0}
+header p{margin:5px;font-size:13px}
+nav{display:flex;overflow-x:auto;background:white;box-shadow:0 2px 8px #0001}
+nav button{padding:15px;border:0;background:white;color:#123b70;font-weight:bold;white-space:nowrap}
+nav button:hover{background:#e7efff}
+.container{max-width:1050px;margin:auto;padding:18px}
+.hero{background:linear-gradient(135deg,#123b70,#2675c9);color:white;padding:30px 20px;border-radius:15px;margin:15px 0}
+.hero h1{font-size:27px;margin:0 0 10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:14px}
+.card{background:white;padding:18px;border-radius:12px;box-shadow:0 2px 10px #0001;margin-bottom:14px}
+.card h3{color:#123b70;margin-top:0}
+.stat{font-size:28px;font-weight:bold;color:#123b70}
+.section{display:none}
+.section.active{display:block}
+.btn{background:#123b70;color:white;border:0;border-radius:7px;padding:11px 16px;cursor:pointer;margin:4px}
+.btn.red{background:#c62828}
+.btn.green{background:#16834b}
+input,textarea,select{
+width:100%;padding:12px;border:1px solid #ccd4e0;
+border-radius:7px;margin:7px 0 13px;font-size:15px;
 }
-
-#adminLogin{
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:10000;
-  background:#f3f6fc;
-  justify-content:center;
-  align-items:center;
-  padding:20px;
-  font-family:Arial,sans-serif;
+label{font-weight:bold;font-size:14px}
+.item{padding:13px;border-bottom:1px solid #e5eaf2}
+.item:last-child{border:0}
+footer{background:#123b70;color:white;text-align:center;padding:22px;margin-top:30px}
+footer button{background:#ffffff;color:#123b70;border:0;padding:10px 18px;border-radius:7px;font-weight:bold}
+#adminPanel,#loginPanel{
+display:none;position:fixed;inset:0;z-index:1000;
+background:#f3f6fc;overflow-y:auto;
 }
-
-.login-box{
-  background:white;
-  padding:30px;
-  border-radius:15px;
-  width:100%;
-  max-width:380px;
-  box-shadow:0 5px 25px #0002;
-  text-align:center;
-}
-
-.login-box h2{color:#123b70}
-
-.login-box input{
-  width:100%;
-  box-sizing:border-box;
-  padding:13px;
-  margin:15px 0;
-  border:1px solid #ccd4e0;
-  border-radius:8px;
-}
-
-.admin-top{
-  background:#123b70;
-  color:white;
-  padding:20px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  flex-wrap:wrap;
-  gap:12px;
-}
-
-.admin-top h2{margin:0}
-
-.admin-container{
-  padding:20px;
-  max-width:1100px;
-  margin:auto;
-}
-
-.admin-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-  gap:15px;
-  margin:20px 0;
-}
-
-.admin-card{
-  background:white;
-  padding:20px;
-  border-radius:12px;
-  box-shadow:0 2px 10px #0001;
-  border:1px solid #e5eaf2;
-}
-
-.admin-card h3{
-  color:#123b70;
-  margin:0 0 10px;
-}
-
-.admin-card p{
-  font-size:14px;
-  color:#555;
-}
-
-.admin-btn{
-  border:0;
-  padding:11px 15px;
-  border-radius:8px;
-  background:#123b70;
-  color:white;
-  cursor:pointer;
-  margin:4px;
-}
-
-.admin-btn.red{background:#c62828}
-
-.admin-section{
-  background:white;
-  padding:20px;
-  border-radius:12px;
-  margin:18px 0;
-}
-
-.admin-section input,
-.admin-section textarea{
-  width:100%;
-  box-sizing:border-box;
-  padding:12px;
-  margin:7px 0 12px;
-  border:1px solid #ccd4e0;
-  border-radius:7px;
+.topbar{background:#123b70;color:white;padding:17px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.admin-content{max-width:900px;margin:auto;padding:18px}
+.error{color:#c62828;font-size:14px}
+.success{color:green}
+.small{font-size:13px;color:#667085}
+table{width:100%;border-collapse:collapse;background:white}
+td,th{padding:11px;border-bottom:1px solid #eee;text-align:left}
+@media(max-width:500px){
+.hero h1{font-size:22px}
+.container{padding:12px}
 }
 </style>
+</head>
 
-<!-- ADMIN LOGIN -->
-<div id="adminLogin">
-  <div class="login-box">
-    <h2>🔐 Admin Login</h2>
-    <p>ONIISAN INTERNATIONAL SCHOOL</p>
+<body>
 
-    <input
-      type="password"
-      id="adminPassword"
-      placeholder="Enter Admin Password"
-    >
+<header>
+<h2>🏫 ONIISAN INTERNATIONAL SCHOOL</h2>
+<p>Near Mai Sthan, Sahebganj, Muzaffarpur, Bihar, India</p>
+<p>Knowledge • Discipline • Excellence</p>
+</header>
 
-    <button class="admin-btn" onclick="checkAdminPassword()">
-      Login
-    </button>
+<nav>
+<button onclick="showSection('home')">Home</button>
+<button onclick="showSection('students')">Students</button>
+<button onclick="showSection('teachers')">Teachers</button>
+<button onclick="showSection('homework')">Homework</button>
+<button onclick="showSection('notices')">Notices</button>
+<button onclick="showSection('timetable')">Timetable</button>
+<button onclick="showSection('school')">School Info</button>
+</nav>
 
-    <button class="admin-btn red" onclick="closeAdminLogin()">
-      Cancel
-    </button>
+<main class="container">
 
-    <p id="loginError" style="color:red"></p>
-  </div>
+<!-- HOME -->
+<section id="home" class="section active">
+
+<div class="hero">
+<h1>Welcome to Oniisan International School</h1>
+<p>School Management Portal</p>
+<p>Education is the key to success.</p>
 </div>
 
-<!-- ADMIN DASHBOARD -->
-<div id="adminDashboard">
-
-  <div class="admin-top">
-    <h2>⚙️ School Admin Dashboard</h2>
-    <button class="admin-btn red" onclick="closeAdminDashboard()">
-      Logout
-    </button>
-  </div>
-
-  <div class="admin-container">
-
-    <h2>Welcome, School Administrator!</h2>
-    <p>Manage your school website from one place.</p>
-
-    <div class="admin-grid">
-
-      <div class="admin-card">
-        <h3>👨‍🎓 Students</h3>
-        <p>Manage student records</p>
-        <button class="admin-btn" onclick="adminOpen('students')">Open Students</button>
-      </div>
-
-      <div class="admin-card">
-        <h3>👩‍🏫 Teachers</h3>
-        <p>Manage teacher profiles</p>
-        <button class="admin-btn" onclick="adminOpen('teachers')">Open Teachers</button>
-      </div>
-
-      <div class="admin-card">
-        <h3>📅 Attendance</h3>
-        <p>Manage daily attendance</p>
-        <button class="admin-btn" onclick="adminOpen('attendance')">Open Attendance</button>
-      </div>
-
-      <div class="admin-card">
-        <h3>📚 Homework</h3>
-        <p>Publish class homework</p>
-        <button class="admin-btn" onclick="adminOpen('homework')">Open Homework</button>
-      </div>
-
-      <div class="admin-card">
-        <h3>📢 Notices</h3>
-        <p>Publish school notices</p>
-        <button class="admin-btn" onclick="adminOpen('notices')">Open Notices</button>
-      </div>
-
-      <div class="admin-card">
-        <h3>🏆 Toppers</h3>
-        <p>Manage topper details</p>
-        <button class="admin-btn" onclick="adminOpen('toppers')">Open Toppers</button>
-      </div>
-
-      <div class="admin-card">
-        <h3>🏫 School Info</h3>
-        <p>Manage school information</p>
-        <button class="admin-btn" onclick="adminOpen('school')">Open School Info</button>
-      </div>
-
-      <div class="admin-card">
-        <h3>📆 Holidays</h3>
-        <p>Manage holidays</p>
-        <button class="admin-btn" onclick="adminOpen('holidays')">Open Holidays</button>
-      </div>
-
-      <div class="admin-card">
-        <h3>🕒 Timetable</h3>
-        <p>Manage class timetable</p>
-        <button class="admin-btn" onclick="adminOpen('timetable')">Open Timetable</button>
-      </div>
-
-    </div>
-
-    <div class="admin-section">
-      <h2>🏫 School Settings</h2>
-
-      <label>School Name</label>
-      <input id="adminSchoolName" value="ONIISAN INTERNATIONAL SCHOOL">
-
-      <label>School Address</label>
-      <textarea id="adminSchoolAddress">Near Mai Sthan, Sahebganj, Muzaffarpur, Bihar, India</textarea>
-
-      <label>School Contact Number</label>
-      <input id="adminSchoolPhone" placeholder="Enter school phone number">
-
-      <button class="admin-btn" onclick="saveSchoolSettings()">
-        Save School Details
-      </button>
-    </div>
-
-    <div class="admin-section">
-      <h2>🔐 Admin Information</h2>
-      <p>You are logged in as administrator.</p>
-      <p>Use the dashboard buttons to manage website sections.</p>
-    </div>
-
-  </div>
+<div class="grid">
+<div class="card">
+<h3>👨‍🎓 Students</h3>
+<div class="stat" id="studentCount">0</div>
+<p>Registered Students</p>
 </div>
+<div class="card">
+<h3>📢 Notices</h3>
+<div class="stat" id="noticeCount">0</div>
+<p>School Announcements</p>
+</div>
+<div class="card">
+<h3>📚 Homework</h3>
+<div class="stat" id="homeworkCount">0</div>
+<p>Published Homework</p>
+</div>
+</div>
+
+<div class="card">
+<h3>📢 Latest School Notices</h3>
+<div id="homeNotices">No notices available.</div>
+</div>
+
+<div class="card">
+<h3>📚 Latest Homework</h3>
+<div id="homeHomework">No homework available.</div>
+</div>
+
+</section>
+
+<!-- STUDENTS -->
+<section id="students" class="section">
+<div class="card">
+<h2>👨‍🎓 Student Directory</h2>
+<p>Public student names</p>
+<input id="studentSearch" placeholder="Search student name..." oninput="renderStudents()">
+<div id="studentList">Loading students...</div>
+</div>
+</section>
+
+<!-- TEACHERS -->
+<section id="teachers" class="section">
+<div class="card">
+<h2>👩‍🏫 Teachers</h2>
+<p>Teachers and staff information.</p>
+<div id="teacherList">Teacher information will be updated by school administration.</div>
+</div>
+</section>
+
+<!-- HOMEWORK -->
+<section id="homework" class="section">
+<div class="card">
+<h2>📚 Class Homework</h2>
+<div id="homeworkList">No homework available.</div>
+</div>
+</section>
+
+<!-- NOTICES -->
+<section id="notices" class="section">
+<div class="card">
+<h2>📢 School Notices</h2>
+<div id="noticeList">No notices available.</div>
+</div>
+</section>
+
+<!-- TIMETABLE -->
+<section id="timetable" class="section">
+<div class="card">
+<h2>🕒 School Timetable</h2>
+<p>Contact the school office for your class timetable.</p>
+<div id="timetableList">Timetable will be updated by administration.</div>
+</div>
+</section>
+
+<!-- SCHOOL INFO -->
+<section id="school" class="section">
+<div class="card">
+<h2>🏫 About Our School</h2>
+<h3>ONIISAN INTERNATIONAL SCHOOL</h3>
+<p>Near Mai Sthan, Sahebganj, Muzaffarpur, Bihar, India.</p>
+<p>Welcome to our school management portal.</p>
+<p><b>Contact:</b> <span id="schoolPhone">Contact school office</span></p>
+</div>
+</section>
+
+</main>
+
+<footer>
+<p>© 2026 ONIISAN INTERNATIONAL SCHOOL</p>
+<p>School Management Portal</p>
+<button onclick="openLogin()">🔐 Admin Login</button>
+</footer>
+
+<!-- LOGIN -->
+<div id="loginPanel">
+<div class="topbar">
+<b>🔐 Administrator Login</b>
+<button class="btn red" onclick="closeLogin()">Close</button>
+</div>
+<div class="admin-content">
+<div class="card" style="max-width:420px;margin:40px auto">
+<h2>Admin Login</h2>
+<p>ONIISAN INTERNATIONAL SCHOOL</p>
+<label>Admin Password</label>
+<input type="password" id="adminPassword" placeholder="Enter password">
+<button class="btn" style="width:100%" onclick="checkLogin()">Login</button>
+<p id="loginError" class="error"></p>
+</div>
+</div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="adminPanel">
+
+<div class="topbar">
+<b>⚙️ School Admin Dashboard</b>
+<button class="btn red" onclick="logout()">Logout</button>
+</div>
+
+<div class="admin-content">
+
+<h2>Welcome, School Administrator!</h2>
+<p>Manage your school portal here.</p>
+
+<div class="grid">
+<div class="card"><h3>👨‍🎓 Students</h3><p id="adminStudentCount">0 students</p></div>
+<div class="card"><h3>📢 Notices</h3><p id="adminNoticeCount">0 notices</p></div>
+<div class="card"><h3>📚 Homework</h3><p id="adminHomeworkCount">0 homework</p></div>
+</div>
+
+<!-- ADD STUDENT -->
+<div class="card">
+<h2>👨‍🎓 Manage Students</h2>
+<label>Student Name</label>
+<input id="newStudent" placeholder="Enter student full name">
+
+<label>Class</label>
+<select id="studentClass">
+<option>Nursery</option>
+<option>LKG</option>
+<option>UKG</option>
+<option>Class 1</option>
+<option>Class 2</option>
+<option>Class 3</option>
+<option>Class 4</option>
+<option>Class 5</option>
+<option>Class 6</option>
+<option>Class 7</option>
+<option>Class 8</option>
+<option>Class 9</option>
+</select>
+
+<button class="btn" onclick="addStudent()">Add Student</button>
+<div id="adminStudentList"></div>
+</div>
+
+<!-- ADD NOTICE -->
+<div class="card">
+<h2>📢 Manage Notices</h2>
+<label>Notice Title</label>
+<input id="newNoticeTitle" placeholder="Enter notice title">
+<label>Notice Description</label>
+<textarea id="newNoticeText" rows="3" placeholder="Enter notice details"></textarea>
+<button class="btn" onclick="addNotice()">Publish Notice</button>
+<div id="adminNoticeList"></div>
+</div>
+
+<!-- ADD HOMEWORK -->
+<div class="card">
+<h2>📚 Manage Homework</h2>
+<label>Class</label>
+<select id="hwClass">
+<option>All Classes</option>
+<option>Nursery</option>
+<option>Class 1</option>
+<option>Class 2</option>
+<option>Class 3</option>
+<option>Class 4</option>
+<option>Class 5</option>
+<option>Class 6</option>
+<option>Class 7</option>
+<option>Class 8</option>
+<option>Class 9</option>
+</select>
+
+<label>Subject</label>
+<input id="hwSubject" placeholder="Enter subject">
+<label>Homework Details</label>
+<textarea id="hwText" rows="3" placeholder="Enter homework"></textarea>
+<button class="btn" onclick="addHomework()">Publish Homework</button>
+<div id="adminHomeworkList"></div>
+</div>
+
+<!-- SCHOOL SETTINGS -->
+<div class="card">
+<h2>🏫 School Settings</h2>
+<label>School Name</label>
+<input id="schoolName" value="ONIISAN INTERNATIONAL SCHOOL">
+
+<label>School Address</label>
+<textarea id="schoolAddress">Near Mai Sthan, Sahebganj, Muzaffarpur, Bihar, India</textarea>
+
+<label>Contact Number</label>
+<input id="schoolContact" placeholder="Enter school phone number">
+
+<button class="btn" onclick="saveSettings()">Save Settings</button>
+</div>
+
+<div class="card">
+<h3>🔐 Administrator Information</h3>
+<p>Logged in as School Administrator.</p>
+<p class="small">Remember to log out after using the dashboard.</p>
+</div>
+
+</div>
+</div>
+
+<!-- FIREBASE SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
 <script>
 
-// ADMIN PASSWORD
-const SCHOOL_ADMIN_PASSWORD = "Rishabh@234";
+// ===================================
+// ADMIN LOGIN
+// ===================================
 
-// OPEN LOGIN
-function openAdminDashboard(){
-  document.getElementById("adminLogin").style.display="flex";
-  document.getElementById("adminPassword").value="";
-  document.getElementById("loginError").innerText="";
+const ADMIN_PASSWORD = "Rishabh@234";
+
+function openLogin(){
+ document.getElementById("loginPanel").style.display="block";
+ document.getElementById("adminPassword").value="";
+ document.getElementById("loginError").innerText="";
 }
 
-// CHECK PASSWORD
-function checkAdminPassword(){
+function closeLogin(){
+ document.getElementById("loginPanel").style.display="none";
+}
 
-  const password =
-  document.getElementById("adminPassword").value;
+function checkLogin(){
+ const password=document.getElementById("adminPassword").value;
 
-  if(password === SCHOOL_ADMIN_PASSWORD){
+ if(password===ADMIN_PASSWORD){
+  closeLogin();
+  document.getElementById("adminPanel").style.display="block";
+  renderAll();
+ }else{
+  document.getElementById("loginError").innerText="Incorrect password!";
+ }
+}
 
-    document.getElementById("adminLogin").style.display="none";
-    document.getElementById("adminDashboard").style.display="block";
+function logout(){
+ document.getElementById("adminPanel").style.display="none";
+}
 
-  }else{
+// ===================================
+// FIREBASE CONFIGURATION
+// ===================================
 
-    document.getElementById("loginError").innerText =
-    "Incorrect password! Please try again.";
+// Replace these values with your Firebase project settings.
+// Until configured, this app uses local device storage.
 
+const firebaseConfig = {
+ apiKey: "YOUR_API_KEY",
+ authDomain: "YOUR_PROJECT.firebaseapp.com",
+ projectId: "YOUR_PROJECT_ID",
+ storageBucket: "YOUR_PROJECT.firebasestorage.app",
+ messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+ appId: "YOUR_APP_ID"
+};
+
+let db=null;
+let cloudReady=false;
+
+try{
+ if(firebaseConfig.apiKey!=="YOUR_API_KEY"){
+  firebase.initializeApp(firebaseConfig);
+  db=firebase.firestore();
+  cloudReady=true;
+ }
+}catch(error){
+ console.error("Firebase setup:",error);
+}
+
+// ===================================
+// DATA STORAGE
+// ===================================
+
+let students=[];
+let notices=[];
+let homework=[];
+
+function loadLocal(){
+ try{
+ students=JSON.parse(localStorage.getItem("ois_students"))||[];
+ notices=JSON.parse(localStorage.getItem("ois_notices"))||[];
+ homework=JSON.parse(localStorage.getItem("ois_homework"))||[];
+ }catch(e){
+ students=[];
+ notices=[];
+ homework=[];
+ }
+}
+
+function saveLocal(){
+ localStorage.setItem("ois_students",JSON.stringify(students));
+ localStorage.setItem("ois_notices",JSON.stringify(notices));
+ localStorage.setItem("ois_homework",JSON.stringify(homework));
+}
+
+async function saveCloud(key,data){
+ if(!cloudReady)return;
+ try{
+ await db.collection("schoolData").doc(key).set({items:data});
+ }catch(error){
+ console.error("Cloud save error:",error);
+ alert("Firebase save failed. Check Firebase setup and security rules.");
+ }
+}
+
+async function loadCloud(){
+ if(!cloudReady)return;
+ try{
+ const keys=["students","notices","homework"];
+ for(const key of keys){
+  const doc=await db.collection("schoolData").doc(key).get();
+  if(doc.exists && Array.isArray(doc.data().items)){
+   if(key==="students")students=doc.data().items;
+   if(key==="notices")notices=doc.data().items;
+   if(key==="homework")homework=doc.data().items;
   }
+ }
+ saveLocal();
+ }catch(error){
+ console.error("Firebase load error:",error);
+ }
 }
 
-// CLOSE LOGIN
-function closeAdminLogin(){
-  document.getElementById("adminLogin").style.display="none";
+async function saveData(key){
+ saveLocal();
+ await saveCloud(key,key==="students"?students:key==="notices"?notices:homework);
+ renderAll();
 }
 
-// LOGOUT
-function closeAdminDashboard(){
+// ===================================
+// NAVIGATION
+// ===================================
 
-  document.getElementById("adminDashboard").style.display="none";
-
+function showSection(name){
+ document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+ const section=document.getElementById(name);
+ if(section)section.classList.add("active");
+ window.scrollTo(0,0);
 }
 
-// OPEN WEBSITE SECTION
-function adminOpen(section){
+// ===================================
+// STUDENTS
+// ===================================
 
-  closeAdminDashboard();
+async function addStudent(){
+ const name=document.getElementById("newStudent").value.trim();
+ const cls=document.getElementById("studentClass").value;
 
-  if(typeof openPage === "function"){
-    openPage(section);
-  }else{
-    alert("Website section not found: " + section);
-    openAdminDashboard();
-  }
+ if(!name){alert("Enter student name");return;}
 
+ students.push({
+  id:Date.now(),
+  name:name,
+  className:cls
+ });
+
+ document.getElementById("newStudent").value="";
+ await saveData("students");
 }
 
-// SAVE SCHOOL SETTINGS
-function saveSchoolSettings(){
-
-  const name=document.getElementById("adminSchoolName").value;
-  const address=document.getElementById("adminSchoolAddress").value;
-  const phone=document.getElementById("adminSchoolPhone").value;
-
-  localStorage.setItem("schoolName",name);
-  localStorage.setItem("schoolAddress",address);
-  localStorage.setItem("schoolPhone",phone);
-
-  alert("School details saved successfully!");
-
+function deleteStudent(id){
+ if(!confirm("Delete this student?"))return;
+ students=students.filter(s=>s.id!==id);
+ saveData("students");
 }
+
+function renderStudents(){
+ const search=(document.getElementById("studentSearch")?.value||"").toLowerCase();
+
+ const filtered=students.filter(s=>
+ s.name.toLowerCase().includes(search)||
+ s.className.toLowerCase().includes(search)
+ );
+
+ document.getElementById("studentList").innerHTML=
+ filtered.length?filtered.map(s=>
+ `<div class="item">👨‍🎓 <b>${escapeHTML(s.name)}</b>
+ <span class="small"> — ${escapeHTML(s.className)}</span></div>`
+ ).join(""):"No students found.";
+ 
+ document.getElementById("adminStudentList").innerHTML=
+ students.map(s=>
+ `<div class="item">${escapeHTML(s.name)} (${escapeHTML(s.className)})
+ <button class="btn red" onclick="deleteStudent(${Number(s.id)})">Delete</button></div>`
+ ).join("")||"No students added.";
+}
+
+// ===================================
+// NOTICES
+// ===================================
+
+async function addNotice(){
+ const title=document.getElementById("newNoticeTitle").value.trim();
+ const text=document.getElementById("newNoticeText").value.trim();
+
+ if(!title||!text){alert("Fill all notice details");return;}
+
+ notices.unshift({
+  id:Date.now(),
+  title:title,
+  text:text,
+  date:new Date().toLocaleDateString()
+ });
+
+ document.getElementById("newNoticeTitle").value="";
+ document.getElementById("newNoticeText").value="";
+ await saveData("notices");
+}
+
+function deleteNotice(id){
+ if(!confirm("Delete this notice?"))return;
+ notices=notices.filter(n=>n.id!==id);
+ saveData("notices");
+}
+
+// ===================================
+// HOMEWORK
+// ===================================
+
+async function addHomework(){
+ const cls=document.getElementById("hwClass").value;
+ const subject=document.getElementById("hwSubject").value.trim();
+ const text=document.getElementById("hwText").value.trim();
+
+ if(!subject||!text){alert("Fill all homework details");return;}
+
+ homework.unshift({
+  id:Date.now(),
+  className:cls,
+  subject:subject,
+  text:text,
+  date:new Date().toLocaleDateString()
+ });
+
+ document.getElementById("hwSubject").value="";
+ document.getElementById("hwText").value="";
+ await saveData("homework");
+}
+
+function deleteHomework(id){
+ if(!confirm("Delete this homework?"))return;
+ homework=homework.filter(h=>h.id!==id);
+ saveData("homework");
+}
+
+// ===================================
+// SCHOOL SETTINGS
+// ===================================
+
+function saveSettings(){
+ const name=document.getElementById("schoolName").value;
+ const address=document.getElementById("schoolAddress").value;
+ const phone=document.getElementById("schoolContact").value;
+
+ localStorage.setItem("ois_school_name",name);
+ localStorage.setItem("ois_school_address",address);
+ localStorage.setItem("ois_school_phone",phone);
+
+ document.querySelector("header h2").innerText="🏫 "+name;
+ document.querySelector("header p").innerText=address;
+ document.getElementById("schoolPhone").innerText=phone||"Contact school office";
+
+ alert("School settings saved!");
+}
+
+function loadSettings(){
+ const name=localStorage.getItem("ois_school_name");
+ const address=localStorage.getItem("ois_school_address");
+ const phone=localStorage.getItem("ois_school_phone");
+
+ if(name){
+  document.querySelector("header h2").innerText="🏫 "+name;
+  document.getElementById("schoolName").value=name;
+ }
+ if(address){
+  document.querySelector("header p").innerText=address;
+  document.getElementById("schoolAddress").value=address;
+ }
+ if(phone){
+  document.getElementById("schoolContact").value=phone;
+  document.getElementById("schoolPhone").innerText=phone;
+ }
+}
+
+// ===================================
+// RENDER DATA
+// ===================================
+
+function escapeHTML(value){
+ return String(value).replace(/[&<>"']/g,c=>({
+ "&":"&amp;",
+ "<":"&lt;",
+ ">":"&gt;",
+ '"':"&quot;",
+ "'":"&#39;"
+ }[c]));
+}
+
+function renderAll(){
+
+ renderStudents();
+
+ document.getElementById("noticeList").innerHTML=
+ notices.map(n=>
+ `<div class="item">
+ <h3>${escapeHTML(n.title)}</h3>
+ <p>${escapeHTML(n.text)}</p>
+ <small>${escapeHTML(n.date)}</small>
+ </div>`
+ ).join("")||"No notices available.";
+
+ document.getElementById("homeNotices").innerHTML=
+ notices.slice(0,3).map(n=>
+ `<div class="item"><b>${escapeHTML(n.title)}</b>
+ <p>${escapeHTML(n.text)}</p></div>`
+ ).join("")||"No notices available.";
+
+ document.getElementById("homeworkList").innerHTML=
+ homework.map(h=>
+ `<div class="item">
+ <b>${escapeHTML(h.className)} — ${escapeHTML(h.subject)}</b>
+ <p>${escapeHTML(h.text)}</p>
+ <small>${escapeHTML(h.date)}</small>
+ </div>`
+ ).join("")||"No homework available.";
+
+ document.getElementById("homeHomework").innerHTML=
+ homework.slice(0,3).map(h=>
+ `<div class="item"><b>${escapeHTML(h.className)} — ${escapeHTML(h.subject)}</b>
+ <p>${escapeHTML(h.text)}</p></div>`
+ ).join("")||"No homework available.";
+
+ document.getElementById("adminNoticeList").innerHTML=
+ notices.map(n=>
+ `<div class="item">${escapeHTML(n.title)}
+ <button class="btn red" onclick="deleteNotice(${Number(n.id)})">Delete</button></div>`
+ ).join("")||"No notices.";
+
+ document.getElementById("adminHomeworkList").innerHTML=
+ homework.map(h=>
+ `<div class="item">${escapeHTML(h.className)} — ${escapeHTML(h.subject)}
+ <button class="btn red" onclick="deleteHomework(${Number(h.id)})">Delete</button></div>`
+ ).join("")||"No homework.";
+
+ document.getElementById("studentCount").innerText=students.length;
+ document.getElementById("noticeCount").innerText=notices.length;
+ document.getElementById("homeworkCount").innerText=homework.length;
+
+ document.getElementById("adminStudentCount").innerText=students.length+" students";
+ document.getElementById("adminNoticeCount").innerText=notices.length+" notices";
+ document.getElementById("adminHomeworkCount").innerText=homework.length+" homework";
+}
+
+// ===================================
+// START APPLICATION
+// ===================================
+
+async function startApp(){
+ loadLocal();
+ loadSettings();
+ renderAll();
+ await loadCloud();
+ renderAll();
+}
+
+startApp();
 
 </script>
+</body>
+</html>
