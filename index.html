@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oniisan International School</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+header{background:#0b3d91;color:#fff;padding:15px 20px;display:flex;justify-content:space-between;align-items:center}
+.logo-area{display:flex;align-items:center;gap:12px}
+#schoolLogo{width:55px;height:55px;border-radius:50%;object-fit:cover;background:#fff;border:2px solid #fff}
+header h1{font-size:22px}
+header p{font-size:13px;opacity:.9}
+.admin-btn{background:#ffcc00;border:none;padding:8px 14px;border-radius:20px;font-weight:bold;cursor:pointer}
+.hero{background:linear-gradient(135deg,#0b3d91,#00a8ff);color:#fff;text-align:center;padding:60px 20px}
+.hero h2{font-size:32px;margin-bottom:10px}
+.hero p{font-size:16px;max-width:600px;margin:auto}
+.cards{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;padding:30px 15px}
+.card{background:#f5f5f5;border-radius:12px;padding:20px;width:280px;text-align:center;box-shadow:0 4px 10px rgba(0,0,0,.1)}
+.card h3{color:#0b3d91;margin-bottom:8px}
+footer{background:#222;color:#fff;text-align:center;padding:20px;font-size:14px}
+#adminPanel{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;padding:20px;border-radius:12px;box-shadow:0 0 20px rgba(0,0,0,.3);z-index:99;width:90%;max-width:350px;text-align:center}
+#adminPanel input{margin:10px 0;width:100%;padding:10px}
+#adminPanel button{padding:10px 15px;background:#0b3d91;color:#fff;border:none;border-radius:8px;cursor:pointer;margin:5px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-area">
+    <img id="schoolLogo" src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png" alt="Logo">
+    <div><h1>Oniisan International School</h1><p>Learn • Grow • Shine</p></div>
+  </div>
+  <button class="admin-btn" onclick="openAdmin()">Admin</button>
+</header>
+
+<div class="hero">
+  <h2>Welcome to Oniisan International School</h2>
+  <p>Best education, smart classes, experienced teachers aur bachcho ke bright future ke liye best school.</p><br>
+  <button onclick="alert('Admission ke liye school me contact karein!')" style="padding:12px 25px;border:none;border-radius:25px;background:#ffcc00;font-weight:bold;cursor:pointer">Admission Open</button>
+</div>
+
+<div class="cards">
+  <div class="card"><h3>📚 Quality Education</h3><p>Nursery se Class 12 tak English & Hindi medium.</p></div>
+  <div class="card"><h3>👩‍🏫 Expert Teachers</h3><p>Experienced aur caring teachers.</p></div>
+  <div class="card"><h3>💻 Smart Classes</h3><p>Digital learning aur computer lab.</p></div>
+</div>
+
+<footer>
+  <p>© 2026 Oniisan International School | Patna, Bihar</p>
+  <p>Contact: 70000 00000 | Email: oniisan@gmail.com</p>
+</footer>
+
+<div id="adminPanel">
+  <h3>Admin Login</h3>
+  <div id="loginBox">
+    <input type="password" id="adminPass" placeholder="Password daalein">
+    <button onclick="checkPass()">Login</button>
+    <button onclick="closeAdmin()">Close</button>
+    <p style="font-size:12px;color:#888">Default Password: admin123</p>
+  </div>
+  <div id="logoBox" style="display:none">
+    <h4>Logo Change Karein</h4>
+    <input type="file" id="logoInput" accept="image/*" onchange="changeLogo(event)">
+    <br><button onclick="resetLogo()">Default Logo</button>
+    <button onclick="closeAdmin()">Close</button>
+    <p style="font-size:12px;color:green">Logo change ho gaya! Ab sabko naya logo dikhega.</p>
+  </div>
+</div>
+
+<script>
+// Pehle se saved logo dikhao
+let savedLogo = localStorage.getItem('schoolLogo');
+if(savedLogo){ document.getElementById('schoolLogo').src = savedLogo; }
+
+function openAdmin(){ document.getElementById('adminPanel').style.display='block'; }
+function closeAdmin(){ document.getElementById('adminPanel').style.display='none'; }
+function checkPass(){
+  if(document.getElementById('adminPass').value === 'admin123'){
+    document.getElementById('loginBox').style.display='none';
+    document.getElementById('logoBox').style.display='block';
+  } else { alert('Galat Password!'); }
+}
+function changeLogo(e){
+  let file = e.target.files[0];
+  let reader = new FileReader();
+  reader.onload = function(){
+    localStorage.setItem('schoolLogo', reader.result);
+    document.getElementById('schoolLogo').src = reader.result;
+    alert('Logo Change Ho Gaya!');
+  }
+  reader.readAsDataURL(file);
+}
+function resetLogo(){
+  localStorage.removeItem('schoolLogo');
+  document.getElementById('schoolLogo').src='https://cdn-icons-png.flaticon.com/512/3135/3135755.png';
+  alert('Default Logo Lag Gaya!');
+}
+</script>
+</body>
+</html>
