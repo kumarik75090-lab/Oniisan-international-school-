@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>School App</title>
+<title>Oniisan International School</title>
 <style>
 :root{--pri:#4f46e5;--bg:#f1f3fb;--card:#fff;--txt:#1f2937;--mut:#6b7280;--ok:#16a34a;--bad:#dc2626;--warn:#f59e0b;--line:#e5e7eb}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -131,9 +131,9 @@ nav{position:fixed;left:0;right:0;bottom:0;background:#fff;display:flex;box-shad
 
 <script>
 /* ================= HELPERS ================= */
-const KEY='school_app_v1';
+const KEY='oniisan_school_app_v1';
 const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const DAYS=['Ravivar','Somvar','Mangalvar','Budhvar','Guruvar','Shukravar','Shanivar'];
+const DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 const el=id=>document.getElementById(id);
 function today(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
@@ -142,7 +142,7 @@ function nl(s){return esc(s).replace(/\n/g,'<br>');}
 function fmt(d){if(!d)return'';const p=d.split('-').map(Number);return p[2]+' '+MON[p[1]-1]+' '+p[0];}
 function dayName(d){const p=d.split('-').map(Number);return DAYS[new Date(p[0],p[1]-1,p[2]).getDay()];}
 let toastT;
-function toast(m){const t=el('toast');t.textContent=m;t.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),2200);}
+function toast(m){const t=el('toast');t.textContent=m;t.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),2400);}
 function showModal(h){const m=el('modal');m.innerHTML='<div class="box" onclick="event.stopPropagation()">'+h+'</div>';m.classList.add('on');m.onclick=closeModal;}
 function closeModal(){el('modal').classList.remove('on');el('modal').innerHTML='';}
 function avatar(p,n,s){s=s||44;return p?`<img class="av" style="width:${s}px;height:${s}px" src="${p}" alt="">`:`<div class="av ph" style="width:${s}px;height:${s}px;font-size:${Math.round(s*0.42)}px">${esc((n||'?').trim().charAt(0).toUpperCase())}</div>`;}
@@ -157,26 +157,39 @@ function defaults(){
   const students=stu.map((x,i)=>({id:'s'+i,name:x[0],roll:x[1],father:x[2],phone:'',address:'',photo:'',classId:c9}));
   const att={};att[today()]={s0:'P',s1:'P',s2:'A',s3:'P',s4:'A',s5:'P'};
   return{
-    school:{name:'Mera School',tagline:'Gyan hi Shakti hai',logo:'',color:'#4f46e5',session:'2026-27',principal:'',phone:'',email:'',address:'Patna, Bihar',about:'Hamare school me bachchon ko acchi shiksha aur sanskar diye jaate hain. (Ye text Admin Panel se badlein.)',pass:'admin123'},
+    school:{
+      name:'Oniisan International School',
+      tagline:'English Medium School',
+      logo:'',
+      color:'#4f46e5',
+      session:'2026-27',
+      principal:'',
+      phone:'9341509571',
+      principalPhone:'9341509572',
+      email:'',
+      address:'BLOCK CAMPUS, NEAR MAI ASTHAN, SAHEBGANJ (MUZ.), BIHAR-843125',
+      about:'Welcome to Oniisan International School, an English medium school. We are committed to quality education, discipline and the all-round development of every child. (Edit this text from the Admin Panel.)',
+      pass:'Rishabh@234'
+    },
     classes,students,
     teachers:[
-      {id:'t0',name:'Sunita Kumari',photo:'',subject:'Hindi',classes:['c10','c11'],classTeacherOf:'c11',phone:'',address:'Patna'},
-      {id:'t1',name:'Rakesh Singh',photo:'',subject:'Maths',classes:['c10','c11','c12'],classTeacherOf:'c12',phone:'',address:'Patna'}
+      {id:'t0',name:'Sunita Kumari',photo:'',subject:'English',classes:['c10','c11'],classTeacherOf:'c11',phone:'',address:'Sahebganj'},
+      {id:'t1',name:'Rakesh Singh',photo:'',subject:'Maths',classes:['c10','c11','c12'],classTeacherOf:'c12',phone:'',address:'Sahebganj'}
     ],
     attendance:att,
-    dcr:[{id:'d0',date:today(),classId:c9,subject:'Maths',classwork:'Chapter 3 - Polynomials padhaya gaya.',homework:'Exercise 3.1 ke sawal 1 se 5 karke laana.'}],
+    dcr:[{id:'d0',date:today(),classId:c9,subject:'Maths',classwork:'Chapter 3 - Polynomials was taught in class.',homework:'Complete Exercise 3.1, questions 1 to 5.'}],
     toppers:[{id:'p0',name:'Priya Kumari',classId:c9,rank:'1',percent:'92%',year:'2025-26',photo:''}],
-    notices:[{id:'n0',date:today(),title:'Swagat hai!',text:'School app me aapka swagat hai. Naye notice yahan dikhenge.'}],
-    holidays:[{id:'h0',date:'2026-12-25',to:'',title:'Christmas'},{id:'h1',date:'2027-01-26',to:'',title:'Gantantra Diwas'}]
+    notices:[{id:'n0',date:today(),title:'Welcome!',text:'Welcome to the Oniisan International School app. All new notices will appear here.'}],
+    holidays:[{id:'h0',date:'2026-12-25',to:'',title:'Christmas'},{id:'h1',date:'2027-01-26',to:'',title:'Republic Day'}]
   };
 }
 let DB;
 function fixDB(){const d=defaults();for(const k in d){if(DB[k]===undefined)DB[k]=d[k];}for(const k in d.school){if(DB.school[k]===undefined)DB.school[k]=d.school[k];}}
 function load(){try{const r=localStorage.getItem(KEY);DB=r?JSON.parse(r):defaults();}catch(e){DB=defaults();}fixDB();}
 let warned=false;
-function save(){try{localStorage.setItem(KEY,JSON.stringify(DB));}catch(e){if(!warned){warned=true;toast('Data save nahi ho paa raha (storage full/blocked). Backup lein!');}}}
-function isAdm(){try{return sessionStorage.getItem('school_adm')==='1';}catch(e){return false;}}
-function setAdm(v){try{v?sessionStorage.setItem('school_adm','1'):sessionStorage.removeItem('school_adm');}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(DB));}catch(e){if(!warned){warned=true;toast('Data could not be saved (storage full or blocked). Please take a backup!');}}}
+function isAdm(){try{return sessionStorage.getItem('oniisan_adm')==='1';}catch(e){return false;}}
+function setAdm(v){try{v?sessionStorage.setItem('oniisan_adm','1'):sessionStorage.removeItem('oniisan_adm');}catch(e){}}
 
 load();
 const S={page:'home',admin:isAdm(),aTab:'settings',cls:'',date:today(),aCls:'',aDate:today(),dcrCls:'',dcrDate:'',topCls:'',aStuCls:''};
@@ -195,11 +208,11 @@ function clsOpts(sel,all){return(all?`<option value="">${all}</option>`:'')+DB.c
 function rerender(){const y=window.scrollY;render();window.scrollTo(0,y);}
 
 /* ================= LAYOUT ================= */
-const NAV=[['home','🏠','Home'],['classes','🏫','Classes'],['att','✅','Hazri'],['dcr','📚','DCR'],['top','🏆','Toppers'],['tch','👩‍🏫','Teachers'],['notice','📢','Notice'],['hol','🎉','Chhutti'],['about','ℹ️','Info']];
+const NAV=[['home','🏠','Home'],['classes','🏫','Classes'],['att','✅','Attendance'],['dcr','📚','Homework'],['top','🏆','Toppers'],['tch','👩‍🏫','Teachers'],['notice','📢','Notices'],['hol','🎉','Holidays'],['about','ℹ️','About']];
 function go(p){if(p==='admin'&&!S.admin){loginModal();return;}S.page=p;render();window.scrollTo(0,0);}
 function applyTheme(){const s=DB.school;document.documentElement.style.setProperty('--pri',s.color||'#4f46e5');document.title=s.name;if(s.logo){let l=el('fav');if(!l){l=document.createElement('link');l.id='fav';l.rel='icon';document.head.appendChild(l);}l.href=s.logo;}}
 function renderTop(){const s=DB.school;el('top').innerHTML=`<div class="logo">${s.logo?`<img src="${s.logo}" alt="">`:'🏫'}</div><div class="ti"><h1>${esc(s.name)}</h1><p>${esc(s.tagline)}</p></div><div class="dt"><b>${DAYS[new Date().getDay()]}</b><br>${fmt(today())}</div>`;}
-function renderNav(){el('nav').innerHTML='<div class="navs">'+NAV.map(n=>`<button class="nb ${S.page===n[0]?'on':''}" onclick="go('${n[0]}')"><i>${n[1]}</i>${n[2]}</button>`).join('')+'</div>'+`<button class="nb adm" onclick="go('admin')"><i>⚙️</i>Admin</button>`;}
+function renderNav(){el('nav').innerHTML='<div class="navs">'+NAV.map(n=>`<button class="nb ${S.page===n[0]?'on':''}" onclick="go('${n[0]}')"><i>${n[1]}</i>${n[2]}</button>`).join('')+'</div>'+`<button class="nb adm ${S.page==='admin'?'on':''}" onclick="go('admin')"><i>⚙️</i>Admin</button>`;}
 function render(){applyTheme();renderTop();renderNav();const fn=PAGES[S.page]||PAGES.home;el('view').innerHTML=fn();}
 
 /* ================= PUBLIC PAGES ================= */
@@ -212,30 +225,30 @@ PAGES.home=()=>{
   const notices=[...DB.notices].sort((a,b)=>b.date.localeCompare(a.date));
   const ups=DB.holidays.filter(x=>(x.to||x.date)>=t).sort((a,b)=>a.date.localeCompare(b.date)).slice(0,3);
   let ban;
-  if(h)ban=`<div class="banner hol">🎉 Aaj chhutti hai: ${esc(h.title)}</div>`;
-  else if(sun)ban=`<div class="banner hol">🌴 Aaj Ravivar hai - school band</div>`;
-  else ban=`<div class="banner open">📅 Aaj school khula hai</div>`;
+  if(h)ban=`<div class="banner hol">🎉 Holiday today: ${esc(h.title)}</div>`;
+  else if(sun)ban=`<div class="banner hol">🌴 Today is Sunday - School closed</div>`;
+  else ban=`<div class="banner open">📅 School is open today</div>`;
   const rows=DB.classes.filter(c=>DB.students.some(s=>s.classId===c.id)).map(c=>{const x=stats(t,c.id);const mk=x.p+x.a>0;return`<tr class="link" onclick="goAtt('${c.id}')"><td>${esc(c.name)}</td><td>${x.total}</td><td style="color:var(--ok);font-weight:700">${mk?x.p:'-'}</td><td style="color:var(--bad);font-weight:700">${mk?x.a:'-'}</td></tr>`;}).join('');
   return`${ban}
   ${notices.length?`<div class="tick"><span>📢 ${notices.slice(0,5).map(n=>esc(n.title)).join(' &nbsp;•&nbsp; ')}</span></div>`:''}
   <div class="stats">
-   <div class="st"><b>${total}</b><span>Total Bachche</span></div>
+   <div class="st"><b>${total}</b><span>Total Students</span></div>
    <div class="st"><b>${DB.teachers.length}</b><span>Teachers</span></div>
    <div class="st"><b>${DB.classes.length}</b><span>Classes</span></div>
-   <div class="st ok"><b>${st.p}</b><span>Aaj Present</span></div>
-   <div class="st bad"><b>${st.a}</b><span>Aaj Absent</span></div>
+   <div class="st ok"><b>${st.p}</b><span>Present Today</span></div>
+   <div class="st bad"><b>${st.a}</b><span>Absent Today</span></div>
   </div>
-  <h2 class="sec">📊 Aaj ki Hazri <small>(class par click karein)</small></h2>
-  <div class="card">${rows?`<table><tr><th>Class</th><th>Total</th><th>Present</th><th>Absent</th></tr>${rows}</table>`:'<p class="empty">Abhi koi student nahi hai.</p>'}</div>
-  <h2 class="sec">🎉 Aane wali Chhuttiyan</h2>
-  <div class="card">${ups.length?ups.map(holRow).join(''):'<p class="empty">Abhi koi chhutti nahi hai.</p>'}</div>
-  <h2 class="sec">📢 Latest Notice</h2>
-  ${notices.slice(0,3).map(noticeCard).join('')||'<div class="card empty">Koi notice nahi.</div>'}`;
+  <h2 class="sec">📊 Today's Attendance <small>(tap a class to see names)</small></h2>
+  <div class="card">${rows?`<table><tr><th>Class</th><th>Total</th><th>Present</th><th>Absent</th></tr>${rows}</table>`:'<p class="empty">No students added yet.</p>'}</div>
+  <h2 class="sec">🎉 Upcoming Holidays</h2>
+  <div class="card">${ups.length?ups.map(holRow).join(''):'<p class="empty">No upcoming holidays.</p>'}</div>
+  <h2 class="sec">📢 Latest Notices</h2>
+  ${notices.slice(0,3).map(noticeCard).join('')||'<div class="card empty">No notices yet.</div>'}`;
 };
 function goAtt(id){S.cls=id;S.date=today();go('att');}
 
-PAGES.classes=()=>`<h2 class="sec">🏫 Sabhi Classes <small>(Nursery se 10th)</small></h2><div class="grid">`+DB.classes.map(c=>{const ct=classTeacher(c.id);const x=stats(today(),c.id);const mk=x.p+x.a>0;return`<div class="card cc" onclick="openClass('${c.id}')"><h3>${esc(c.name)}</h3><div class="n">${strength(c)} <small style="font-size:12px;font-weight:400">bachche</small></div><small>👩‍🏫 ${ct?esc(ct.name):'Class teacher set nahi'}</small>${mk?`<small>Aaj: ✅ ${x.p} &nbsp; ❌ ${x.a}</small>`:''}</div>`;}).join('')+`</div>`;
-function openClass(id){const c=DB.classes.find(c=>c.id===id);if(!c)return;const l=DB.students.filter(s=>s.classId===id).sort(byRoll);const ct=classTeacher(id);showModal(`<h3>🏫 Class ${esc(c.name)}</h3><p style="color:var(--mut);font-size:13px">Total: ${strength(c)} • Class Teacher: ${ct?esc(ct.name):'-'}</p><div style="margin-top:8px">${l.length?l.map(studentRow).join(''):'<p class="empty">Student list abhi nahi bhari gayi.</p>'}</div><button class="btn out full" onclick="closeModal()">Band karein</button>`);}
+PAGES.classes=()=>`<h2 class="sec">🏫 All Classes <small>(Nursery to 10th)</small></h2><div class="grid">`+DB.classes.map(c=>{const ct=classTeacher(c.id);const x=stats(today(),c.id);const mk=x.p+x.a>0;return`<div class="card cc" onclick="openClass('${c.id}')"><h3>${esc(c.name)}</h3><div class="n">${strength(c)} <small style="font-size:12px;font-weight:400;display:inline">students</small></div><small>👩‍🏫 ${ct?esc(ct.name):'Class teacher not set'}</small>${mk?`<small>Today: ✅ ${x.p} &nbsp; ❌ ${x.a}</small>`:''}</div>`;}).join('')+`</div>`;
+function openClass(id){const c=DB.classes.find(c=>c.id===id);if(!c)return;const l=DB.students.filter(s=>s.classId===id).sort(byRoll);const ct=classTeacher(id);showModal(`<h3>🏫 Class ${esc(c.name)}</h3><p style="color:var(--mut);font-size:13px">Total: ${strength(c)} • Class Teacher: ${ct?esc(ct.name):'-'}</p><div style="margin-top:8px">${l.length?l.map(studentRow).join(''):'<p class="empty">Student list has not been added yet.</p>'}</div><button class="btn out full" onclick="closeModal()">Close</button>`);}
 
 PAGES.att=()=>{
   const cid=curCls('cls');const list=DB.students.filter(s=>s.classId===cid).sort(byRoll);
@@ -244,12 +257,12 @@ PAGES.att=()=>{
   const hol=holidayOn(S.date);
   const grp=(t,arr,c)=>arr.length?`<div class="card"><div class="gt ${c}">${t} (${arr.length})</div>${arr.map(studentRow).join('')}</div>`:'';
   let body;
-  if(!list.length)body='<div class="card empty">Is class me abhi koi student nahi hai.</div>';
-  else if(!P.length&&!A.length)body='<div class="card empty">Is din ki hazri abhi nahi li gayi.</div>';
-  else body=grp('❌ Absent',A,'bad')+grp('✅ Present',P,'ok')+grp('⏳ Hazri nahi mili',N,'mut');
-  return`<h2 class="sec">✅ Hazri (Attendance)</h2>
+  if(!list.length)body='<div class="card empty">There are no students in this class yet.</div>';
+  else if(!P.length&&!A.length)body='<div class="card empty">Attendance has not been taken for this date.</div>';
+  else body=grp('❌ Absent',A,'bad')+grp('✅ Present',P,'ok')+grp('⏳ Not marked',N,'mut');
+  return`<h2 class="sec">✅ Attendance</h2>
   <div class="card"><div class="row2"><div><label>Class</label><select onchange="S.cls=this.value;render()">${clsOpts(cid)}</select></div><div><label>Date (${dayName(S.date)})</label><input type="date" value="${S.date}" onchange="S.date=this.value||today();render()"></div></div>
-  ${hol?`<div class="alert">🎉 Chhutti: ${esc(hol.title)}</div>`:''}
+  ${hol?`<div class="alert">🎉 Holiday: ${esc(hol.title)}</div>`:''}
   <div class="chips3"><div class="sc"><b>${list.length}</b>Total</div><div class="sc ok"><b>${P.length}</b>Present</div><div class="sc bad"><b>${A.length}</b>Absent</div></div></div>${body}`;
 };
 
@@ -257,57 +270,58 @@ PAGES.dcr=()=>{
   let L=[...DB.dcr];if(S.dcrCls)L=L.filter(x=>x.classId===S.dcrCls);if(S.dcrDate)L=L.filter(x=>x.date===S.dcrDate);
   L.sort((a,b)=>b.date.localeCompare(a.date));
   return`<h2 class="sec">📚 DCR / Homework <small>(Daily Class Report)</small></h2>
-  <div class="card"><div class="row2"><div><label>Class</label><select onchange="S.dcrCls=this.value;render()">${clsOpts(S.dcrCls,'Sabhi Classes')}</select></div><div><label>Date</label><input type="date" value="${S.dcrDate}" onchange="S.dcrDate=this.value;render()"></div></div>
-  <div class="btnrow"><button class="btn sm out" onclick="S.dcrDate=today();render()">Aaj ka</button><button class="btn sm out" onclick="S.dcrDate='';S.dcrCls='';render()">Sab dikhayein</button></div></div>`+
-  (L.length?L.map(d=>`<div class="card dc"><div class="dh"><span class="badge">${esc(cn(d.classId)||'-')}</span><b>${esc(d.subject||'')}</b><small>${fmt(d.date)}</small></div>${d.classwork?`<p><b>📖 Classwork:</b><br>${nl(d.classwork)}</p>`:''}${d.homework?`<p><b>✏️ Homework:</b><br>${nl(d.homework)}</p>`:''}</div>`).join(''):'<div class="card empty">Koi DCR / homework nahi mila.</div>');
+  <div class="card"><div class="row2"><div><label>Class</label><select onchange="S.dcrCls=this.value;render()">${clsOpts(S.dcrCls,'All Classes')}</select></div><div><label>Date</label><input type="date" value="${S.dcrDate}" onchange="S.dcrDate=this.value;render()"></div></div>
+  <div class="btnrow"><button class="btn sm out" onclick="S.dcrDate=today();render()">Today</button><button class="btn sm out" onclick="S.dcrDate='';S.dcrCls='';render()">Show All</button></div></div>`+
+  (L.length?L.map(d=>`<div class="card dc"><div class="dh"><span class="badge">${esc(cn(d.classId)||'-')}</span><b>${esc(d.subject||'')}</b><small>${fmt(d.date)}</small></div>${d.classwork?`<p><b>📖 Classwork:</b><br>${nl(d.classwork)}</p>`:''}${d.homework?`<p><b>✏️ Homework:</b><br>${nl(d.homework)}</p>`:''}</div>`).join(''):'<div class="card empty">No DCR / homework found.</div>');
 };
 
 PAGES.top=()=>{
   let L=[...DB.toppers];if(S.topCls)L=L.filter(x=>x.classId===S.topCls);
   L.sort((a,b)=>ci(a.classId)-ci(b.classId)||(Number(a.rank)||99)-(Number(b.rank)||99));
   const medal=r=>({1:'🥇',2:'🥈',3:'🥉'}[Number(r)]||'🏅');
-  return`<h2 class="sec">🏆 Toppers</h2><div class="card"><label style="margin-top:0">Class</label><select onchange="S.topCls=this.value;render()">${clsOpts(S.topCls,'Sabhi Classes')}</select></div>`+
-  (L.length?L.map(t=>`<div class="card tp">${avatar(t.photo,t.name,64)}<div style="flex:1"><b style="font-size:16px">${esc(t.name)}</b><div style="margin-top:4px"><span class="badge">Class ${esc(cn(t.classId))}</span> ${t.year?`<span class="badge g">${esc(t.year)}</span>`:''}</div>${t.percent?`<div style="margin-top:4px;color:var(--mut);font-size:13px">Marks: <b>${esc(t.percent)}</b></div>`:''}</div><div class="rk">${medal(t.rank)}<div style="font-size:11px;text-align:center;color:var(--mut)">${t.rank?'Rank '+esc(t.rank):''}</div></div></div>`).join(''):'<div class="card empty">Abhi koi topper nahi hai.</div>');
+  return`<h2 class="sec">🏆 Toppers</h2><div class="card"><label style="margin-top:0">Class</label><select onchange="S.topCls=this.value;render()">${clsOpts(S.topCls,'All Classes')}</select></div>`+
+  (L.length?L.map(t=>`<div class="card tp">${avatar(t.photo,t.name,64)}<div style="flex:1"><b style="font-size:16px">${esc(t.name)}</b><div style="margin-top:4px"><span class="badge">Class ${esc(cn(t.classId))}</span> ${t.year?`<span class="badge g">${esc(t.year)}</span>`:''}</div>${t.percent?`<div style="margin-top:4px;color:var(--mut);font-size:13px">Marks: <b>${esc(t.percent)}</b></div>`:''}</div><div class="rk">${medal(t.rank)}<div style="font-size:11px;text-align:center;color:var(--mut)">${t.rank?'Rank '+esc(t.rank):''}</div></div></div>`).join(''):'<div class="card empty">No toppers added yet.</div>');
 };
 
-function tCard(t){const ct=t.classTeacherOf?cn(t.classTeacherOf):'';const cl=(t.classes||[]).map(cn).filter(Boolean).join(', ');return`<div class="card tc">${avatar(t.photo,t.name,72)}<div style="flex:1;min-width:0"><h4>${esc(t.name)}</h4>${ct?`<span class="badge g">Class Teacher: ${esc(ct)}</span>`:''}<p>📘 Subject: <b>${esc(t.subject||'-')}</b></p><p>🏫 Padhate hain: ${esc(cl||'-')}</p><p>📍 ${esc(t.address||'-')}</p>${t.phone?`<p>📞 <a href="tel:${esc(t.phone)}">${esc(t.phone)}</a></p>`:''}</div></div>`;}
-PAGES.tch=()=>{const cts=DB.teachers.filter(t=>t.classTeacherOf).sort((a,b)=>ci(a.classTeacherOf)-ci(b.classTeacherOf));return`<h2 class="sec">⭐ Class Teachers</h2>${cts.map(tCard).join('')||'<div class="card empty">Koi class teacher set nahi hai.</div>'}<h2 class="sec">👩‍🏫 Sabhi Teachers</h2>${DB.teachers.map(tCard).join('')||'<div class="card empty">Koi teacher nahi hai.</div>'}`;};
+function tCard(t){const ct=t.classTeacherOf?cn(t.classTeacherOf):'';const cl=(t.classes||[]).map(cn).filter(Boolean).join(', ');return`<div class="card tc">${avatar(t.photo,t.name,72)}<div style="flex:1;min-width:0"><h4>${esc(t.name)}</h4>${ct?`<span class="badge g">Class Teacher: ${esc(ct)}</span>`:''}<p>📘 Subject: <b>${esc(t.subject||'-')}</b></p><p>🏫 Teaches: ${esc(cl||'-')}</p><p>📍 ${esc(t.address||'-')}</p>${t.phone?`<p>📞 <a href="tel:${esc(t.phone)}">${esc(t.phone)}</a></p>`:''}</div></div>`;}
+PAGES.tch=()=>{const cts=DB.teachers.filter(t=>t.classTeacherOf).sort((a,b)=>ci(a.classTeacherOf)-ci(b.classTeacherOf));return`<h2 class="sec">⭐ Class Teachers</h2>${cts.map(tCard).join('')||'<div class="card empty">No class teacher assigned yet.</div>'}<h2 class="sec">👩‍🏫 All Teachers</h2>${DB.teachers.map(tCard).join('')||'<div class="card empty">No teachers added yet.</div>'}`;};
 
 function noticeCard(n){return`<div class="card"><div class="dh"><b>📢 ${esc(n.title)}</b><small>${fmt(n.date)}</small></div><p style="line-height:1.5">${nl(n.text)}</p></div>`;}
-PAGES.notice=()=>{const L=[...DB.notices].sort((a,b)=>b.date.localeCompare(a.date));return`<h2 class="sec">📢 Notice Board</h2>`+(L.map(noticeCard).join('')||'<div class="card empty">Koi notice nahi hai.</div>');};
+PAGES.notice=()=>{const L=[...DB.notices].sort((a,b)=>b.date.localeCompare(a.date));return`<h2 class="sec">📢 Notice Board</h2>`+(L.map(noticeCard).join('')||'<div class="card empty">No notices yet.</div>');};
 
 function holRow(h){const t=today(),end=h.to||h.date;const range=fmt(h.date)+(h.to&&h.to!==h.date?' → '+fmt(h.to):'');const p=h.date.split('-');return`<div class="hrow ${end<t?'past':''}" style="padding:8px 0;border-bottom:1px solid var(--line)"><div class="d">${Number(p[2])}<br>${MON[Number(p[1])-1]}</div><div><b>${esc(h.title)}</b><div style="font-size:12px;color:var(--mut)">${range} • ${dayName(h.date)}</div></div></div>`;}
-PAGES.hol=()=>{const L=[...DB.holidays].sort((a,b)=>a.date.localeCompare(b.date));return`<h2 class="sec">🎉 Chhuttiyon ki List</h2><div class="card">${L.map(holRow).join('')||'<p class="empty">Koi chhutti nahi hai.</p>'}</div>`;};
+PAGES.hol=()=>{const L=[...DB.holidays].sort((a,b)=>a.date.localeCompare(b.date));return`<h2 class="sec">🎉 Holiday List</h2><div class="card">${L.map(holRow).join('')||'<p class="empty">No holidays added yet.</p>'}</div>`;};
 
-PAGES.about=()=>{const s=DB.school;return`<h2 class="sec">ℹ️ School ki Jaankari</h2><div class="card ab"><div class="logoedit"><div class="logo big">${s.logo?`<img src="${s.logo}" alt="">`:'🏫'}</div><div><h3>${esc(s.name)}</h3><p style="margin:0;color:var(--mut)">${esc(s.tagline)}</p></div></div><p>${nl(s.about)}</p></div><div class="card ab"><p>🎓 Session: <b>${esc(s.session||'-')}</b></p>${s.principal?`<p>👨‍💼 Principal: <b>${esc(s.principal)}</b></p>`:''}<p>📍 ${esc(s.address||'-')}</p>${s.phone?`<p>📞 <a href="tel:${esc(s.phone)}">${esc(s.phone)}</a></p>`:''}${s.email?`<p>✉️ <a href="mailto:${esc(s.email)}">${esc(s.email)}</a></p>`:''}</div>`;};
+PAGES.about=()=>{const s=DB.school;return`<h2 class="sec">ℹ️ About School</h2><div class="card ab"><div class="logoedit"><div class="logo big">${s.logo?`<img src="${s.logo}" alt="">`:'🏫'}</div><div><h3>${esc(s.name)}</h3><p style="margin:0;color:var(--mut)">${esc(s.tagline)}</p></div></div><p>${nl(s.about)}</p></div>
+<div class="card ab"><p>🎓 Session: <b>${esc(s.session||'-')}</b></p>${s.principal?`<p>👨‍💼 Principal: <b>${esc(s.principal)}</b></p>`:''}<p>📍 ${esc(s.address||'-')}</p>${s.phone?`<p>📞 Reception: <a href="tel:${esc(s.phone)}">${esc(s.phone)}</a></p>`:''}${s.principalPhone?`<p>📞 Principal: <a href="tel:${esc(s.principalPhone)}">${esc(s.principalPhone)}</a></p>`:''}${s.email?`<p>✉️ <a href="mailto:${esc(s.email)}">${esc(s.email)}</a></p>`:''}</div>`;};
 
 /* ================= ADMIN: LOGIN ================= */
 function loginModal(){showModal(`<h3>🔐 Admin Login</h3><form onsubmit="return doLogin(event)"><label>Password</label><input type="password" id="lp" autocomplete="current-password"><button class="btn full">Login</button></form><button class="btn out full" onclick="closeModal()">Cancel</button>`);setTimeout(()=>{const e=el('lp');if(e)e.focus();},60);}
-function doLogin(e){e.preventDefault();if(el('lp').value===DB.school.pass){S.admin=true;setAdm(true);closeModal();S.page='admin';render();window.scrollTo(0,0);toast('Welcome Admin 👋');}else toast('Galat password ❌');return false;}
-function logout(){S.admin=false;setAdm(false);S.page='home';render();toast('Logout ho gaye');}
+function doLogin(e){e.preventDefault();if(el('lp').value===DB.school.pass){S.admin=true;setAdm(true);closeModal();S.page='admin';render();window.scrollTo(0,0);toast('Welcome, Admin 👋');}else toast('Wrong password ❌');return false;}
+function logout(){S.admin=false;setAdm(false);S.page='home';render();toast('Logged out');}
 
 /* ================= ADMIN: SCHEMA & CRUD ================= */
 const SCHEMA={
-  classes:{title:'Class',fields:[{k:'name',l:'Class ka naam (jaise 9th)',t:'text',req:1},{k:'manual',l:'Total bachche (manual) - agar student list nahi bharni',t:'number'}]},
-  students:{title:'Student',fields:[{k:'name',l:'Naam',t:'text',req:1},{k:'classId',l:'Class',t:'class',req:1},{k:'roll',l:'Roll No.',t:'number'},{k:'father',l:'Pita ka naam',t:'text'},{k:'phone',l:'Phone',t:'tel'},{k:'address',l:'Address',t:'text'},{k:'photo',l:'Photo',t:'photo'}]},
-  teachers:{title:'Teacher',fields:[{k:'name',l:'Naam',t:'text',req:1},{k:'photo',l:'Photo',t:'photo'},{k:'subject',l:'Subject',t:'text'},{k:'classes',l:'Kin classes ko padhate hain',t:'classes'},{k:'classTeacherOf',l:'Class Teacher of (optional)',t:'classopt'},{k:'phone',l:'Phone',t:'tel'},{k:'address',l:'Address',t:'text'}]},
-  dcr:{title:'DCR / Homework',fields:[{k:'date',l:'Date',t:'date',req:1},{k:'classId',l:'Class',t:'class',req:1},{k:'subject',l:'Subject',t:'text',req:1},{k:'classwork',l:'Classwork (kya padhaya)',t:'textarea'},{k:'homework',l:'Homework',t:'textarea'}]},
-  toppers:{title:'Topper',fields:[{k:'name',l:'Naam',t:'text',req:1},{k:'classId',l:'Class',t:'class',req:1},{k:'rank',l:'Rank (1, 2, 3...)',t:'number'},{k:'percent',l:'Marks / Percentage',t:'text'},{k:'year',l:'Session (jaise 2025-26)',t:'text'},{k:'photo',l:'Photo',t:'photo'}]},
-  notices:{title:'Notice',fields:[{k:'date',l:'Date',t:'date',req:1},{k:'title',l:'Title',t:'text',req:1},{k:'text',l:'Notice likhein',t:'textarea'}]},
-  holidays:{title:'Chhutti',fields:[{k:'date',l:'Kab se',t:'date',req:1},{k:'to',l:'Kab tak (agar ek din ki hai to khali chhodein)',t:'date'},{k:'title',l:'Chhutti ka kaaran',t:'text',req:1}]}
+  classes:{title:'Class',fields:[{k:'name',l:'Class name (e.g. 9th)',t:'text',req:1},{k:'manual',l:'Total students (manual) - use only if you are not adding a student list',t:'number'}]},
+  students:{title:'Student',fields:[{k:'name',l:'Name',t:'text',req:1},{k:'classId',l:'Class',t:'class',req:1},{k:'roll',l:'Roll No.',t:'number'},{k:'father',l:"Father's name",t:'text'},{k:'phone',l:'Phone',t:'tel'},{k:'address',l:'Address',t:'text'},{k:'photo',l:'Photo',t:'photo'}]},
+  teachers:{title:'Teacher',fields:[{k:'name',l:'Name',t:'text',req:1},{k:'photo',l:'Photo',t:'photo'},{k:'subject',l:'Subject',t:'text'},{k:'classes',l:'Classes taught',t:'classes'},{k:'classTeacherOf',l:'Class Teacher of (optional)',t:'classopt'},{k:'phone',l:'Phone',t:'tel'},{k:'address',l:'Address',t:'text'}]},
+  dcr:{title:'DCR / Homework',fields:[{k:'date',l:'Date',t:'date',req:1},{k:'classId',l:'Class',t:'class',req:1},{k:'subject',l:'Subject',t:'text',req:1},{k:'classwork',l:'Classwork (what was taught)',t:'textarea'},{k:'homework',l:'Homework',t:'textarea'}]},
+  toppers:{title:'Topper',fields:[{k:'name',l:'Name',t:'text',req:1},{k:'classId',l:'Class',t:'class',req:1},{k:'rank',l:'Rank (1, 2, 3...)',t:'number'},{k:'percent',l:'Marks / Percentage',t:'text'},{k:'year',l:'Session (e.g. 2025-26)',t:'text'},{k:'photo',l:'Photo',t:'photo'}]},
+  notices:{title:'Notice',fields:[{k:'date',l:'Date',t:'date',req:1},{k:'title',l:'Title',t:'text',req:1},{k:'text',l:'Notice details',t:'textarea'}]},
+  holidays:{title:'Holiday',fields:[{k:'date',l:'From date',t:'date',req:1},{k:'to',l:'To date (leave empty for a single day)',t:'date'},{k:'title',l:'Reason / Occasion',t:'text',req:1}]}
 };
 let FORM={};
 function openForm(coll,id){
   const sc=SCHEMA[coll];const item=id?(DB[coll].find(x=>x.id===id)||{}):{};
   FORM={coll:coll,id:id||null,photos:{}};
-  let h=`<h3>${id?'✏️ Edit':'➕ Naya'} ${sc.title}</h3><form onsubmit="return saveForm(event)">`;
+  let h=`<h3>${id?'✏️ Edit':'➕ Add'} ${sc.title}</h3><form onsubmit="return saveForm(event)">`;
   sc.fields.forEach(f=>{
     let v=item[f.k];if(v===undefined)v=(f.t==='date'&&f.k==='date')?today():(f.t==='classes'?[]:'');
     if(f.t==='class'&&!v&&!id)v=(f.k==='classId'&&coll==='students'&&S.aStuCls)?S.aStuCls:'';
     h+=`<label>${f.l}${f.req?' *':''}</label>`;
     if(f.t==='textarea')h+=`<textarea name="${f.k}">${esc(v)}</textarea>`;
-    else if(f.t==='class')h+=`<select name="${f.k}"><option value="">-- Class chunein --</option>${clsOpts(v)}</select>`;
-    else if(f.t==='classopt')h+=`<select name="${f.k}"><option value="">Koi nahi</option>${clsOpts(v)}</select>`;
+    else if(f.t==='class')h+=`<select name="${f.k}"><option value="">-- Select class --</option>${clsOpts(v)}</select>`;
+    else if(f.t==='classopt')h+=`<select name="${f.k}"><option value="">None</option>${clsOpts(v)}</select>`;
     else if(f.t==='classes')h+=`<div class="cb">${DB.classes.map(c=>`<label><input type="checkbox" name="${f.k}" value="${c.id}" ${(v||[]).includes(c.id)?'checked':''}>${esc(c.name)}</label>`).join('')}</div>`;
     else if(f.t==='photo')h+=`<div class="pv" id="pv_${f.k}">${v?`<img src="${v}" alt="">`:'📷'}</div><input type="file" accept="image/*" onchange="pickPhoto('${f.k}',this)">`;
     else h+=`<input type="${f.t}" name="${f.k}" value="${esc(v)}">`;
@@ -315,7 +329,7 @@ function openForm(coll,id){
   h+=`<button class="btn full">💾 Save</button></form><button class="btn out full" onclick="closeModal()">Cancel</button>`;
   showModal(h);
 }
-async function pickPhoto(k,inp){const f=inp.files[0];if(!f)return;try{const d=await readImg(f,320,'image/jpeg');FORM.photos[k]=d;el('pv_'+k).innerHTML=`<img src="${d}" alt="">`;}catch(e){toast('Photo load nahi hui');}}
+async function pickPhoto(k,inp){const f=inp.files[0];if(!f)return;try{const d=await readImg(f,320,'image/jpeg');FORM.photos[k]=d;el('pv_'+k).innerHTML=`<img src="${d}" alt="">`;}catch(e){toast('Could not load the photo');}}
 function saveForm(e){
   e.preventDefault();
   const coll=FORM.coll,id=FORM.id,sc=SCHEMA[coll],f=e.target,vals={};
@@ -323,69 +337,70 @@ function saveForm(e){
     if(fl.t==='photo'){const old=id?((DB[coll].find(x=>x.id===id)||{})[fl.k]||''):'';vals[fl.k]=FORM.photos[fl.k]!==undefined?FORM.photos[fl.k]:old;}
     else if(fl.t==='classes'){vals[fl.k]=[...f.querySelectorAll(`input[name="${fl.k}"]:checked`)].map(x=>x.value);}
     else vals[fl.k]=f.elements[fl.k].value.trim();
-    if(fl.req&&!vals[fl.k]){toast(fl.l+' zaroori hai');return false;}
+    if(fl.req&&!vals[fl.k]){toast(fl.l+' is required');return false;}
   }
   if(coll==='classes')vals.manual=Math.max(0,parseInt(vals.manual)||0);
-  if(coll==='holidays'&&vals.to&&vals.to<vals.date){toast('"Kab tak" date, "Kab se" se pehle nahi ho sakti');return false;}
+  if(coll==='holidays'&&vals.to&&vals.to<vals.date){toast('"To date" cannot be before "From date"');return false;}
   let item;
   if(id){item=DB[coll].find(x=>x.id===id);Object.assign(item,vals);}
   else{item=Object.assign({id:uid()},vals);DB[coll].push(item);}
   if(coll==='teachers'&&item.classTeacherOf){DB.teachers.forEach(t=>{if(t.id!==item.id&&t.classTeacherOf===item.classTeacherOf)t.classTeacherOf='';});}
-  save();closeModal();rerender();toast('Save ho gaya ✅');return false;
+  save();closeModal();rerender();toast('Saved ✅');return false;
 }
 function del(coll,id){
   const item=DB[coll].find(x=>x.id===id);if(!item)return;
-  if(coll==='classes'&&DB.students.some(s=>s.classId===id)){alert('Is class me students hain. Pehle unhe hatayein ya dusri class me daalein.');return;}
-  if(!confirm('Pakka delete karna hai?'))return;
+  if(coll==='classes'&&DB.students.some(s=>s.classId===id)){alert('This class has students. Please remove them or move them to another class first.');return;}
+  if(!confirm('Are you sure you want to delete this?'))return;
   DB[coll]=DB[coll].filter(x=>x.id!==id);
   if(coll==='classes'){DB.teachers.forEach(t=>{t.classes=(t.classes||[]).filter(c=>c!==id);if(t.classTeacherOf===id)t.classTeacherOf='';});DB.dcr=DB.dcr.filter(d=>d.classId!==id);DB.toppers=DB.toppers.filter(d=>d.classId!==id);}
   if(coll==='students'){for(const d in DB.attendance){delete DB.attendance[d][id];}}
-  save();rerender();toast('Delete ho gaya');
+  save();rerender();toast('Deleted');
 }
 function adminList(coll,rowFn,items){
   items=items||DB[coll];
-  return`<button class="btn" onclick="openForm('${coll}')">➕ Naya jodein</button><div>`+(items.length?items.map(it=>`<div class="arow">${rowFn(it)}<div class="acts"><button class="ib" onclick="openForm('${coll}','${it.id}')">✏️</button><button class="ib del" onclick="del('${coll}','${it.id}')">🗑️</button></div></div>`).join(''):'<p class="empty">Abhi kuch nahi hai</p>')+'</div>';
+  return`<button class="btn" onclick="openForm('${coll}')">➕ Add New</button><div>`+(items.length?items.map(it=>`<div class="arow">${rowFn(it)}<div class="acts"><button class="ib" onclick="openForm('${coll}','${it.id}')">✏️</button><button class="ib del" onclick="del('${coll}','${it.id}')">🗑️</button></div></div>`).join(''):'<p class="empty">Nothing added yet</p>')+'</div>';
 }
 
 /* ================= ADMIN: TABS ================= */
-const ATABS=[['settings','⚙️ Settings'],['classes','🏫 Classes'],['students','🎒 Students'],['teachers','👩‍🏫 Teachers'],['att','✅ Hazri'],['dcr','📚 DCR'],['toppers','🏆 Toppers'],['notices','📢 Notice'],['holidays','🎉 Chhutti'],['backup','💾 Backup']];
+const ATABS=[['settings','⚙️ Settings'],['classes','🏫 Classes'],['students','🎒 Students'],['teachers','👩‍🏫 Teachers'],['att','✅ Attendance'],['dcr','📚 DCR'],['toppers','🏆 Toppers'],['notices','📢 Notices'],['holidays','🎉 Holidays'],['backup','💾 Backup']];
 PAGES.admin=()=>{
-  if(!S.admin)return'<div class="card empty">Pehle login karein.</div>';
+  if(!S.admin)return'<div class="card empty">Please login first.</div>';
   return`<div class="adhead"><h2>⚙️ Admin Panel</h2><button class="btn sm out" onclick="logout()">Logout</button></div><div class="chips">${ATABS.map(t=>`<div class="chip ${S.aTab===t[0]?'on':''}" onclick="S.aTab='${t[0]}';render()">${t[1]}</div>`).join('')}</div>${ADMIN[S.aTab]()}`;
 };
 const ADMIN={};
 
 ADMIN.settings=()=>{const s=DB.school;return`<div class="card"><h3>App / School Settings</h3>
-<div class="logoedit" style="margin-top:10px"><div class="logo big">${s.logo?`<img src="${s.logo}" alt="">`:'🏫'}</div><div><input type="file" accept="image/*" id="logoF" onchange="pickLogo(this)" hidden><button class="btn sm" onclick="el('logoF').click()">📷 Logo badlein</button> ${s.logo?`<button class="btn sm out" onclick="rmLogo()">Hatayein</button>`:''}</div></div>
-<label>School / App ka naam</label><input id="s_name" value="${esc(s.name)}">
+<div class="logoedit" style="margin-top:10px"><div class="logo big">${s.logo?`<img src="${s.logo}" alt="">`:'🏫'}</div><div><input type="file" accept="image/*" id="logoF" onchange="pickLogo(this)" hidden><button class="btn sm" onclick="el('logoF').click()">📷 Change Logo</button> ${s.logo?`<button class="btn sm out" onclick="rmLogo()">Remove</button>`:''}</div></div>
+<label>School / App name</label><input id="s_name" value="${esc(s.name)}">
 <label>Tagline</label><input id="s_tag" value="${esc(s.tagline)}">
 <label>Session</label><input id="s_ses" value="${esc(s.session)}">
-<label>Principal ka naam</label><input id="s_pri" value="${esc(s.principal)}">
-<label>Phone</label><input id="s_ph" value="${esc(s.phone)}">
+<label>Principal name</label><input id="s_pri" value="${esc(s.principal)}">
+<label>Reception phone</label><input id="s_ph" value="${esc(s.phone)}">
+<label>Principal phone</label><input id="s_pph" value="${esc(s.principalPhone)}">
 <label>Email</label><input id="s_em" value="${esc(s.email)}">
 <label>Address</label><input id="s_ad" value="${esc(s.address)}">
-<label>School ke baare me (About)</label><textarea id="s_ab">${esc(s.about)}</textarea>
-<label>App ka Color</label><input type="color" id="s_co" value="${esc(s.color||'#4f46e5')}">
-<label>Naya Admin Password (badalna ho to likhein)</label><input id="s_pw" placeholder="khali chhodein to purana rahega">
+<label>About the school</label><textarea id="s_ab">${esc(s.about)}</textarea>
+<label>App Color</label><input type="color" id="s_co" value="${esc(s.color||'#4f46e5')}">
+<label>New Admin Password (fill only if you want to change it)</label><input id="s_pw" placeholder="Leave empty to keep the current password">
 <button class="btn full" onclick="saveSettings()">💾 Save Settings</button></div>`;};
-async function pickLogo(inp){const f=inp.files[0];if(!f)return;try{DB.school.logo=await readImg(f,256,'image/png');save();rerender();toast('Logo badal gaya ✅');}catch(e){toast('Logo load nahi hua');}}
+async function pickLogo(inp){const f=inp.files[0];if(!f)return;try{DB.school.logo=await readImg(f,256,'image/png');save();rerender();toast('Logo updated ✅');}catch(e){toast('Could not load the logo');}}
 function rmLogo(){DB.school.logo='';save();rerender();}
 function saveSettings(){
-  const s=DB.school;const nm=el('s_name').value.trim();if(!nm){toast('School ka naam zaroori hai');return;}
-  s.name=nm;s.tagline=el('s_tag').value.trim();s.session=el('s_ses').value.trim();s.principal=el('s_pri').value.trim();s.phone=el('s_ph').value.trim();s.email=el('s_em').value.trim();s.address=el('s_ad').value.trim();s.about=el('s_ab').value.trim();s.color=el('s_co').value;
-  const pw=el('s_pw').value.trim();if(pw){if(pw.length<4){toast('Password kam se kam 4 akshar ka rakhein');return;}s.pass=pw;}
-  save();rerender();toast('Settings save ho gayi ✅');
+  const s=DB.school;const nm=el('s_name').value.trim();if(!nm){toast('School name is required');return;}
+  s.name=nm;s.tagline=el('s_tag').value.trim();s.session=el('s_ses').value.trim();s.principal=el('s_pri').value.trim();s.phone=el('s_ph').value.trim();s.principalPhone=el('s_pph').value.trim();s.email=el('s_em').value.trim();s.address=el('s_ad').value.trim();s.about=el('s_ab').value.trim();s.color=el('s_co').value;
+  const pw=el('s_pw').value.trim();if(pw){if(pw.length<6){toast('Password must be at least 6 characters');return;}s.pass=pw;}
+  save();rerender();toast('Settings saved ✅');
 }
 
-ADMIN.classes=()=>adminList('classes',c=>`<div class="in"><b>${esc(c.name)}</b><small>${strength(c)} bachche • CT: ${classTeacher(c.id)?esc(classTeacher(c.id).name):'-'}</small></div>`);
+ADMIN.classes=()=>adminList('classes',c=>`<div class="in"><b>${esc(c.name)}</b><small>${strength(c)} students • Class Teacher: ${classTeacher(c.id)?esc(classTeacher(c.id).name):'-'}</small></div>`);
 
 ADMIN.students=()=>{
   let L=DB.students.filter(s=>!S.aStuCls||s.classId===S.aStuCls).sort((a,b)=>ci(a.classId)-ci(b.classId)||byRoll(a,b));
-  return`<div class="card"><label style="margin-top:0">Class filter</label><select onchange="S.aStuCls=this.value;render()">${clsOpts(S.aStuCls,'Sabhi Classes')}</select><p style="margin-top:8px;color:var(--mut);font-size:13px">Total: ${L.length} students</p></div>`+
+  return`<div class="card"><label style="margin-top:0">Class filter</label><select onchange="S.aStuCls=this.value;render()">${clsOpts(S.aStuCls,'All Classes')}</select><p style="margin-top:8px;color:var(--mut);font-size:13px">Total: ${L.length} students</p></div>`+
   adminList('students',s=>`${avatar(s.photo,s.name,42)}<div class="in"><b>${esc(s.name)}</b><small>Class ${esc(cn(s.classId))} • Roll ${esc(s.roll||'-')}</small></div>`,L);
 };
 
-ADMIN.teachers=()=>adminList('teachers',t=>`${avatar(t.photo,t.name,42)}<div class="in"><b>${esc(t.name)}</b><small>${esc(t.subject||'-')}${t.classTeacherOf?' • CT: '+esc(cn(t.classTeacherOf)):''}</small></div>`);
+ADMIN.teachers=()=>adminList('teachers',t=>`${avatar(t.photo,t.name,42)}<div class="in"><b>${esc(t.name)}</b><small>${esc(t.subject||'-')}${t.classTeacherOf?' • Class Teacher: '+esc(cn(t.classTeacherOf)):''}</small></div>`);
 
 ADMIN.att=()=>{
   const cid=curCls('aCls');const list=DB.students.filter(s=>s.classId===cid).sort(byRoll);
@@ -393,9 +408,9 @@ ADMIN.att=()=>{
   const p=list.filter(s=>att[s.id]==='P').length,a=list.filter(s=>att[s.id]==='A').length;
   return`<div class="card"><div class="row2"><div><label style="margin-top:0">Class</label><select onchange="S.aCls=this.value;render()">${clsOpts(cid)}</select></div><div><label style="margin-top:0">Date (${dayName(S.aDate)})</label><input type="date" value="${S.aDate}" onchange="S.aDate=this.value||today();render()"></div></div>
   <div class="chips3"><div class="sc"><b>${list.length}</b>Total</div><div class="sc ok"><b>${p}</b>Present</div><div class="sc bad"><b>${a}</b>Absent</div></div>
-  <div class="btnrow"><button class="btn sm" onclick="markAll('P')">Sab Present</button><button class="btn sm red" onclick="markAll('A')">Sab Absent</button><button class="btn sm out" onclick="markAll('')">Clear</button></div></div>`+
-  (list.length?list.map(s=>{const st=att[s.id];return`<div class="arow">${avatar(s.photo,s.name,40)}<div class="in"><b>${esc(s.name)}</b><small>Roll ${esc(s.roll||'-')}</small></div><div class="pa"><button class="pb ${st==='P'?'on p':''}" onclick="setAtt('${s.id}','P')">P</button><button class="pb ${st==='A'?'on a':''}" onclick="setAtt('${s.id}','A')">A</button></div></div>`;}).join(''):'<div class="card empty">Is class me student nahi hain. Pehle Students tab me jodein.</div>')+
-  `<p style="color:var(--mut);font-size:12px;margin-top:10px;text-align:center">P = Present, A = Absent. Dobara dabane par hat jaata hai. Auto-save hota hai.</p>`;
+  <div class="btnrow"><button class="btn sm" onclick="markAll('P')">All Present</button><button class="btn sm red" onclick="markAll('A')">All Absent</button><button class="btn sm out" onclick="markAll('')">Clear</button></div></div>`+
+  (list.length?list.map(s=>{const st=att[s.id];return`<div class="arow">${avatar(s.photo,s.name,40)}<div class="in"><b>${esc(s.name)}</b><small>Roll ${esc(s.roll||'-')}</small></div><div class="pa"><button class="pb ${st==='P'?'on p':''}" onclick="setAtt('${s.id}','P')">P</button><button class="pb ${st==='A'?'on a':''}" onclick="setAtt('${s.id}','A')">A</button></div></div>`;}).join(''):'<div class="card empty">There are no students in this class. Please add them in the Students tab first.</div>')+
+  `<p style="color:var(--mut);font-size:12px;margin-top:10px;text-align:center">P = Present, A = Absent. Tap again to clear. Saves automatically.</p>`;
 };
 function setAtt(id,v){const d=S.aDate;DB.attendance[d]=DB.attendance[d]||{};if(DB.attendance[d][id]===v)delete DB.attendance[d][id];else DB.attendance[d][id]=v;if(!Object.keys(DB.attendance[d]).length)delete DB.attendance[d];save();rerender();}
 function markAll(v){const d=S.aDate,cid=curCls('aCls');DB.attendance[d]=DB.attendance[d]||{};DB.students.filter(s=>s.classId===cid).forEach(s=>{if(v)DB.attendance[d][s.id]=v;else delete DB.attendance[d][s.id];});if(!Object.keys(DB.attendance[d]).length)delete DB.attendance[d];save();rerender();}
@@ -405,12 +420,12 @@ ADMIN.toppers=()=>adminList('toppers',t=>`${avatar(t.photo,t.name,42)}<div class
 ADMIN.notices=()=>adminList('notices',n=>`<div class="in"><b>${esc(n.title)}</b><small>${fmt(n.date)}</small></div>`,[...DB.notices].sort((a,b)=>b.date.localeCompare(a.date)));
 ADMIN.holidays=()=>adminList('holidays',h=>`<div class="in"><b>${esc(h.title)}</b><small>${fmt(h.date)}${h.to&&h.to!==h.date?' → '+fmt(h.to):''}</small></div>`,[...DB.holidays].sort((a,b)=>a.date.localeCompare(b.date)));
 
-ADMIN.backup=()=>`<div class="card"><h3>💾 Backup & Restore</h3><p style="color:var(--mut);margin:8px 0;font-size:13px;line-height:1.5">Data isi browser me save hota hai. Safe rakhne ke liye kabhi kabhi backup download karke rakhein. Dusre phone/computer par wahi backup import kar sakte hain.</p>
-<div class="btnrow"><button class="btn" onclick="exportData()">⬇️ Backup Download</button><input type="file" id="impF" accept=".json,application/json" hidden onchange="importData(this)"><button class="btn out" onclick="el('impF').click()">⬆️ Backup Import</button></div></div>
-<div class="card"><h3>⚠️ Sab Reset</h3><p style="color:var(--mut);margin:8px 0;font-size:13px">Saara data hat jayega aur app shuru wali halat me aa jayega.</p><button class="btn red" onclick="resetAll()">Sab kuch reset karein</button></div>`;
-function exportData(){const b=new Blob([JSON.stringify(DB)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='school-backup-'+today()+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1500);}
-function importData(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d.school||!Array.isArray(d.classes))throw new Error('bad');if(!confirm('Abhi ka data replace ho jayega. Continue?'))return;DB=d;fixDB();save();S.cls=S.aCls=defCls();render();toast('Import ho gaya ✅');}catch(e){toast('Galat backup file');}};r.readAsText(f);inp.value='';}
-function resetAll(){if(!confirm('Pakka? Saara data delete ho jayega!'))return;if(!confirm('Dobara confirm karein - reset kar dein?'))return;DB=defaults();save();S.cls=S.aCls=defCls();render();toast('Reset ho gaya');}
+ADMIN.backup=()=>`<div class="card"><h3>💾 Backup & Restore</h3><p style="color:var(--mut);margin:8px 0;font-size:13px;line-height:1.5">Data is saved in this browser. To keep it safe, download a backup from time to time. You can import the same backup on another phone or computer.</p>
+<div class="btnrow"><button class="btn" onclick="exportData()">⬇️ Download Backup</button><input type="file" id="impF" accept=".json,application/json" hidden onchange="importData(this)"><button class="btn out" onclick="el('impF').click()">⬆️ Import Backup</button></div></div>
+<div class="card"><h3>⚠️ Reset Everything</h3><p style="color:var(--mut);margin:8px 0;font-size:13px">All data will be erased and the app will return to its starting state.</p><button class="btn red" onclick="resetAll()">Reset All Data</button></div>`;
+function exportData(){const b=new Blob([JSON.stringify(DB)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='oniisan-school-backup-'+today()+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1500);}
+function importData(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d.school||!Array.isArray(d.classes))throw new Error('bad');if(!confirm('Current data will be replaced. Continue?'))return;DB=d;fixDB();save();S.cls=S.aCls=defCls();render();toast('Backup imported ✅');}catch(e){toast('Invalid backup file');}};r.readAsText(f);inp.value='';}
+function resetAll(){if(!confirm('Are you sure? All data will be deleted!'))return;if(!confirm('Please confirm once more - reset everything?'))return;DB=defaults();save();S.cls=S.aCls=defCls();render();toast('Reset complete');}
 
 /* ================= START ================= */
 S.cls=S.aCls=defCls();
