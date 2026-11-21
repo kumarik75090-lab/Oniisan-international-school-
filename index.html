@@ -1,670 +1,420 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ONIISAN INTERNATIONAL SCHOOL</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>School App</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f3f6fc;color:#182b45}
-header{background:#123b70;color:white;padding:18px;text-align:center}
-header h2{margin:5px 0}
-header p{margin:5px;font-size:13px}
-nav{display:flex;overflow-x:auto;background:white;box-shadow:0 2px 8px #0001}
-nav button{padding:15px;border:0;background:white;color:#123b70;font-weight:bold;white-space:nowrap}
-nav button:hover{background:#e7efff}
-.container{max-width:1050px;margin:auto;padding:18px}
-.hero{background:linear-gradient(135deg,#123b70,#2675c9);color:white;padding:30px 20px;border-radius:15px;margin:15px 0}
-.hero h1{font-size:27px;margin:0 0 10px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:14px}
-.card{background:white;padding:18px;border-radius:12px;box-shadow:0 2px 10px #0001;margin-bottom:14px}
-.card h3{color:#123b70;margin-top:0}
-.stat{font-size:28px;font-weight:bold;color:#123b70}
-.section{display:none}
-.section.active{display:block}
-.btn{background:#123b70;color:white;border:0;border-radius:7px;padding:11px 16px;cursor:pointer;margin:4px}
-.btn.red{background:#c62828}
-.btn.green{background:#16834b}
-input,textarea,select{
-width:100%;padding:12px;border:1px solid #ccd4e0;
-border-radius:7px;margin:7px 0 13px;font-size:15px;
-}
-label{font-weight:bold;font-size:14px}
-.item{padding:13px;border-bottom:1px solid #e5eaf2}
-.item:last-child{border:0}
-footer{background:#123b70;color:white;text-align:center;padding:22px;margin-top:30px}
-footer button{background:#ffffff;color:#123b70;border:0;padding:10px 18px;border-radius:7px;font-weight:bold}
-#adminPanel,#loginPanel{
-display:none;position:fixed;inset:0;z-index:1000;
-background:#f3f6fc;overflow-y:auto;
-}
-.topbar{background:#123b70;color:white;padding:17px;display:flex;justify-content:space-between;align-items:center;gap:10px}
-.admin-content{max-width:900px;margin:auto;padding:18px}
-.error{color:#c62828;font-size:14px}
-.success{color:green}
-.small{font-size:13px;color:#667085}
-table{width:100%;border-collapse:collapse;background:white}
-td,th{padding:11px;border-bottom:1px solid #eee;text-align:left}
-@media(max-width:500px){
-.hero h1{font-size:22px}
-.container{padding:12px}
-}
+:root{--pri:#4f46e5;--bg:#f1f3fb;--card:#fff;--txt:#1f2937;--mut:#6b7280;--ok:#16a34a;--bad:#dc2626;--warn:#f59e0b;--line:#e5e7eb}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--txt);padding-bottom:90px;font-size:15px}
+button,input,select,textarea{font:inherit}
+a{color:var(--pri);text-decoration:none}
+#top{background:linear-gradient(135deg,var(--pri),color-mix(in srgb,var(--pri) 55%,#000));color:#fff;padding:18px 16px 26px;display:flex;gap:12px;align-items:center;border-radius:0 0 26px 26px;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.logo{width:54px;height:54px;border-radius:16px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:30px;overflow:hidden;flex-shrink:0}
+.logo img{width:100%;height:100%;object-fit:cover}
+.logo.big{width:80px;height:80px;font-size:42px;border:2px solid var(--line)}
+.ti{flex:1;min-width:0}
+.ti h1{font-size:19px;line-height:1.2}
+.ti p{font-size:12px;opacity:.85;margin-top:2px}
+.dt{font-size:11px;text-align:right;opacity:.95;line-height:1.4}
+main{max-width:920px;margin:-12px auto 0;padding:0 14px}
+.sec{font-size:18px;margin:18px 2px 10px}
+.sec small{font-weight:400;color:var(--mut);font-size:12px}
+.card{background:var(--card);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:0 2px 10px rgba(30,40,90,.07)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.grid .card{margin:0}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+label{display:block;font-size:12px;color:var(--mut);margin:10px 0 4px;font-weight:600}
+input,select,textarea{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--txt);outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--pri)}
+textarea{min-height:80px;resize:vertical}
+input[type=color]{height:44px;padding:3px}
+input[type=checkbox]{width:auto}
+.btn{background:var(--pri);color:#fff;border:0;border-radius:12px;padding:11px 16px;font-weight:700;cursor:pointer;margin-top:10px}
+.btn.sm{padding:8px 12px;font-size:13px;margin-top:0}
+.btn.out{background:#fff;color:var(--pri);border:1.5px solid var(--pri)}
+.btn.full{width:100%}
+.btn.red{background:var(--bad)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-bottom:12px}
+.st{background:#fff;border-radius:16px;padding:14px 10px;text-align:center;box-shadow:0 2px 10px rgba(30,40,90,.07)}
+.st b{display:block;font-size:24px;color:var(--pri)}
+.st span{font-size:12px;color:var(--mut)}
+.st.ok b{color:var(--ok)}.st.bad b{color:var(--bad)}
+.chips3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.sc{background:#f5f6fc;border-radius:12px;text-align:center;padding:10px 4px;font-size:12px;color:var(--mut)}
+.sc b{display:block;font-size:22px;color:var(--txt)}
+.sc.ok b{color:var(--ok)}.sc.bad b{color:var(--bad)}
+.banner{border-radius:16px;padding:14px;margin-bottom:12px;font-weight:700;display:flex;gap:10px;align-items:center}
+.banner.open{background:#dcfce7;color:#166534}
+.banner.hol{background:#fee2e2;color:#991b1b}
+.alert{background:#fee2e2;color:#991b1b;padding:10px;border-radius:12px;margin:10px 0;font-weight:600}
+.tick{background:#fff;border-radius:12px;overflow:hidden;white-space:nowrap;padding:10px 0;margin-bottom:12px;box-shadow:0 2px 10px rgba(30,40,90,.07);font-weight:600}
+.tick span{display:inline-block;padding-left:100%;animation:mq 28s linear infinite}
+@keyframes mq{to{transform:translateX(-100%)}}
+.av{border-radius:50%;object-fit:cover;flex-shrink:0;background:#e0e7ff}
+.av.ph{display:flex;align-items:center;justify-content:center;color:var(--pri);font-weight:800}
+.srow{display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.srow:last-child{border:0}
+.sn b{display:block}.sn small{color:var(--mut);font-size:12px}
+.gt{font-weight:800;margin-bottom:4px}
+.gt.bad{color:var(--bad)}.gt.ok{color:var(--ok)}.gt.mut{color:var(--mut)}
+.badge{display:inline-block;background:#e0e7ff;color:var(--pri);padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700}
+.badge.g{background:#fef3c7;color:#92400e}
+.tc{display:flex;gap:12px;align-items:flex-start}
+.tc h4{font-size:16px;margin-bottom:4px}
+.tc p{font-size:13px;color:var(--mut);margin-top:3px}
+.tp{display:flex;gap:12px;align-items:center}
+.tp .rk{font-size:26px}
+.dh{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.dh small{margin-left:auto;color:var(--mut)}
+.dc p{margin-top:6px;font-size:14px;line-height:1.5}
+.cc{cursor:pointer}
+.cc h3{font-size:18px;color:var(--pri)}
+.cc .n{font-size:26px;font-weight:800;margin:4px 0}
+.cc small{display:block;color:var(--mut);font-size:12px;margin-top:2px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:8px 6px;text-align:center;border-bottom:1px solid var(--line)}
+th{color:var(--mut);font-size:11px;text-transform:uppercase}
+td:first-child,th:first-child{text-align:left;font-weight:700}
+tr.link{cursor:pointer}
+.empty{text-align:center;color:var(--mut);padding:18px}
+.hrow{display:flex;gap:12px;align-items:center}
+.hrow .d{background:#e0e7ff;color:var(--pri);border-radius:12px;padding:8px 10px;font-weight:800;text-align:center;min-width:64px;font-size:13px}
+.past{opacity:.5}
+nav{position:fixed;left:0;right:0;bottom:0;background:#fff;display:flex;box-shadow:0 -4px 18px rgba(0,0,0,.12);z-index:20;padding-bottom:env(safe-area-inset-bottom)}
+.navs{display:flex;overflow-x:auto;flex:1;scrollbar-width:none}
+.navs::-webkit-scrollbar{display:none}
+.nb{background:none;border:0;min-width:66px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;color:var(--mut);cursor:pointer;font-weight:600}
+.nb i{font-style:normal;font-size:20px}
+.nb.on{color:var(--pri)}
+.nb.on i{transform:translateY(-2px) scale(1.15)}
+.nb.adm{background:linear-gradient(135deg,var(--pri),color-mix(in srgb,var(--pri) 55%,#000));color:#fff;border-radius:14px;margin:6px;min-width:62px}
+#modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:50;padding:14px}
+#modal.on{display:flex}
+.box{background:#fff;border-radius:20px;padding:18px;width:100%;max-width:480px;max-height:90vh;overflow:auto}
+.box h3{margin-bottom:6px}
+#toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:#111827;color:#fff;padding:11px 18px;border-radius:30px;font-size:14px;z-index:99;opacity:0;pointer-events:none;transition:.25s;max-width:90%;text-align:center}
+#toast.on{opacity:1}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:8px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{background:#fff;border:1.5px solid var(--line);border-radius:20px;padding:8px 14px;white-space:nowrap;cursor:pointer;font-weight:600;font-size:13px}
+.chip.on{background:var(--pri);color:#fff;border-color:var(--pri)}
+.adhead{display:flex;justify-content:space-between;align-items:center;margin:16px 2px 10px}
+.arow{display:flex;gap:10px;align-items:center;background:#fff;border-radius:14px;padding:10px 12px;margin-top:10px;box-shadow:0 2px 8px rgba(30,40,90,.06)}
+.arow .in{flex:1;min-width:0}
+.arow .in b{display:block}
+.arow .in small{color:var(--mut);font-size:12px}
+.acts{display:flex;gap:6px}
+.ib{border:0;background:#eef2ff;border-radius:10px;width:38px;height:38px;font-size:16px;cursor:pointer}
+.ib.del{background:#fee2e2}
+.pa{display:flex;gap:6px}
+.pb{width:44px;height:40px;border-radius:12px;border:1.5px solid var(--line);background:#fff;font-weight:800;cursor:pointer;color:var(--mut)}
+.pb.on.p{background:var(--ok);color:#fff;border-color:var(--ok)}
+.pb.on.a{background:var(--bad);color:#fff;border-color:var(--bad)}
+.pv{width:80px;height:80px;border-radius:16px;background:#eef2ff;display:flex;align-items:center;justify-content:center;font-size:30px;overflow:hidden;margin-bottom:6px}
+.pv img{width:100%;height:100%;object-fit:cover}
+.cb{display:flex;flex-wrap:wrap;gap:8px}
+.cb label{display:flex;gap:6px;align-items:center;margin:0;background:#f5f6fc;padding:6px 10px;border-radius:10px;color:var(--txt);font-size:13px}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.logoedit{display:flex;gap:14px;align-items:center}
+.ab p{margin-top:8px;line-height:1.6}
+@media(min-width:700px){body{padding-bottom:90px}.ti h1{font-size:24px}}
 </style>
 </head>
-
 <body>
-
-<header>
-<h2>🏫 ONIISAN INTERNATIONAL SCHOOL</h2>
-<p>Near Mai Sthan, Sahebganj, Muzaffarpur, Bihar, India</p>
-<p>Knowledge • Discipline • Excellence</p>
-</header>
-
-<nav>
-<button onclick="showSection('home')">Home</button>
-<button onclick="showSection('students')">Students</button>
-<button onclick="showSection('teachers')">Teachers</button>
-<button onclick="showSection('homework')">Homework</button>
-<button onclick="showSection('notices')">Notices</button>
-<button onclick="showSection('timetable')">Timetable</button>
-<button onclick="showSection('school')">School Info</button>
-</nav>
-
-<main class="container">
-
-<!-- HOME -->
-<section id="home" class="section active">
-
-<div class="hero">
-<h1>Welcome to Oniisan International School</h1>
-<p>School Management Portal</p>
-<p>Education is the key to success.</p>
-</div>
-
-<div class="grid">
-<div class="card">
-<h3>👨‍🎓 Students</h3>
-<div class="stat" id="studentCount">0</div>
-<p>Registered Students</p>
-</div>
-<div class="card">
-<h3>📢 Notices</h3>
-<div class="stat" id="noticeCount">0</div>
-<p>School Announcements</p>
-</div>
-<div class="card">
-<h3>📚 Homework</h3>
-<div class="stat" id="homeworkCount">0</div>
-<p>Published Homework</p>
-</div>
-</div>
-
-<div class="card">
-<h3>📢 Latest School Notices</h3>
-<div id="homeNotices">No notices available.</div>
-</div>
-
-<div class="card">
-<h3>📚 Latest Homework</h3>
-<div id="homeHomework">No homework available.</div>
-</div>
-
-</section>
-
-<!-- STUDENTS -->
-<section id="students" class="section">
-<div class="card">
-<h2>👨‍🎓 Student Directory</h2>
-<p>Public student names</p>
-<input id="studentSearch" placeholder="Search student name..." oninput="renderStudents()">
-<div id="studentList">Loading students...</div>
-</div>
-</section>
-
-<!-- TEACHERS -->
-<section id="teachers" class="section">
-<div class="card">
-<h2>👩‍🏫 Teachers</h2>
-<p>Teachers and staff information.</p>
-<div id="teacherList">Teacher information will be updated by school administration.</div>
-</div>
-</section>
-
-<!-- HOMEWORK -->
-<section id="homework" class="section">
-<div class="card">
-<h2>📚 Class Homework</h2>
-<div id="homeworkList">No homework available.</div>
-</div>
-</section>
-
-<!-- NOTICES -->
-<section id="notices" class="section">
-<div class="card">
-<h2>📢 School Notices</h2>
-<div id="noticeList">No notices available.</div>
-</div>
-</section>
-
-<!-- TIMETABLE -->
-<section id="timetable" class="section">
-<div class="card">
-<h2>🕒 School Timetable</h2>
-<p>Contact the school office for your class timetable.</p>
-<div id="timetableList">Timetable will be updated by administration.</div>
-</div>
-</section>
-
-<!-- SCHOOL INFO -->
-<section id="school" class="section">
-<div class="card">
-<h2>🏫 About Our School</h2>
-<h3>ONIISAN INTERNATIONAL SCHOOL</h3>
-<p>Near Mai Sthan, Sahebganj, Muzaffarpur, Bihar, India.</p>
-<p>Welcome to our school management portal.</p>
-<p><b>Contact:</b> <span id="schoolPhone">Contact school office</span></p>
-</div>
-</section>
-
-</main>
-
-<footer>
-<p>© 2026 ONIISAN INTERNATIONAL SCHOOL</p>
-<p>School Management Portal</p>
-<button onclick="openLogin()">🔐 Admin Login</button>
-</footer>
-
-<!-- LOGIN -->
-<div id="loginPanel">
-<div class="topbar">
-<b>🔐 Administrator Login</b>
-<button class="btn red" onclick="closeLogin()">Close</button>
-</div>
-<div class="admin-content">
-<div class="card" style="max-width:420px;margin:40px auto">
-<h2>Admin Login</h2>
-<p>ONIISAN INTERNATIONAL SCHOOL</p>
-<label>Admin Password</label>
-<input type="password" id="adminPassword" placeholder="Enter password">
-<button class="btn" style="width:100%" onclick="checkLogin()">Login</button>
-<p id="loginError" class="error"></p>
-</div>
-</div>
-</div>
-
-<!-- ADMIN PANEL -->
-<div id="adminPanel">
-
-<div class="topbar">
-<b>⚙️ School Admin Dashboard</b>
-<button class="btn red" onclick="logout()">Logout</button>
-</div>
-
-<div class="admin-content">
-
-<h2>Welcome, School Administrator!</h2>
-<p>Manage your school portal here.</p>
-
-<div class="grid">
-<div class="card"><h3>👨‍🎓 Students</h3><p id="adminStudentCount">0 students</p></div>
-<div class="card"><h3>📢 Notices</h3><p id="adminNoticeCount">0 notices</p></div>
-<div class="card"><h3>📚 Homework</h3><p id="adminHomeworkCount">0 homework</p></div>
-</div>
-
-<!-- ADD STUDENT -->
-<div class="card">
-<h2>👨‍🎓 Manage Students</h2>
-<label>Student Name</label>
-<input id="newStudent" placeholder="Enter student full name">
-
-<label>Class</label>
-<select id="studentClass">
-<option>Nursery</option>
-<option>LKG</option>
-<option>UKG</option>
-<option>Class 1</option>
-<option>Class 2</option>
-<option>Class 3</option>
-<option>Class 4</option>
-<option>Class 5</option>
-<option>Class 6</option>
-<option>Class 7</option>
-<option>Class 8</option>
-<option>Class 9</option>
-</select>
-
-<button class="btn" onclick="addStudent()">Add Student</button>
-<div id="adminStudentList"></div>
-</div>
-
-<!-- ADD NOTICE -->
-<div class="card">
-<h2>📢 Manage Notices</h2>
-<label>Notice Title</label>
-<input id="newNoticeTitle" placeholder="Enter notice title">
-<label>Notice Description</label>
-<textarea id="newNoticeText" rows="3" placeholder="Enter notice details"></textarea>
-<button class="btn" onclick="addNotice()">Publish Notice</button>
-<div id="adminNoticeList"></div>
-</div>
-
-<!-- ADD HOMEWORK -->
-<div class="card">
-<h2>📚 Manage Homework</h2>
-<label>Class</label>
-<select id="hwClass">
-<option>All Classes</option>
-<option>Nursery</option>
-<option>Class 1</option>
-<option>Class 2</option>
-<option>Class 3</option>
-<option>Class 4</option>
-<option>Class 5</option>
-<option>Class 6</option>
-<option>Class 7</option>
-<option>Class 8</option>
-<option>Class 9</option>
-</select>
-
-<label>Subject</label>
-<input id="hwSubject" placeholder="Enter subject">
-<label>Homework Details</label>
-<textarea id="hwText" rows="3" placeholder="Enter homework"></textarea>
-<button class="btn" onclick="addHomework()">Publish Homework</button>
-<div id="adminHomeworkList"></div>
-</div>
-
-<!-- SCHOOL SETTINGS -->
-<div class="card">
-<h2>🏫 School Settings</h2>
-<label>School Name</label>
-<input id="schoolName" value="ONIISAN INTERNATIONAL SCHOOL">
-
-<label>School Address</label>
-<textarea id="schoolAddress">Near Mai Sthan, Sahebganj, Muzaffarpur, Bihar, India</textarea>
-
-<label>Contact Number</label>
-<input id="schoolContact" placeholder="Enter school phone number">
-
-<button class="btn" onclick="saveSettings()">Save Settings</button>
-</div>
-
-<div class="card">
-<h3>🔐 Administrator Information</h3>
-<p>Logged in as School Administrator.</p>
-<p class="small">Remember to log out after using the dashboard.</p>
-</div>
-
-</div>
-</div>
-
-<!-- FIREBASE SDK -->
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<header id="top"></header>
+<main id="view"></main>
+<nav id="nav"></nav>
+<div id="modal"></div>
+<div id="toast"></div>
 
 <script>
+/* ================= HELPERS ================= */
+const KEY='school_app_v1';
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const DAYS=['Ravivar','Somvar','Mangalvar','Budhvar','Guruvar','Shukravar','Shanivar'];
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const el=id=>document.getElementById(id);
+function today(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function nl(s){return esc(s).replace(/\n/g,'<br>');}
+function fmt(d){if(!d)return'';const p=d.split('-').map(Number);return p[2]+' '+MON[p[1]-1]+' '+p[0];}
+function dayName(d){const p=d.split('-').map(Number);return DAYS[new Date(p[0],p[1]-1,p[2]).getDay()];}
+let toastT;
+function toast(m){const t=el('toast');t.textContent=m;t.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),2200);}
+function showModal(h){const m=el('modal');m.innerHTML='<div class="box" onclick="event.stopPropagation()">'+h+'</div>';m.classList.add('on');m.onclick=closeModal;}
+function closeModal(){el('modal').classList.remove('on');el('modal').innerHTML='';}
+function avatar(p,n,s){s=s||44;return p?`<img class="av" style="width:${s}px;height:${s}px" src="${p}" alt="">`:`<div class="av ph" style="width:${s}px;height:${s}px;font-size:${Math.round(s*0.42)}px">${esc((n||'?').trim().charAt(0).toUpperCase())}</div>`;}
+function readImg(file,max,type){return new Promise((res,rej)=>{const r=new FileReader();r.onerror=rej;r.onload=()=>{const im=new Image();im.onerror=rej;im.onload=()=>{let w=im.width,h=im.height;const sc=Math.min(1,max/Math.max(w,h));w=Math.round(w*sc);h=Math.round(h*sc);const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');if(type==='image/jpeg'){x.fillStyle='#fff';x.fillRect(0,0,w,h);}x.drawImage(im,0,0,w,h);res(c.toDataURL(type,0.82));};im.src=r.result;};r.readAsDataURL(file);});}
 
-// ===================================
-// ADMIN LOGIN
-// ===================================
-
-const ADMIN_PASSWORD = "Rishabh@234";
-
-function openLogin(){
- document.getElementById("loginPanel").style.display="block";
- document.getElementById("adminPassword").value="";
- document.getElementById("loginError").innerText="";
+/* ================= DATA ================= */
+function defaults(){
+  const names=['Nursery','LKG','UKG','1st','2nd','3rd','4th','5th','6th','7th','8th','9th','10th'];
+  const classes=names.map((n,i)=>({id:'c'+i,name:n,manual:0}));
+  const c9='c11';
+  const stu=[['Aman Kumar',1,'Rajesh Kumar'],['Priya Kumari',2,'Sunil Prasad'],['Rohit Raj',3,'Manoj Singh'],['Sneha Sharma',4,'Anil Sharma'],['Vikash Yadav',5,'Ramesh Yadav'],['Pooja Kumari',6,'Dinesh Mahto']];
+  const students=stu.map((x,i)=>({id:'s'+i,name:x[0],roll:x[1],father:x[2],phone:'',address:'',photo:'',classId:c9}));
+  const att={};att[today()]={s0:'P',s1:'P',s2:'A',s3:'P',s4:'A',s5:'P'};
+  return{
+    school:{name:'Mera School',tagline:'Gyan hi Shakti hai',logo:'',color:'#4f46e5',session:'2026-27',principal:'',phone:'',email:'',address:'Patna, Bihar',about:'Hamare school me bachchon ko acchi shiksha aur sanskar diye jaate hain. (Ye text Admin Panel se badlein.)',pass:'admin123'},
+    classes,students,
+    teachers:[
+      {id:'t0',name:'Sunita Kumari',photo:'',subject:'Hindi',classes:['c10','c11'],classTeacherOf:'c11',phone:'',address:'Patna'},
+      {id:'t1',name:'Rakesh Singh',photo:'',subject:'Maths',classes:['c10','c11','c12'],classTeacherOf:'c12',phone:'',address:'Patna'}
+    ],
+    attendance:att,
+    dcr:[{id:'d0',date:today(),classId:c9,subject:'Maths',classwork:'Chapter 3 - Polynomials padhaya gaya.',homework:'Exercise 3.1 ke sawal 1 se 5 karke laana.'}],
+    toppers:[{id:'p0',name:'Priya Kumari',classId:c9,rank:'1',percent:'92%',year:'2025-26',photo:''}],
+    notices:[{id:'n0',date:today(),title:'Swagat hai!',text:'School app me aapka swagat hai. Naye notice yahan dikhenge.'}],
+    holidays:[{id:'h0',date:'2026-12-25',to:'',title:'Christmas'},{id:'h1',date:'2027-01-26',to:'',title:'Gantantra Diwas'}]
+  };
 }
+let DB;
+function fixDB(){const d=defaults();for(const k in d){if(DB[k]===undefined)DB[k]=d[k];}for(const k in d.school){if(DB.school[k]===undefined)DB.school[k]=d.school[k];}}
+function load(){try{const r=localStorage.getItem(KEY);DB=r?JSON.parse(r):defaults();}catch(e){DB=defaults();}fixDB();}
+let warned=false;
+function save(){try{localStorage.setItem(KEY,JSON.stringify(DB));}catch(e){if(!warned){warned=true;toast('Data save nahi ho paa raha (storage full/blocked). Backup lein!');}}}
+function isAdm(){try{return sessionStorage.getItem('school_adm')==='1';}catch(e){return false;}}
+function setAdm(v){try{v?sessionStorage.setItem('school_adm','1'):sessionStorage.removeItem('school_adm');}catch(e){}}
 
-function closeLogin(){
- document.getElementById("loginPanel").style.display="none";
-}
+load();
+const S={page:'home',admin:isAdm(),aTab:'settings',cls:'',date:today(),aCls:'',aDate:today(),dcrCls:'',dcrDate:'',topCls:'',aStuCls:''};
+function defCls(){const c=DB.classes.find(c=>DB.students.some(s=>s.classId===c.id))||DB.classes[0];return c?c.id:'';}
+function curCls(k){if(!DB.classes.some(c=>c.id===S[k]))S[k]=defCls();return S[k];}
 
-function checkLogin(){
- const password=document.getElementById("adminPassword").value;
+/* ================= UTIL QUERIES ================= */
+const cn=id=>{const c=DB.classes.find(c=>c.id===id);return c?c.name:'';};
+const ci=id=>DB.classes.findIndex(c=>c.id===id);
+const byRoll=(a,b)=>((Number(a.roll)||9999)-(Number(b.roll)||9999))||String(a.name).localeCompare(b.name);
+const classTeacher=id=>DB.teachers.find(t=>t.classTeacherOf===id);
+function strength(c){const n=DB.students.filter(s=>s.classId===c.id).length;return n||Number(c.manual)||0;}
+function holidayOn(d){return DB.holidays.find(h=>h.date<=d&&d<=(h.to||h.date));}
+function stats(date,cid){const list=DB.students.filter(s=>!cid||s.classId===cid);const a=DB.attendance[date]||{};let p=0,b=0;list.forEach(s=>{if(a[s.id]==='P')p++;else if(a[s.id]==='A')b++;});return{total:list.length,p:p,a:b,n:list.length-p-b};}
+function clsOpts(sel,all){return(all?`<option value="">${all}</option>`:'')+DB.classes.map(c=>`<option value="${c.id}" ${c.id===sel?'selected':''}>${esc(c.name)}</option>`).join('');}
+function rerender(){const y=window.scrollY;render();window.scrollTo(0,y);}
 
- if(password===ADMIN_PASSWORD){
-  closeLogin();
-  document.getElementById("adminPanel").style.display="block";
-  renderAll();
- }else{
-  document.getElementById("loginError").innerText="Incorrect password!";
- }
-}
+/* ================= LAYOUT ================= */
+const NAV=[['home','🏠','Home'],['classes','🏫','Classes'],['att','✅','Hazri'],['dcr','📚','DCR'],['top','🏆','Toppers'],['tch','👩‍🏫','Teachers'],['notice','📢','Notice'],['hol','🎉','Chhutti'],['about','ℹ️','Info']];
+function go(p){if(p==='admin'&&!S.admin){loginModal();return;}S.page=p;render();window.scrollTo(0,0);}
+function applyTheme(){const s=DB.school;document.documentElement.style.setProperty('--pri',s.color||'#4f46e5');document.title=s.name;if(s.logo){let l=el('fav');if(!l){l=document.createElement('link');l.id='fav';l.rel='icon';document.head.appendChild(l);}l.href=s.logo;}}
+function renderTop(){const s=DB.school;el('top').innerHTML=`<div class="logo">${s.logo?`<img src="${s.logo}" alt="">`:'🏫'}</div><div class="ti"><h1>${esc(s.name)}</h1><p>${esc(s.tagline)}</p></div><div class="dt"><b>${DAYS[new Date().getDay()]}</b><br>${fmt(today())}</div>`;}
+function renderNav(){el('nav').innerHTML='<div class="navs">'+NAV.map(n=>`<button class="nb ${S.page===n[0]?'on':''}" onclick="go('${n[0]}')"><i>${n[1]}</i>${n[2]}</button>`).join('')+'</div>'+`<button class="nb adm" onclick="go('admin')"><i>⚙️</i>Admin</button>`;}
+function render(){applyTheme();renderTop();renderNav();const fn=PAGES[S.page]||PAGES.home;el('view').innerHTML=fn();}
 
-function logout(){
- document.getElementById("adminPanel").style.display="none";
-}
+/* ================= PUBLIC PAGES ================= */
+const PAGES={};
+function studentRow(s){return`<div class="srow">${avatar(s.photo,s.name,42)}<div class="sn"><b>${esc(s.name)}</b><small>Roll ${esc(s.roll||'-')}${s.father?' • '+esc(s.father):''}</small></div></div>`;}
 
-// ===================================
-// FIREBASE CONFIGURATION
-// ===================================
+PAGES.home=()=>{
+  const t=today(),h=holidayOn(t),sun=new Date().getDay()===0,st=stats(t);
+  const total=DB.classes.reduce((a,c)=>a+strength(c),0);
+  const notices=[...DB.notices].sort((a,b)=>b.date.localeCompare(a.date));
+  const ups=DB.holidays.filter(x=>(x.to||x.date)>=t).sort((a,b)=>a.date.localeCompare(b.date)).slice(0,3);
+  let ban;
+  if(h)ban=`<div class="banner hol">🎉 Aaj chhutti hai: ${esc(h.title)}</div>`;
+  else if(sun)ban=`<div class="banner hol">🌴 Aaj Ravivar hai - school band</div>`;
+  else ban=`<div class="banner open">📅 Aaj school khula hai</div>`;
+  const rows=DB.classes.filter(c=>DB.students.some(s=>s.classId===c.id)).map(c=>{const x=stats(t,c.id);const mk=x.p+x.a>0;return`<tr class="link" onclick="goAtt('${c.id}')"><td>${esc(c.name)}</td><td>${x.total}</td><td style="color:var(--ok);font-weight:700">${mk?x.p:'-'}</td><td style="color:var(--bad);font-weight:700">${mk?x.a:'-'}</td></tr>`;}).join('');
+  return`${ban}
+  ${notices.length?`<div class="tick"><span>📢 ${notices.slice(0,5).map(n=>esc(n.title)).join(' &nbsp;•&nbsp; ')}</span></div>`:''}
+  <div class="stats">
+   <div class="st"><b>${total}</b><span>Total Bachche</span></div>
+   <div class="st"><b>${DB.teachers.length}</b><span>Teachers</span></div>
+   <div class="st"><b>${DB.classes.length}</b><span>Classes</span></div>
+   <div class="st ok"><b>${st.p}</b><span>Aaj Present</span></div>
+   <div class="st bad"><b>${st.a}</b><span>Aaj Absent</span></div>
+  </div>
+  <h2 class="sec">📊 Aaj ki Hazri <small>(class par click karein)</small></h2>
+  <div class="card">${rows?`<table><tr><th>Class</th><th>Total</th><th>Present</th><th>Absent</th></tr>${rows}</table>`:'<p class="empty">Abhi koi student nahi hai.</p>'}</div>
+  <h2 class="sec">🎉 Aane wali Chhuttiyan</h2>
+  <div class="card">${ups.length?ups.map(holRow).join(''):'<p class="empty">Abhi koi chhutti nahi hai.</p>'}</div>
+  <h2 class="sec">📢 Latest Notice</h2>
+  ${notices.slice(0,3).map(noticeCard).join('')||'<div class="card empty">Koi notice nahi.</div>'}`;
+};
+function goAtt(id){S.cls=id;S.date=today();go('att');}
 
-// Replace these values with your Firebase project settings.
-// Until configured, this app uses local device storage.
+PAGES.classes=()=>`<h2 class="sec">🏫 Sabhi Classes <small>(Nursery se 10th)</small></h2><div class="grid">`+DB.classes.map(c=>{const ct=classTeacher(c.id);const x=stats(today(),c.id);const mk=x.p+x.a>0;return`<div class="card cc" onclick="openClass('${c.id}')"><h3>${esc(c.name)}</h3><div class="n">${strength(c)} <small style="font-size:12px;font-weight:400">bachche</small></div><small>👩‍🏫 ${ct?esc(ct.name):'Class teacher set nahi'}</small>${mk?`<small>Aaj: ✅ ${x.p} &nbsp; ❌ ${x.a}</small>`:''}</div>`;}).join('')+`</div>`;
+function openClass(id){const c=DB.classes.find(c=>c.id===id);if(!c)return;const l=DB.students.filter(s=>s.classId===id).sort(byRoll);const ct=classTeacher(id);showModal(`<h3>🏫 Class ${esc(c.name)}</h3><p style="color:var(--mut);font-size:13px">Total: ${strength(c)} • Class Teacher: ${ct?esc(ct.name):'-'}</p><div style="margin-top:8px">${l.length?l.map(studentRow).join(''):'<p class="empty">Student list abhi nahi bhari gayi.</p>'}</div><button class="btn out full" onclick="closeModal()">Band karein</button>`);}
 
-const firebaseConfig = {
- apiKey: "YOUR_API_KEY",
- authDomain: "YOUR_PROJECT.firebaseapp.com",
- projectId: "YOUR_PROJECT_ID",
- storageBucket: "YOUR_PROJECT.firebasestorage.app",
- messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
- appId: "YOUR_APP_ID"
+PAGES.att=()=>{
+  const cid=curCls('cls');const list=DB.students.filter(s=>s.classId===cid).sort(byRoll);
+  const att=DB.attendance[S.date]||{};
+  const P=list.filter(s=>att[s.id]==='P'),A=list.filter(s=>att[s.id]==='A'),N=list.filter(s=>!att[s.id]);
+  const hol=holidayOn(S.date);
+  const grp=(t,arr,c)=>arr.length?`<div class="card"><div class="gt ${c}">${t} (${arr.length})</div>${arr.map(studentRow).join('')}</div>`:'';
+  let body;
+  if(!list.length)body='<div class="card empty">Is class me abhi koi student nahi hai.</div>';
+  else if(!P.length&&!A.length)body='<div class="card empty">Is din ki hazri abhi nahi li gayi.</div>';
+  else body=grp('❌ Absent',A,'bad')+grp('✅ Present',P,'ok')+grp('⏳ Hazri nahi mili',N,'mut');
+  return`<h2 class="sec">✅ Hazri (Attendance)</h2>
+  <div class="card"><div class="row2"><div><label>Class</label><select onchange="S.cls=this.value;render()">${clsOpts(cid)}</select></div><div><label>Date (${dayName(S.date)})</label><input type="date" value="${S.date}" onchange="S.date=this.value||today();render()"></div></div>
+  ${hol?`<div class="alert">🎉 Chhutti: ${esc(hol.title)}</div>`:''}
+  <div class="chips3"><div class="sc"><b>${list.length}</b>Total</div><div class="sc ok"><b>${P.length}</b>Present</div><div class="sc bad"><b>${A.length}</b>Absent</div></div></div>${body}`;
 };
 
-let db=null;
-let cloudReady=false;
+PAGES.dcr=()=>{
+  let L=[...DB.dcr];if(S.dcrCls)L=L.filter(x=>x.classId===S.dcrCls);if(S.dcrDate)L=L.filter(x=>x.date===S.dcrDate);
+  L.sort((a,b)=>b.date.localeCompare(a.date));
+  return`<h2 class="sec">📚 DCR / Homework <small>(Daily Class Report)</small></h2>
+  <div class="card"><div class="row2"><div><label>Class</label><select onchange="S.dcrCls=this.value;render()">${clsOpts(S.dcrCls,'Sabhi Classes')}</select></div><div><label>Date</label><input type="date" value="${S.dcrDate}" onchange="S.dcrDate=this.value;render()"></div></div>
+  <div class="btnrow"><button class="btn sm out" onclick="S.dcrDate=today();render()">Aaj ka</button><button class="btn sm out" onclick="S.dcrDate='';S.dcrCls='';render()">Sab dikhayein</button></div></div>`+
+  (L.length?L.map(d=>`<div class="card dc"><div class="dh"><span class="badge">${esc(cn(d.classId)||'-')}</span><b>${esc(d.subject||'')}</b><small>${fmt(d.date)}</small></div>${d.classwork?`<p><b>📖 Classwork:</b><br>${nl(d.classwork)}</p>`:''}${d.homework?`<p><b>✏️ Homework:</b><br>${nl(d.homework)}</p>`:''}</div>`).join(''):'<div class="card empty">Koi DCR / homework nahi mila.</div>');
+};
 
-try{
- if(firebaseConfig.apiKey!=="YOUR_API_KEY"){
-  firebase.initializeApp(firebaseConfig);
-  db=firebase.firestore();
-  cloudReady=true;
- }
-}catch(error){
- console.error("Firebase setup:",error);
+PAGES.top=()=>{
+  let L=[...DB.toppers];if(S.topCls)L=L.filter(x=>x.classId===S.topCls);
+  L.sort((a,b)=>ci(a.classId)-ci(b.classId)||(Number(a.rank)||99)-(Number(b.rank)||99));
+  const medal=r=>({1:'🥇',2:'🥈',3:'🥉'}[Number(r)]||'🏅');
+  return`<h2 class="sec">🏆 Toppers</h2><div class="card"><label style="margin-top:0">Class</label><select onchange="S.topCls=this.value;render()">${clsOpts(S.topCls,'Sabhi Classes')}</select></div>`+
+  (L.length?L.map(t=>`<div class="card tp">${avatar(t.photo,t.name,64)}<div style="flex:1"><b style="font-size:16px">${esc(t.name)}</b><div style="margin-top:4px"><span class="badge">Class ${esc(cn(t.classId))}</span> ${t.year?`<span class="badge g">${esc(t.year)}</span>`:''}</div>${t.percent?`<div style="margin-top:4px;color:var(--mut);font-size:13px">Marks: <b>${esc(t.percent)}</b></div>`:''}</div><div class="rk">${medal(t.rank)}<div style="font-size:11px;text-align:center;color:var(--mut)">${t.rank?'Rank '+esc(t.rank):''}</div></div></div>`).join(''):'<div class="card empty">Abhi koi topper nahi hai.</div>');
+};
+
+function tCard(t){const ct=t.classTeacherOf?cn(t.classTeacherOf):'';const cl=(t.classes||[]).map(cn).filter(Boolean).join(', ');return`<div class="card tc">${avatar(t.photo,t.name,72)}<div style="flex:1;min-width:0"><h4>${esc(t.name)}</h4>${ct?`<span class="badge g">Class Teacher: ${esc(ct)}</span>`:''}<p>📘 Subject: <b>${esc(t.subject||'-')}</b></p><p>🏫 Padhate hain: ${esc(cl||'-')}</p><p>📍 ${esc(t.address||'-')}</p>${t.phone?`<p>📞 <a href="tel:${esc(t.phone)}">${esc(t.phone)}</a></p>`:''}</div></div>`;}
+PAGES.tch=()=>{const cts=DB.teachers.filter(t=>t.classTeacherOf).sort((a,b)=>ci(a.classTeacherOf)-ci(b.classTeacherOf));return`<h2 class="sec">⭐ Class Teachers</h2>${cts.map(tCard).join('')||'<div class="card empty">Koi class teacher set nahi hai.</div>'}<h2 class="sec">👩‍🏫 Sabhi Teachers</h2>${DB.teachers.map(tCard).join('')||'<div class="card empty">Koi teacher nahi hai.</div>'}`;};
+
+function noticeCard(n){return`<div class="card"><div class="dh"><b>📢 ${esc(n.title)}</b><small>${fmt(n.date)}</small></div><p style="line-height:1.5">${nl(n.text)}</p></div>`;}
+PAGES.notice=()=>{const L=[...DB.notices].sort((a,b)=>b.date.localeCompare(a.date));return`<h2 class="sec">📢 Notice Board</h2>`+(L.map(noticeCard).join('')||'<div class="card empty">Koi notice nahi hai.</div>');};
+
+function holRow(h){const t=today(),end=h.to||h.date;const range=fmt(h.date)+(h.to&&h.to!==h.date?' → '+fmt(h.to):'');const p=h.date.split('-');return`<div class="hrow ${end<t?'past':''}" style="padding:8px 0;border-bottom:1px solid var(--line)"><div class="d">${Number(p[2])}<br>${MON[Number(p[1])-1]}</div><div><b>${esc(h.title)}</b><div style="font-size:12px;color:var(--mut)">${range} • ${dayName(h.date)}</div></div></div>`;}
+PAGES.hol=()=>{const L=[...DB.holidays].sort((a,b)=>a.date.localeCompare(b.date));return`<h2 class="sec">🎉 Chhuttiyon ki List</h2><div class="card">${L.map(holRow).join('')||'<p class="empty">Koi chhutti nahi hai.</p>'}</div>`;};
+
+PAGES.about=()=>{const s=DB.school;return`<h2 class="sec">ℹ️ School ki Jaankari</h2><div class="card ab"><div class="logoedit"><div class="logo big">${s.logo?`<img src="${s.logo}" alt="">`:'🏫'}</div><div><h3>${esc(s.name)}</h3><p style="margin:0;color:var(--mut)">${esc(s.tagline)}</p></div></div><p>${nl(s.about)}</p></div><div class="card ab"><p>🎓 Session: <b>${esc(s.session||'-')}</b></p>${s.principal?`<p>👨‍💼 Principal: <b>${esc(s.principal)}</b></p>`:''}<p>📍 ${esc(s.address||'-')}</p>${s.phone?`<p>📞 <a href="tel:${esc(s.phone)}">${esc(s.phone)}</a></p>`:''}${s.email?`<p>✉️ <a href="mailto:${esc(s.email)}">${esc(s.email)}</a></p>`:''}</div>`;};
+
+/* ================= ADMIN: LOGIN ================= */
+function loginModal(){showModal(`<h3>🔐 Admin Login</h3><form onsubmit="return doLogin(event)"><label>Password</label><input type="password" id="lp" autocomplete="current-password"><button class="btn full">Login</button></form><button class="btn out full" onclick="closeModal()">Cancel</button>`);setTimeout(()=>{const e=el('lp');if(e)e.focus();},60);}
+function doLogin(e){e.preventDefault();if(el('lp').value===DB.school.pass){S.admin=true;setAdm(true);closeModal();S.page='admin';render();window.scrollTo(0,0);toast('Welcome Admin 👋');}else toast('Galat password ❌');return false;}
+function logout(){S.admin=false;setAdm(false);S.page='home';render();toast('Logout ho gaye');}
+
+/* ================= ADMIN: SCHEMA & CRUD ================= */
+const SCHEMA={
+  classes:{title:'Class',fields:[{k:'name',l:'Class ka naam (jaise 9th)',t:'text',req:1},{k:'manual',l:'Total bachche (manual) - agar student list nahi bharni',t:'number'}]},
+  students:{title:'Student',fields:[{k:'name',l:'Naam',t:'text',req:1},{k:'classId',l:'Class',t:'class',req:1},{k:'roll',l:'Roll No.',t:'number'},{k:'father',l:'Pita ka naam',t:'text'},{k:'phone',l:'Phone',t:'tel'},{k:'address',l:'Address',t:'text'},{k:'photo',l:'Photo',t:'photo'}]},
+  teachers:{title:'Teacher',fields:[{k:'name',l:'Naam',t:'text',req:1},{k:'photo',l:'Photo',t:'photo'},{k:'subject',l:'Subject',t:'text'},{k:'classes',l:'Kin classes ko padhate hain',t:'classes'},{k:'classTeacherOf',l:'Class Teacher of (optional)',t:'classopt'},{k:'phone',l:'Phone',t:'tel'},{k:'address',l:'Address',t:'text'}]},
+  dcr:{title:'DCR / Homework',fields:[{k:'date',l:'Date',t:'date',req:1},{k:'classId',l:'Class',t:'class',req:1},{k:'subject',l:'Subject',t:'text',req:1},{k:'classwork',l:'Classwork (kya padhaya)',t:'textarea'},{k:'homework',l:'Homework',t:'textarea'}]},
+  toppers:{title:'Topper',fields:[{k:'name',l:'Naam',t:'text',req:1},{k:'classId',l:'Class',t:'class',req:1},{k:'rank',l:'Rank (1, 2, 3...)',t:'number'},{k:'percent',l:'Marks / Percentage',t:'text'},{k:'year',l:'Session (jaise 2025-26)',t:'text'},{k:'photo',l:'Photo',t:'photo'}]},
+  notices:{title:'Notice',fields:[{k:'date',l:'Date',t:'date',req:1},{k:'title',l:'Title',t:'text',req:1},{k:'text',l:'Notice likhein',t:'textarea'}]},
+  holidays:{title:'Chhutti',fields:[{k:'date',l:'Kab se',t:'date',req:1},{k:'to',l:'Kab tak (agar ek din ki hai to khali chhodein)',t:'date'},{k:'title',l:'Chhutti ka kaaran',t:'text',req:1}]}
+};
+let FORM={};
+function openForm(coll,id){
+  const sc=SCHEMA[coll];const item=id?(DB[coll].find(x=>x.id===id)||{}):{};
+  FORM={coll:coll,id:id||null,photos:{}};
+  let h=`<h3>${id?'✏️ Edit':'➕ Naya'} ${sc.title}</h3><form onsubmit="return saveForm(event)">`;
+  sc.fields.forEach(f=>{
+    let v=item[f.k];if(v===undefined)v=(f.t==='date'&&f.k==='date')?today():(f.t==='classes'?[]:'');
+    if(f.t==='class'&&!v&&!id)v=(f.k==='classId'&&coll==='students'&&S.aStuCls)?S.aStuCls:'';
+    h+=`<label>${f.l}${f.req?' *':''}</label>`;
+    if(f.t==='textarea')h+=`<textarea name="${f.k}">${esc(v)}</textarea>`;
+    else if(f.t==='class')h+=`<select name="${f.k}"><option value="">-- Class chunein --</option>${clsOpts(v)}</select>`;
+    else if(f.t==='classopt')h+=`<select name="${f.k}"><option value="">Koi nahi</option>${clsOpts(v)}</select>`;
+    else if(f.t==='classes')h+=`<div class="cb">${DB.classes.map(c=>`<label><input type="checkbox" name="${f.k}" value="${c.id}" ${(v||[]).includes(c.id)?'checked':''}>${esc(c.name)}</label>`).join('')}</div>`;
+    else if(f.t==='photo')h+=`<div class="pv" id="pv_${f.k}">${v?`<img src="${v}" alt="">`:'📷'}</div><input type="file" accept="image/*" onchange="pickPhoto('${f.k}',this)">`;
+    else h+=`<input type="${f.t}" name="${f.k}" value="${esc(v)}">`;
+  });
+  h+=`<button class="btn full">💾 Save</button></form><button class="btn out full" onclick="closeModal()">Cancel</button>`;
+  showModal(h);
 }
-
-// ===================================
-// DATA STORAGE
-// ===================================
-
-let students=[];
-let notices=[];
-let homework=[];
-
-function loadLocal(){
- try{
- students=JSON.parse(localStorage.getItem("ois_students"))||[];
- notices=JSON.parse(localStorage.getItem("ois_notices"))||[];
- homework=JSON.parse(localStorage.getItem("ois_homework"))||[];
- }catch(e){
- students=[];
- notices=[];
- homework=[];
- }
-}
-
-function saveLocal(){
- localStorage.setItem("ois_students",JSON.stringify(students));
- localStorage.setItem("ois_notices",JSON.stringify(notices));
- localStorage.setItem("ois_homework",JSON.stringify(homework));
-}
-
-async function saveCloud(key,data){
- if(!cloudReady)return;
- try{
- await db.collection("schoolData").doc(key).set({items:data});
- }catch(error){
- console.error("Cloud save error:",error);
- alert("Firebase save failed. Check Firebase setup and security rules.");
- }
-}
-
-async function loadCloud(){
- if(!cloudReady)return;
- try{
- const keys=["students","notices","homework"];
- for(const key of keys){
-  const doc=await db.collection("schoolData").doc(key).get();
-  if(doc.exists && Array.isArray(doc.data().items)){
-   if(key==="students")students=doc.data().items;
-   if(key==="notices")notices=doc.data().items;
-   if(key==="homework")homework=doc.data().items;
+async function pickPhoto(k,inp){const f=inp.files[0];if(!f)return;try{const d=await readImg(f,320,'image/jpeg');FORM.photos[k]=d;el('pv_'+k).innerHTML=`<img src="${d}" alt="">`;}catch(e){toast('Photo load nahi hui');}}
+function saveForm(e){
+  e.preventDefault();
+  const coll=FORM.coll,id=FORM.id,sc=SCHEMA[coll],f=e.target,vals={};
+  for(const fl of sc.fields){
+    if(fl.t==='photo'){const old=id?((DB[coll].find(x=>x.id===id)||{})[fl.k]||''):'';vals[fl.k]=FORM.photos[fl.k]!==undefined?FORM.photos[fl.k]:old;}
+    else if(fl.t==='classes'){vals[fl.k]=[...f.querySelectorAll(`input[name="${fl.k}"]:checked`)].map(x=>x.value);}
+    else vals[fl.k]=f.elements[fl.k].value.trim();
+    if(fl.req&&!vals[fl.k]){toast(fl.l+' zaroori hai');return false;}
   }
- }
- saveLocal();
- }catch(error){
- console.error("Firebase load error:",error);
- }
+  if(coll==='classes')vals.manual=Math.max(0,parseInt(vals.manual)||0);
+  if(coll==='holidays'&&vals.to&&vals.to<vals.date){toast('"Kab tak" date, "Kab se" se pehle nahi ho sakti');return false;}
+  let item;
+  if(id){item=DB[coll].find(x=>x.id===id);Object.assign(item,vals);}
+  else{item=Object.assign({id:uid()},vals);DB[coll].push(item);}
+  if(coll==='teachers'&&item.classTeacherOf){DB.teachers.forEach(t=>{if(t.id!==item.id&&t.classTeacherOf===item.classTeacherOf)t.classTeacherOf='';});}
+  save();closeModal();rerender();toast('Save ho gaya ✅');return false;
+}
+function del(coll,id){
+  const item=DB[coll].find(x=>x.id===id);if(!item)return;
+  if(coll==='classes'&&DB.students.some(s=>s.classId===id)){alert('Is class me students hain. Pehle unhe hatayein ya dusri class me daalein.');return;}
+  if(!confirm('Pakka delete karna hai?'))return;
+  DB[coll]=DB[coll].filter(x=>x.id!==id);
+  if(coll==='classes'){DB.teachers.forEach(t=>{t.classes=(t.classes||[]).filter(c=>c!==id);if(t.classTeacherOf===id)t.classTeacherOf='';});DB.dcr=DB.dcr.filter(d=>d.classId!==id);DB.toppers=DB.toppers.filter(d=>d.classId!==id);}
+  if(coll==='students'){for(const d in DB.attendance){delete DB.attendance[d][id];}}
+  save();rerender();toast('Delete ho gaya');
+}
+function adminList(coll,rowFn,items){
+  items=items||DB[coll];
+  return`<button class="btn" onclick="openForm('${coll}')">➕ Naya jodein</button><div>`+(items.length?items.map(it=>`<div class="arow">${rowFn(it)}<div class="acts"><button class="ib" onclick="openForm('${coll}','${it.id}')">✏️</button><button class="ib del" onclick="del('${coll}','${it.id}')">🗑️</button></div></div>`).join(''):'<p class="empty">Abhi kuch nahi hai</p>')+'</div>';
 }
 
-async function saveData(key){
- saveLocal();
- await saveCloud(key,key==="students"?students:key==="notices"?notices:homework);
- renderAll();
-}
+/* ================= ADMIN: TABS ================= */
+const ATABS=[['settings','⚙️ Settings'],['classes','🏫 Classes'],['students','🎒 Students'],['teachers','👩‍🏫 Teachers'],['att','✅ Hazri'],['dcr','📚 DCR'],['toppers','🏆 Toppers'],['notices','📢 Notice'],['holidays','🎉 Chhutti'],['backup','💾 Backup']];
+PAGES.admin=()=>{
+  if(!S.admin)return'<div class="card empty">Pehle login karein.</div>';
+  return`<div class="adhead"><h2>⚙️ Admin Panel</h2><button class="btn sm out" onclick="logout()">Logout</button></div><div class="chips">${ATABS.map(t=>`<div class="chip ${S.aTab===t[0]?'on':''}" onclick="S.aTab='${t[0]}';render()">${t[1]}</div>`).join('')}</div>${ADMIN[S.aTab]()}`;
+};
+const ADMIN={};
 
-// ===================================
-// NAVIGATION
-// ===================================
-
-function showSection(name){
- document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
- const section=document.getElementById(name);
- if(section)section.classList.add("active");
- window.scrollTo(0,0);
-}
-
-// ===================================
-// STUDENTS
-// ===================================
-
-async function addStudent(){
- const name=document.getElementById("newStudent").value.trim();
- const cls=document.getElementById("studentClass").value;
-
- if(!name){alert("Enter student name");return;}
-
- students.push({
-  id:Date.now(),
-  name:name,
-  className:cls
- });
-
- document.getElementById("newStudent").value="";
- await saveData("students");
-}
-
-function deleteStudent(id){
- if(!confirm("Delete this student?"))return;
- students=students.filter(s=>s.id!==id);
- saveData("students");
-}
-
-function renderStudents(){
- const search=(document.getElementById("studentSearch")?.value||"").toLowerCase();
-
- const filtered=students.filter(s=>
- s.name.toLowerCase().includes(search)||
- s.className.toLowerCase().includes(search)
- );
-
- document.getElementById("studentList").innerHTML=
- filtered.length?filtered.map(s=>
- `<div class="item">👨‍🎓 <b>${escapeHTML(s.name)}</b>
- <span class="small"> — ${escapeHTML(s.className)}</span></div>`
- ).join(""):"No students found.";
- 
- document.getElementById("adminStudentList").innerHTML=
- students.map(s=>
- `<div class="item">${escapeHTML(s.name)} (${escapeHTML(s.className)})
- <button class="btn red" onclick="deleteStudent(${Number(s.id)})">Delete</button></div>`
- ).join("")||"No students added.";
-}
-
-// ===================================
-// NOTICES
-// ===================================
-
-async function addNotice(){
- const title=document.getElementById("newNoticeTitle").value.trim();
- const text=document.getElementById("newNoticeText").value.trim();
-
- if(!title||!text){alert("Fill all notice details");return;}
-
- notices.unshift({
-  id:Date.now(),
-  title:title,
-  text:text,
-  date:new Date().toLocaleDateString()
- });
-
- document.getElementById("newNoticeTitle").value="";
- document.getElementById("newNoticeText").value="";
- await saveData("notices");
-}
-
-function deleteNotice(id){
- if(!confirm("Delete this notice?"))return;
- notices=notices.filter(n=>n.id!==id);
- saveData("notices");
-}
-
-// ===================================
-// HOMEWORK
-// ===================================
-
-async function addHomework(){
- const cls=document.getElementById("hwClass").value;
- const subject=document.getElementById("hwSubject").value.trim();
- const text=document.getElementById("hwText").value.trim();
-
- if(!subject||!text){alert("Fill all homework details");return;}
-
- homework.unshift({
-  id:Date.now(),
-  className:cls,
-  subject:subject,
-  text:text,
-  date:new Date().toLocaleDateString()
- });
-
- document.getElementById("hwSubject").value="";
- document.getElementById("hwText").value="";
- await saveData("homework");
-}
-
-function deleteHomework(id){
- if(!confirm("Delete this homework?"))return;
- homework=homework.filter(h=>h.id!==id);
- saveData("homework");
-}
-
-// ===================================
-// SCHOOL SETTINGS
-// ===================================
-
+ADMIN.settings=()=>{const s=DB.school;return`<div class="card"><h3>App / School Settings</h3>
+<div class="logoedit" style="margin-top:10px"><div class="logo big">${s.logo?`<img src="${s.logo}" alt="">`:'🏫'}</div><div><input type="file" accept="image/*" id="logoF" onchange="pickLogo(this)" hidden><button class="btn sm" onclick="el('logoF').click()">📷 Logo badlein</button> ${s.logo?`<button class="btn sm out" onclick="rmLogo()">Hatayein</button>`:''}</div></div>
+<label>School / App ka naam</label><input id="s_name" value="${esc(s.name)}">
+<label>Tagline</label><input id="s_tag" value="${esc(s.tagline)}">
+<label>Session</label><input id="s_ses" value="${esc(s.session)}">
+<label>Principal ka naam</label><input id="s_pri" value="${esc(s.principal)}">
+<label>Phone</label><input id="s_ph" value="${esc(s.phone)}">
+<label>Email</label><input id="s_em" value="${esc(s.email)}">
+<label>Address</label><input id="s_ad" value="${esc(s.address)}">
+<label>School ke baare me (About)</label><textarea id="s_ab">${esc(s.about)}</textarea>
+<label>App ka Color</label><input type="color" id="s_co" value="${esc(s.color||'#4f46e5')}">
+<label>Naya Admin Password (badalna ho to likhein)</label><input id="s_pw" placeholder="khali chhodein to purana rahega">
+<button class="btn full" onclick="saveSettings()">💾 Save Settings</button></div>`;};
+async function pickLogo(inp){const f=inp.files[0];if(!f)return;try{DB.school.logo=await readImg(f,256,'image/png');save();rerender();toast('Logo badal gaya ✅');}catch(e){toast('Logo load nahi hua');}}
+function rmLogo(){DB.school.logo='';save();rerender();}
 function saveSettings(){
- const name=document.getElementById("schoolName").value;
- const address=document.getElementById("schoolAddress").value;
- const phone=document.getElementById("schoolContact").value;
-
- localStorage.setItem("ois_school_name",name);
- localStorage.setItem("ois_school_address",address);
- localStorage.setItem("ois_school_phone",phone);
-
- document.querySelector("header h2").innerText="🏫 "+name;
- document.querySelector("header p").innerText=address;
- document.getElementById("schoolPhone").innerText=phone||"Contact school office";
-
- alert("School settings saved!");
+  const s=DB.school;const nm=el('s_name').value.trim();if(!nm){toast('School ka naam zaroori hai');return;}
+  s.name=nm;s.tagline=el('s_tag').value.trim();s.session=el('s_ses').value.trim();s.principal=el('s_pri').value.trim();s.phone=el('s_ph').value.trim();s.email=el('s_em').value.trim();s.address=el('s_ad').value.trim();s.about=el('s_ab').value.trim();s.color=el('s_co').value;
+  const pw=el('s_pw').value.trim();if(pw){if(pw.length<4){toast('Password kam se kam 4 akshar ka rakhein');return;}s.pass=pw;}
+  save();rerender();toast('Settings save ho gayi ✅');
 }
 
-function loadSettings(){
- const name=localStorage.getItem("ois_school_name");
- const address=localStorage.getItem("ois_school_address");
- const phone=localStorage.getItem("ois_school_phone");
+ADMIN.classes=()=>adminList('classes',c=>`<div class="in"><b>${esc(c.name)}</b><small>${strength(c)} bachche • CT: ${classTeacher(c.id)?esc(classTeacher(c.id).name):'-'}</small></div>`);
 
- if(name){
-  document.querySelector("header h2").innerText="🏫 "+name;
-  document.getElementById("schoolName").value=name;
- }
- if(address){
-  document.querySelector("header p").innerText=address;
-  document.getElementById("schoolAddress").value=address;
- }
- if(phone){
-  document.getElementById("schoolContact").value=phone;
-  document.getElementById("schoolPhone").innerText=phone;
- }
-}
+ADMIN.students=()=>{
+  let L=DB.students.filter(s=>!S.aStuCls||s.classId===S.aStuCls).sort((a,b)=>ci(a.classId)-ci(b.classId)||byRoll(a,b));
+  return`<div class="card"><label style="margin-top:0">Class filter</label><select onchange="S.aStuCls=this.value;render()">${clsOpts(S.aStuCls,'Sabhi Classes')}</select><p style="margin-top:8px;color:var(--mut);font-size:13px">Total: ${L.length} students</p></div>`+
+  adminList('students',s=>`${avatar(s.photo,s.name,42)}<div class="in"><b>${esc(s.name)}</b><small>Class ${esc(cn(s.classId))} • Roll ${esc(s.roll||'-')}</small></div>`,L);
+};
 
-// ===================================
-// RENDER DATA
-// ===================================
+ADMIN.teachers=()=>adminList('teachers',t=>`${avatar(t.photo,t.name,42)}<div class="in"><b>${esc(t.name)}</b><small>${esc(t.subject||'-')}${t.classTeacherOf?' • CT: '+esc(cn(t.classTeacherOf)):''}</small></div>`);
 
-function escapeHTML(value){
- return String(value).replace(/[&<>"']/g,c=>({
- "&":"&amp;",
- "<":"&lt;",
- ">":"&gt;",
- '"':"&quot;",
- "'":"&#39;"
- }[c]));
-}
+ADMIN.att=()=>{
+  const cid=curCls('aCls');const list=DB.students.filter(s=>s.classId===cid).sort(byRoll);
+  const att=DB.attendance[S.aDate]||{};
+  const p=list.filter(s=>att[s.id]==='P').length,a=list.filter(s=>att[s.id]==='A').length;
+  return`<div class="card"><div class="row2"><div><label style="margin-top:0">Class</label><select onchange="S.aCls=this.value;render()">${clsOpts(cid)}</select></div><div><label style="margin-top:0">Date (${dayName(S.aDate)})</label><input type="date" value="${S.aDate}" onchange="S.aDate=this.value||today();render()"></div></div>
+  <div class="chips3"><div class="sc"><b>${list.length}</b>Total</div><div class="sc ok"><b>${p}</b>Present</div><div class="sc bad"><b>${a}</b>Absent</div></div>
+  <div class="btnrow"><button class="btn sm" onclick="markAll('P')">Sab Present</button><button class="btn sm red" onclick="markAll('A')">Sab Absent</button><button class="btn sm out" onclick="markAll('')">Clear</button></div></div>`+
+  (list.length?list.map(s=>{const st=att[s.id];return`<div class="arow">${avatar(s.photo,s.name,40)}<div class="in"><b>${esc(s.name)}</b><small>Roll ${esc(s.roll||'-')}</small></div><div class="pa"><button class="pb ${st==='P'?'on p':''}" onclick="setAtt('${s.id}','P')">P</button><button class="pb ${st==='A'?'on a':''}" onclick="setAtt('${s.id}','A')">A</button></div></div>`;}).join(''):'<div class="card empty">Is class me student nahi hain. Pehle Students tab me jodein.</div>')+
+  `<p style="color:var(--mut);font-size:12px;margin-top:10px;text-align:center">P = Present, A = Absent. Dobara dabane par hat jaata hai. Auto-save hota hai.</p>`;
+};
+function setAtt(id,v){const d=S.aDate;DB.attendance[d]=DB.attendance[d]||{};if(DB.attendance[d][id]===v)delete DB.attendance[d][id];else DB.attendance[d][id]=v;if(!Object.keys(DB.attendance[d]).length)delete DB.attendance[d];save();rerender();}
+function markAll(v){const d=S.aDate,cid=curCls('aCls');DB.attendance[d]=DB.attendance[d]||{};DB.students.filter(s=>s.classId===cid).forEach(s=>{if(v)DB.attendance[d][s.id]=v;else delete DB.attendance[d][s.id];});if(!Object.keys(DB.attendance[d]).length)delete DB.attendance[d];save();rerender();}
 
-function renderAll(){
+ADMIN.dcr=()=>adminList('dcr',d=>`<div class="in"><b>${esc(d.subject)} • ${esc(cn(d.classId))}</b><small>${fmt(d.date)} - ${esc((d.homework||d.classwork||'').slice(0,50))}</small></div>`,[...DB.dcr].sort((a,b)=>b.date.localeCompare(a.date)));
+ADMIN.toppers=()=>adminList('toppers',t=>`${avatar(t.photo,t.name,42)}<div class="in"><b>${esc(t.name)}</b><small>Class ${esc(cn(t.classId))} • Rank ${esc(t.rank||'-')} • ${esc(t.percent||'')}</small></div>`);
+ADMIN.notices=()=>adminList('notices',n=>`<div class="in"><b>${esc(n.title)}</b><small>${fmt(n.date)}</small></div>`,[...DB.notices].sort((a,b)=>b.date.localeCompare(a.date)));
+ADMIN.holidays=()=>adminList('holidays',h=>`<div class="in"><b>${esc(h.title)}</b><small>${fmt(h.date)}${h.to&&h.to!==h.date?' → '+fmt(h.to):''}</small></div>`,[...DB.holidays].sort((a,b)=>a.date.localeCompare(b.date)));
 
- renderStudents();
+ADMIN.backup=()=>`<div class="card"><h3>💾 Backup & Restore</h3><p style="color:var(--mut);margin:8px 0;font-size:13px;line-height:1.5">Data isi browser me save hota hai. Safe rakhne ke liye kabhi kabhi backup download karke rakhein. Dusre phone/computer par wahi backup import kar sakte hain.</p>
+<div class="btnrow"><button class="btn" onclick="exportData()">⬇️ Backup Download</button><input type="file" id="impF" accept=".json,application/json" hidden onchange="importData(this)"><button class="btn out" onclick="el('impF').click()">⬆️ Backup Import</button></div></div>
+<div class="card"><h3>⚠️ Sab Reset</h3><p style="color:var(--mut);margin:8px 0;font-size:13px">Saara data hat jayega aur app shuru wali halat me aa jayega.</p><button class="btn red" onclick="resetAll()">Sab kuch reset karein</button></div>`;
+function exportData(){const b=new Blob([JSON.stringify(DB)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='school-backup-'+today()+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1500);}
+function importData(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d.school||!Array.isArray(d.classes))throw new Error('bad');if(!confirm('Abhi ka data replace ho jayega. Continue?'))return;DB=d;fixDB();save();S.cls=S.aCls=defCls();render();toast('Import ho gaya ✅');}catch(e){toast('Galat backup file');}};r.readAsText(f);inp.value='';}
+function resetAll(){if(!confirm('Pakka? Saara data delete ho jayega!'))return;if(!confirm('Dobara confirm karein - reset kar dein?'))return;DB=defaults();save();S.cls=S.aCls=defCls();render();toast('Reset ho gaya');}
 
- document.getElementById("noticeList").innerHTML=
- notices.map(n=>
- `<div class="item">
- <h3>${escapeHTML(n.title)}</h3>
- <p>${escapeHTML(n.text)}</p>
- <small>${escapeHTML(n.date)}</small>
- </div>`
- ).join("")||"No notices available.";
-
- document.getElementById("homeNotices").innerHTML=
- notices.slice(0,3).map(n=>
- `<div class="item"><b>${escapeHTML(n.title)}</b>
- <p>${escapeHTML(n.text)}</p></div>`
- ).join("")||"No notices available.";
-
- document.getElementById("homeworkList").innerHTML=
- homework.map(h=>
- `<div class="item">
- <b>${escapeHTML(h.className)} — ${escapeHTML(h.subject)}</b>
- <p>${escapeHTML(h.text)}</p>
- <small>${escapeHTML(h.date)}</small>
- </div>`
- ).join("")||"No homework available.";
-
- document.getElementById("homeHomework").innerHTML=
- homework.slice(0,3).map(h=>
- `<div class="item"><b>${escapeHTML(h.className)} — ${escapeHTML(h.subject)}</b>
- <p>${escapeHTML(h.text)}</p></div>`
- ).join("")||"No homework available.";
-
- document.getElementById("adminNoticeList").innerHTML=
- notices.map(n=>
- `<div class="item">${escapeHTML(n.title)}
- <button class="btn red" onclick="deleteNotice(${Number(n.id)})">Delete</button></div>`
- ).join("")||"No notices.";
-
- document.getElementById("adminHomeworkList").innerHTML=
- homework.map(h=>
- `<div class="item">${escapeHTML(h.className)} — ${escapeHTML(h.subject)}
- <button class="btn red" onclick="deleteHomework(${Number(h.id)})">Delete</button></div>`
- ).join("")||"No homework.";
-
- document.getElementById("studentCount").innerText=students.length;
- document.getElementById("noticeCount").innerText=notices.length;
- document.getElementById("homeworkCount").innerText=homework.length;
-
- document.getElementById("adminStudentCount").innerText=students.length+" students";
- document.getElementById("adminNoticeCount").innerText=notices.length+" notices";
- document.getElementById("adminHomeworkCount").innerText=homework.length+" homework";
-}
-
-// ===================================
-// START APPLICATION
-// ===================================
-
-async function startApp(){
- loadLocal();
- loadSettings();
- renderAll();
- await loadCloud();
- renderAll();
-}
-
-startApp();
-
+/* ================= START ================= */
+S.cls=S.aCls=defCls();
+render();
 </script>
 </body>
 </html>
