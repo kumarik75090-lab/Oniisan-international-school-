@@ -119,21 +119,25 @@ nav{position:fixed;left:0;right:0;bottom:0;background:#fff;display:flex;box-shad
 .btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .logoedit{display:flex;gap:14px;align-items:center}
 .ab p{margin-top:8px;line-height:1.6}
+.hint{color:var(--mut);font-size:12px;margin-top:8px;line-height:1.5}
+#foot{text-align:center;font-size:11px;color:var(--mut);padding:18px 10px 6px;opacity:.85}
 @media(min-width:700px){body{padding-bottom:90px}.ti h1{font-size:24px}}
 </style>
 </head>
 <body>
 <header id="top"></header>
 <main id="view"></main>
+<footer id="foot">App created by Rishabh Kumar</footer>
 <nav id="nav"></nav>
 <div id="modal"></div>
 <div id="toast"></div>
 
 <script>
 /* ================= HELPERS ================= */
-const KEY='oniisan_school_app_v1';
+const KEY='oniisan_school_app_v2';
 const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const ORDER=['nursery','lkg','ukg','1st','2nd','3rd','4th','5th','6th','7th','8th','9th','10th'];
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 const el=id=>document.getElementById(id);
 function today(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
@@ -151,7 +155,7 @@ function readImg(file,max,type){return new Promise((res,rej)=>{const r=new FileR
 /* ================= DATA ================= */
 function defaults(){
   const names=['Nursery','LKG','UKG','1st','2nd','3rd','4th','5th','6th','7th','8th','9th','10th'];
-  const classes=names.map((n,i)=>({id:'c'+i,name:n,manual:0}));
+  const classes=names.map((n,i)=>({id:'c'+i,name:n,section:'',manual:0}));
   const c9='c11';
   const stu=[['Aman Kumar',1,'Rajesh Kumar'],['Priya Kumari',2,'Sunil Prasad'],['Rohit Raj',3,'Manoj Singh'],['Sneha Sharma',4,'Anil Sharma'],['Vikash Yadav',5,'Ramesh Yadav'],['Pooja Kumari',6,'Dinesh Mahto']];
   const students=stu.map((x,i)=>({id:'s'+i,name:x[0],roll:x[1],father:x[2],phone:'',address:'',photo:'',classId:c9}));
@@ -169,7 +173,7 @@ function defaults(){
       email:'',
       address:'BLOCK CAMPUS, NEAR MAI ASTHAN, SAHEBGANJ (MUZ.), BIHAR-843125',
       about:'Welcome to Oniisan International School, an English medium school. We are committed to quality education, discipline and the all-round development of every child. (Edit this text from the Admin Panel.)',
-      pass:'Rishabh@234'
+      pass:'Rishabh@456'
     },
     classes,students,
     teachers:[
@@ -184,7 +188,11 @@ function defaults(){
   };
 }
 let DB;
-function fixDB(){const d=defaults();for(const k in d){if(DB[k]===undefined)DB[k]=d[k];}for(const k in d.school){if(DB.school[k]===undefined)DB.school[k]=d.school[k];}}
+function sortClasses(){
+  const pos=c=>{const i=ORDER.indexOf(String(c.name||'').trim().toLowerCase());return i<0?99:i;};
+  DB.classes=DB.classes.map((c,i)=>({c:c,i:i})).sort((a,b)=>pos(a.c)-pos(b.c)||String(a.c.name).localeCompare(String(b.c.name))||String(a.c.section||'').localeCompare(String(b.c.section||''))||a.i-b.i).map(x=>x.c);
+}
+function fixDB(){const d=defaults();for(const k in d){if(DB[k]===undefined)DB[k]=d[k];}for(const k in d.school){if(DB.school[k]===undefined)DB.school[k]=d.school[k];}DB.classes.forEach(c=>{if(c.section===undefined)c.section='';});sortClasses();}
 function load(){try{const r=localStorage.getItem(KEY);DB=r?JSON.parse(r):defaults();}catch(e){DB=defaults();}fixDB();}
 let warned=false;
 function save(){try{localStorage.setItem(KEY,JSON.stringify(DB));}catch(e){if(!warned){warned=true;toast('Data could not be saved (storage full or blocked). Please take a backup!');}}}
@@ -197,14 +205,15 @@ function defCls(){const c=DB.classes.find(c=>DB.students.some(s=>s.classId===c.i
 function curCls(k){if(!DB.classes.some(c=>c.id===S[k]))S[k]=defCls();return S[k];}
 
 /* ================= UTIL QUERIES ================= */
-const cn=id=>{const c=DB.classes.find(c=>c.id===id);return c?c.name:'';};
+const lbl=c=>c.name+(c.section?' '+c.section:'');
+const cn=id=>{const c=DB.classes.find(c=>c.id===id);return c?lbl(c):'';};
 const ci=id=>DB.classes.findIndex(c=>c.id===id);
-const byRoll=(a,b)=>((Number(a.roll)||9999)-(Number(b.roll)||9999))||String(a.name).localeCompare(b.name);
+const byRoll=(a,b)=>((Number(a.roll)||9999)-(Number(b.roll)||9999))||String(a.name).localeCompare(String(b.name));
 const classTeacher=id=>DB.teachers.find(t=>t.classTeacherOf===id);
 function strength(c){const n=DB.students.filter(s=>s.classId===c.id).length;return n||Number(c.manual)||0;}
 function holidayOn(d){return DB.holidays.find(h=>h.date<=d&&d<=(h.to||h.date));}
 function stats(date,cid){const list=DB.students.filter(s=>!cid||s.classId===cid);const a=DB.attendance[date]||{};let p=0,b=0;list.forEach(s=>{if(a[s.id]==='P')p++;else if(a[s.id]==='A')b++;});return{total:list.length,p:p,a:b,n:list.length-p-b};}
-function clsOpts(sel,all){return(all?`<option value="">${all}</option>`:'')+DB.classes.map(c=>`<option value="${c.id}" ${c.id===sel?'selected':''}>${esc(c.name)}</option>`).join('');}
+function clsOpts(sel,all){return(all?`<option value="">${all}</option>`:'')+DB.classes.map(c=>`<option value="${c.id}" ${c.id===sel?'selected':''}>${esc(lbl(c))}</option>`).join('');}
 function rerender(){const y=window.scrollY;render();window.scrollTo(0,y);}
 
 /* ================= LAYOUT ================= */
@@ -228,7 +237,7 @@ PAGES.home=()=>{
   if(h)ban=`<div class="banner hol">🎉 Holiday today: ${esc(h.title)}</div>`;
   else if(sun)ban=`<div class="banner hol">🌴 Today is Sunday - School closed</div>`;
   else ban=`<div class="banner open">📅 School is open today</div>`;
-  const rows=DB.classes.filter(c=>DB.students.some(s=>s.classId===c.id)).map(c=>{const x=stats(t,c.id);const mk=x.p+x.a>0;return`<tr class="link" onclick="goAtt('${c.id}')"><td>${esc(c.name)}</td><td>${x.total}</td><td style="color:var(--ok);font-weight:700">${mk?x.p:'-'}</td><td style="color:var(--bad);font-weight:700">${mk?x.a:'-'}</td></tr>`;}).join('');
+  const rows=DB.classes.filter(c=>DB.students.some(s=>s.classId===c.id)).map(c=>{const x=stats(t,c.id);const mk=x.p+x.a>0;return`<tr class="link" onclick="goAtt('${c.id}')"><td>${esc(lbl(c))}</td><td>${x.total}</td><td style="color:var(--ok);font-weight:700">${mk?x.p:'-'}</td><td style="color:var(--bad);font-weight:700">${mk?x.a:'-'}</td></tr>`;}).join('');
   return`${ban}
   ${notices.length?`<div class="tick"><span>📢 ${notices.slice(0,5).map(n=>esc(n.title)).join(' &nbsp;•&nbsp; ')}</span></div>`:''}
   <div class="stats">
@@ -247,8 +256,8 @@ PAGES.home=()=>{
 };
 function goAtt(id){S.cls=id;S.date=today();go('att');}
 
-PAGES.classes=()=>`<h2 class="sec">🏫 All Classes <small>(Nursery to 10th)</small></h2><div class="grid">`+DB.classes.map(c=>{const ct=classTeacher(c.id);const x=stats(today(),c.id);const mk=x.p+x.a>0;return`<div class="card cc" onclick="openClass('${c.id}')"><h3>${esc(c.name)}</h3><div class="n">${strength(c)} <small style="font-size:12px;font-weight:400;display:inline">students</small></div><small>👩‍🏫 ${ct?esc(ct.name):'Class teacher not set'}</small>${mk?`<small>Today: ✅ ${x.p} &nbsp; ❌ ${x.a}</small>`:''}</div>`;}).join('')+`</div>`;
-function openClass(id){const c=DB.classes.find(c=>c.id===id);if(!c)return;const l=DB.students.filter(s=>s.classId===id).sort(byRoll);const ct=classTeacher(id);showModal(`<h3>🏫 Class ${esc(c.name)}</h3><p style="color:var(--mut);font-size:13px">Total: ${strength(c)} • Class Teacher: ${ct?esc(ct.name):'-'}</p><div style="margin-top:8px">${l.length?l.map(studentRow).join(''):'<p class="empty">Student list has not been added yet.</p>'}</div><button class="btn out full" onclick="closeModal()">Close</button>`);}
+PAGES.classes=()=>`<h2 class="sec">🏫 All Classes <small>(Nursery to 10th, with sections)</small></h2><div class="grid">`+DB.classes.map(c=>{const ct=classTeacher(c.id);const x=stats(today(),c.id);const mk=x.p+x.a>0;return`<div class="card cc" onclick="openClass('${c.id}')"><h3>${esc(lbl(c))}</h3><div class="n">${strength(c)} <small style="font-size:12px;font-weight:400;display:inline">students</small></div><small>👩‍🏫 ${ct?esc(ct.name):'Class teacher not set'}</small>${mk?`<small>Today: ✅ ${x.p} &nbsp; ❌ ${x.a}</small>`:''}</div>`;}).join('')+`</div>`;
+function openClass(id){const c=DB.classes.find(c=>c.id===id);if(!c)return;const l=DB.students.filter(s=>s.classId===id).sort(byRoll);const ct=classTeacher(id);showModal(`<h3>🏫 Class ${esc(lbl(c))}</h3><p style="color:var(--mut);font-size:13px">Total: ${strength(c)} • Class Teacher: ${ct?esc(ct.name):'-'}</p><div style="margin-top:8px">${l.length?l.map(studentRow).join(''):'<p class="empty">Student list has not been added yet.</p>'}</div><button class="btn out full" onclick="closeModal()">Close</button>`);}
 
 PAGES.att=()=>{
   const cid=curCls('cls');const list=DB.students.filter(s=>s.classId===cid).sort(byRoll);
@@ -302,7 +311,7 @@ function logout(){S.admin=false;setAdm(false);S.page='home';render();toast('Logg
 
 /* ================= ADMIN: SCHEMA & CRUD ================= */
 const SCHEMA={
-  classes:{title:'Class',fields:[{k:'name',l:'Class name (e.g. 9th)',t:'text',req:1},{k:'manual',l:'Total students (manual) - use only if you are not adding a student list',t:'number'}]},
+  classes:{title:'Class',fields:[{k:'name',l:'Class name (e.g. 4th)',t:'text',req:1},{k:'section',l:'Section (optional, e.g. Rose, Lotus, A, B)',t:'text'},{k:'manual',l:'Total students (manual) - use only if you are not adding a student list',t:'number'}]},
   students:{title:'Student',fields:[{k:'name',l:'Name',t:'text',req:1},{k:'classId',l:'Class',t:'class',req:1},{k:'roll',l:'Roll No.',t:'number'},{k:'father',l:"Father's name",t:'text'},{k:'phone',l:'Phone',t:'tel'},{k:'address',l:'Address',t:'text'},{k:'photo',l:'Photo',t:'photo'}]},
   teachers:{title:'Teacher',fields:[{k:'name',l:'Name',t:'text',req:1},{k:'photo',l:'Photo',t:'photo'},{k:'subject',l:'Subject',t:'text'},{k:'classes',l:'Classes taught',t:'classes'},{k:'classTeacherOf',l:'Class Teacher of (optional)',t:'classopt'},{k:'phone',l:'Phone',t:'tel'},{k:'address',l:'Address',t:'text'}]},
   dcr:{title:'DCR / Homework',fields:[{k:'date',l:'Date',t:'date',req:1},{k:'classId',l:'Class',t:'class',req:1},{k:'subject',l:'Subject',t:'text',req:1},{k:'classwork',l:'Classwork (what was taught)',t:'textarea'},{k:'homework',l:'Homework',t:'textarea'}]},
@@ -322,7 +331,7 @@ function openForm(coll,id){
     if(f.t==='textarea')h+=`<textarea name="${f.k}">${esc(v)}</textarea>`;
     else if(f.t==='class')h+=`<select name="${f.k}"><option value="">-- Select class --</option>${clsOpts(v)}</select>`;
     else if(f.t==='classopt')h+=`<select name="${f.k}"><option value="">None</option>${clsOpts(v)}</select>`;
-    else if(f.t==='classes')h+=`<div class="cb">${DB.classes.map(c=>`<label><input type="checkbox" name="${f.k}" value="${c.id}" ${(v||[]).includes(c.id)?'checked':''}>${esc(c.name)}</label>`).join('')}</div>`;
+    else if(f.t==='classes')h+=`<div class="cb">${DB.classes.map(c=>`<label><input type="checkbox" name="${f.k}" value="${c.id}" ${(v||[]).includes(c.id)?'checked':''}>${esc(lbl(c))}</label>`).join('')}</div>`;
     else if(f.t==='photo')h+=`<div class="pv" id="pv_${f.k}">${v?`<img src="${v}" alt="">`:'📷'}</div><input type="file" accept="image/*" onchange="pickPhoto('${f.k}',this)">`;
     else h+=`<input type="${f.t}" name="${f.k}" value="${esc(v)}">`;
   });
@@ -339,11 +348,16 @@ function saveForm(e){
     else vals[fl.k]=f.elements[fl.k].value.trim();
     if(fl.req&&!vals[fl.k]){toast(fl.l+' is required');return false;}
   }
-  if(coll==='classes')vals.manual=Math.max(0,parseInt(vals.manual)||0);
+  if(coll==='classes'){
+    vals.manual=Math.max(0,parseInt(vals.manual)||0);
+    const dup=DB.classes.find(c=>c.id!==id&&c.name.toLowerCase()===vals.name.toLowerCase()&&(c.section||'').toLowerCase()===vals.section.toLowerCase());
+    if(dup){toast('This class and section already exists');return false;}
+  }
   if(coll==='holidays'&&vals.to&&vals.to<vals.date){toast('"To date" cannot be before "From date"');return false;}
   let item;
   if(id){item=DB[coll].find(x=>x.id===id);Object.assign(item,vals);}
   else{item=Object.assign({id:uid()},vals);DB[coll].push(item);}
+  if(coll==='classes')sortClasses();
   if(coll==='teachers'&&item.classTeacherOf){DB.teachers.forEach(t=>{if(t.id!==item.id&&t.classTeacherOf===item.classTeacherOf)t.classTeacherOf='';});}
   save();closeModal();rerender();toast('Saved ✅');return false;
 }
@@ -356,9 +370,18 @@ function del(coll,id){
   if(coll==='students'){for(const d in DB.attendance){delete DB.attendance[d][id];}}
   save();rerender();toast('Deleted');
 }
-function adminList(coll,rowFn,items){
+function addSection(id){
+  const c=DB.classes.find(c=>c.id===id);if(!c)return;
+  const sec=prompt('Enter new section name for Class '+c.name+' (e.g. Rose, Lotus, B):');
+  if(sec===null)return;
+  const s=sec.trim();if(!s){toast('Section name is required');return;}
+  if(DB.classes.some(x=>x.name.toLowerCase()===c.name.toLowerCase()&&(x.section||'').toLowerCase()===s.toLowerCase())){toast('This section already exists');return;}
+  DB.classes.push({id:'c'+uid(),name:c.name,section:s,manual:0});
+  sortClasses();save();rerender();toast('Section added: '+c.name+' '+s+' ✅');
+}
+function adminList(coll,rowFn,items,extraFn){
   items=items||DB[coll];
-  return`<button class="btn" onclick="openForm('${coll}')">➕ Add New</button><div>`+(items.length?items.map(it=>`<div class="arow">${rowFn(it)}<div class="acts"><button class="ib" onclick="openForm('${coll}','${it.id}')">✏️</button><button class="ib del" onclick="del('${coll}','${it.id}')">🗑️</button></div></div>`).join(''):'<p class="empty">Nothing added yet</p>')+'</div>';
+  return`<button class="btn" onclick="openForm('${coll}')">➕ Add New</button><div>`+(items.length?items.map(it=>`<div class="arow">${rowFn(it)}<div class="acts">${extraFn?extraFn(it):''}<button class="ib" onclick="openForm('${coll}','${it.id}')">✏️</button><button class="ib del" onclick="del('${coll}','${it.id}')">🗑️</button></div></div>`).join(''):'<p class="empty">Nothing added yet</p>')+'</div>';
 }
 
 /* ================= ADMIN: TABS ================= */
@@ -392,7 +415,8 @@ function saveSettings(){
   save();rerender();toast('Settings saved ✅');
 }
 
-ADMIN.classes=()=>adminList('classes',c=>`<div class="in"><b>${esc(c.name)}</b><small>${strength(c)} students • Class Teacher: ${classTeacher(c.id)?esc(classTeacher(c.id).name):'-'}</small></div>`);
+ADMIN.classes=()=>`<div class="card"><h3>🏫 Classes & Sections</h3><p class="hint">Tap 📑 on any class to add a section (for example 4th Rose and 4th Lotus). Tap ✏️ to rename a class or set its section. Each section has its own students, attendance, homework and class teacher.</p></div>`+
+  adminList('classes',c=>`<div class="in"><b>${esc(lbl(c))}</b><small>${strength(c)} students • Class Teacher: ${classTeacher(c.id)?esc(classTeacher(c.id).name):'-'}</small></div>`,null,c=>`<button class="ib" title="Add section" onclick="addSection('${c.id}')">📑</button>`);
 
 ADMIN.students=()=>{
   let L=DB.students.filter(s=>!S.aStuCls||s.classId===S.aStuCls).sort((a,b)=>ci(a.classId)-ci(b.classId)||byRoll(a,b));
